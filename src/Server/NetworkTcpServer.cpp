@@ -3,7 +3,7 @@
 #include "moc_NetworkTcpServer.hpp"
 #include "NetworkConfig.hpp"
 #include "NetworkExceptions.h"
-#include "MessageListener.h"
+#include "MessageListener.hpp"
 
 namespace network
 {

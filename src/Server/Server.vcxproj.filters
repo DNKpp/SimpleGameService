@@ -7,11 +7,11 @@
     <Filter Include="Network">
       <UniqueIdentifier>{ef7d3cce-f455-46ea-aa58-c041bc510fe9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Config">
-      <UniqueIdentifier>{ec377064-6fb3-4474-beba-15d5aaf06b83}</UniqueIdentifier>
-    </Filter>
     <Filter Include="others\log">
       <UniqueIdentifier>{1425fb2d-9f3f-4c2b-ad99-8324280a9865}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Database">
+      <UniqueIdentifier>{4d2f69a4-22cf-470d-92ef-28bd2ba07cdd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -21,13 +21,16 @@
     <ClInclude Include="stdafx.h">
       <Filter>others</Filter>
     </ClInclude>
-    <ClInclude Include="NetworkConfig.hpp">
-      <Filter>Config</Filter>
-    </ClInclude>
     <ClInclude Include="log.hpp">
       <Filter>others\log</Filter>
     </ClInclude>
     <ClInclude Include="Server.hpp" />
+    <ClInclude Include="NetworkConfig.hpp">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="DatabaseExceptions.hpp">
+      <Filter>Database</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -35,9 +38,6 @@
     </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>others</Filter>
-    </ClCompile>
-    <ClCompile Include="NetworkConfig.cpp">
-      <Filter>Config</Filter>
     </ClCompile>
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="NetworkConnection.cpp">
@@ -50,7 +50,18 @@
       <Filter>others\log</Filter>
     </ClCompile>
     <ClCompile Include="MessageListener.cpp" />
-    <ClCompile Include="Database.cpp" />
+    <ClCompile Include="Database.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkConfig.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseConfig.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
+    <ClCompile Include="DatabaseExceptions.cpp">
+      <Filter>Database</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkTcpServer.hpp">
@@ -59,7 +70,12 @@
     <moc_header Include="NetworkConnection.hpp">
       <Filter>Network</Filter>
     </moc_header>
-    <moc_header Include="MessageListener.h" />
-    <moc_header Include="Database.h" />
+    <moc_header Include="MessageListener.hpp" />
+    <moc_header Include="Database.hpp">
+      <Filter>Database</Filter>
+    </moc_header>
+    <moc_header Include="DatabaseConfig.hpp">
+      <Filter>Database</Filter>
+    </moc_header>
   </ItemGroup>
 </Project>

@@ -28,9 +28,7 @@
 #include <QtCore/QCoreApplication>
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
-#include <QtNetwork/QNetworkSession>
-#include <QtNetwork/QNetworkConfigurationManager>
-#include <QtCore/QSettings>
+#include <QtSql/QSqlDatabase>
 
 // SimpleLib
 #include <SimpleLib/log/Log.h>

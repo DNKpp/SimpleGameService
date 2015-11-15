@@ -6,4 +6,6 @@
 /lib
 /ipch
 src/Server/moc_*.h
+src/Server/moc_*.hpp
 src/Shared/moc_*.h
+src/Shared/moc_*.hpp
