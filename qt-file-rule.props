@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup
+    Condition="'$(compile_QT_FilesBeforeTargets)' == '' and '$(compile_QT_FilesAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <compile_QT_FilesBeforeTargets>Midl</compile_QT_FilesBeforeTargets>
+    <compile_QT_FilesAfterTargets>CustomBuild</compile_QT_FilesAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <compile_QT_FilesDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(compile_QT_FilesDependsOn)</compile_QT_FilesDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <compile_QT_Files>
+      <CommandLineTemplate>uic -o UI/UI_%(Filename).h UI/%(Filename)%(Extension)</CommandLineTemplate>
+      <Outputs>UI/ui_%(Filename).h;</Outputs>
+    </compile_QT_Files>
+  </ItemDefinitionGroup>
+  <PropertyGroup
+    Condition="'$(moc_headerBeforeTargets)' == '' and '$(moc_headerAfterTargets)' == '' and '$(ConfigurationType)' != 'Makefile'">
+    <moc_headerBeforeTargets>Midl</moc_headerBeforeTargets>
+    <moc_headerAfterTargets>CustomBuild</moc_headerAfterTargets>
+  </PropertyGroup>
+  <PropertyGroup>
+    <moc_headerDependsOn
+      Condition="'$(ConfigurationType)' != 'Makefile'">_SelectedFiles;$(moc_headerDependsOn)</moc_headerDependsOn>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <moc_header>
+      <CommandLineTemplate>moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</CommandLineTemplate>
+      <Outputs>moc_%(Filename)%(Extension)</Outputs>
+      <ExecutionDescription>create moc_%(Filename)%(Extension)</ExecutionDescription>
+    </moc_header>
+  </ItemDefinitionGroup>
+</Project>

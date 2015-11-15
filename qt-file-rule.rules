@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="compile QT-Files"
+	Version="8,00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="compile QT-Files"
+			DisplayName="compile QT-Files"
+			CommandLine="uic -o UI/UI_$(InputName).h UI/$(InputFileName)"
+			Outputs="UI/ui_$(InputName).h;"
+			FileExtensions="*.ui"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="moc header"
+			DisplayName="moc header"
+			CommandLine="moc -o moc_$(InputFileName) $(InputFileName)"
+			Outputs="moc_$(InputFileName)"
+			FileExtensions="*.h"
+			ExecutionDescription="create moc_$(InputFileName)"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>

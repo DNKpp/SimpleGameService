@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="others">
+      <UniqueIdentifier>{d2d0c162-14a8-4bf8-b1cd-b8d292b416ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Client">
+      <UniqueIdentifier>{3d656424-39bd-4817-8fba-13306ad66ea0}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>others</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
+    <ClCompile Include="NetworkClient.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <moc_header Include="NetworkClient.h" />
+  </ItemGroup>
+</Project>

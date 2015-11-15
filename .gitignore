@@ -1,0 +1,9 @@
+*.dll
+*.opensdf
+*.sdf
+/.vs
+/bin
+/lib
+/ipch
+src/Server/moc_*.h
+src/Shared/moc_*.h

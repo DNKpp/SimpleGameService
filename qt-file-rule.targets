@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <PropertyPageSchema
+      Include="$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml" />
+    <AvailableItemName
+      Include="compile_QT_Files">
+      <Targets>_compile_QT_Files</Targets>
+    </AvailableItemName>
+    <AvailableItemName
+      Include="moc_header">
+      <Targets>_moc_header</Targets>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask
+    TaskName="compile_QT_Files"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <UsingTask
+    TaskName="moc_header"
+    TaskFactory="XamlTaskFactory"
+    AssemblyName="Microsoft.Build.Tasks.v4.0">
+    <Task>$(MSBuildThisFileDirectory)$(MSBuildThisFileName).xml</Task>
+  </UsingTask>
+  <Target
+    Name="_compile_QT_Files"
+    BeforeTargets="$(compile_QT_FilesBeforeTargets)"
+    AfterTargets="$(compile_QT_FilesAfterTargets)"
+    Condition="'@(compile_QT_Files)' != ''"
+    DependsOnTargets="$(compile_QT_FilesDependsOn);Computecompile_QT_FilesOutput"
+    Outputs="%(compile_QT_Files.Outputs)"
+    Inputs="%(compile_QT_Files.Identity);%(compile_QT_Files.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <compile_QT_Files
+        Remove="@(compile_QT_Files)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <compile_QT_Files_tlog
+        Include="%(compile_QT_Files.Outputs)"
+        Condition="'%(compile_QT_Files.Outputs)' != '' and '%(compile_QT_Files.ExcludedFromBuild)' != 'true'">
+        <Source>@(compile_QT_Files, '|')</Source>
+      </compile_QT_Files_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(compile_QT_Files.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(compile_QT_Files_tlog)' != '' and '%(compile_QT_Files_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(TLogLocation)$(ProjectName).write.1.tlog"
+      Lines="^%(compile_QT_Files_tlog.Source);@(compile_QT_Files_tlog-&gt;'%(Fullpath)')" />
+    <compile_QT_Files
+      Condition="'@(compile_QT_Files)' != '' and '%(compile_QT_Files.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(compile_QT_Files.CommandLineTemplate)"
+      AdditionalOptions="%(compile_QT_Files.AdditionalOptions)"
+      Inputs="%(compile_QT_Files.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            Computecompile_QT_FilesOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            Computecompile_QT_FilesOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="Computecompile_QT_FilesOutput"
+    Condition="'@(compile_QT_Files)' != ''">
+    <ItemGroup>
+      <compile_QT_FilesDirsToMake
+        Condition="'@(compile_QT_Files)' != '' and '%(compile_QT_Files.ExcludedFromBuild)' != 'true'"
+        Include="%(compile_QT_Files.Outputs)" />
+      <Link
+        Include="%(compile_QT_FilesDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(compile_QT_FilesDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(compile_QT_FilesDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(compile_QT_FilesDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+  <Target
+    Name="_moc_header"
+    BeforeTargets="$(moc_headerBeforeTargets)"
+    AfterTargets="$(moc_headerAfterTargets)"
+    Condition="'@(moc_header)' != ''"
+    DependsOnTargets="$(moc_headerDependsOn);Computemoc_headerOutput"
+    Outputs="%(moc_header.Outputs)"
+    Inputs="%(moc_header.Identity);%(moc_header.AdditionalDependencies);$(MSBuildProjectFile)">
+    <ItemGroup
+      Condition="'@(SelectedFiles)' != ''">
+      <moc_header
+        Remove="@(moc_header)"
+        Condition="'%(Identity)' != '@(SelectedFiles)'" />
+    </ItemGroup>
+    <ItemGroup>
+      <moc_header_tlog
+        Include="%(moc_header.Outputs)"
+        Condition="'%(moc_header.Outputs)' != '' and '%(moc_header.ExcludedFromBuild)' != 'true'">
+        <Source>@(moc_header, '|')</Source>
+      </moc_header_tlog>
+    </ItemGroup>
+    <Message
+      Importance="High"
+      Text="%(moc_header.ExecutionDescription)" />
+    <WriteLinesToFile
+      Condition="'@(moc_header_tlog)' != '' and '%(moc_header_tlog.ExcludedFromBuild)' != 'true'"
+      File="$(TLogLocation)$(ProjectName).write.1.tlog"
+      Lines="^%(moc_header_tlog.Source);@(moc_header_tlog-&gt;'%(Fullpath)')" />
+    <moc_header
+      Condition="'@(moc_header)' != '' and '%(moc_header.ExcludedFromBuild)' != 'true'"
+      CommandLineTemplate="%(moc_header.CommandLineTemplate)"
+      AdditionalOptions="%(moc_header.AdditionalOptions)"
+      Inputs="%(moc_header.Identity)" />
+  </Target>
+  <PropertyGroup>
+    <ComputeLinkInputsTargets>
+            $(ComputeLinkInputsTargets);
+            Computemoc_headerOutput;
+          </ComputeLinkInputsTargets>
+    <ComputeLibInputsTargets>
+            $(ComputeLibInputsTargets);
+            Computemoc_headerOutput;
+          </ComputeLibInputsTargets>
+  </PropertyGroup>
+  <Target
+    Name="Computemoc_headerOutput"
+    Condition="'@(moc_header)' != ''">
+    <ItemGroup>
+      <moc_headerDirsToMake
+        Condition="'@(moc_header)' != '' and '%(moc_header.ExcludedFromBuild)' != 'true'"
+        Include="%(moc_header.Outputs)" />
+      <Link
+        Include="%(moc_headerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <Lib
+        Include="%(moc_headerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+      <ImpLib
+        Include="%(moc_headerDirsToMake.Identity)"
+        Condition="'%(Extension)'=='.obj' or '%(Extension)'=='.res' or '%(Extension)'=='.rsc' or '%(Extension)'=='.lib'" />
+    </ItemGroup>
+    <MakeDir
+      Directories="@(moc_headerDirsToMake-&gt;'%(RootDir)%(Directory)')" />
+  </Target>
+</Project>
