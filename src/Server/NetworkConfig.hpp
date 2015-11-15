@@ -9,5 +9,4 @@ namespace config
 
 		uint16_t getPort() const;
 	};
-
 } // namespace config

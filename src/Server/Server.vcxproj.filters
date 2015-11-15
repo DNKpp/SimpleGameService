@@ -50,6 +50,7 @@
       <Filter>others\log</Filter>
     </ClCompile>
     <ClCompile Include="MessageListener.cpp" />
+    <ClCompile Include="Database.cpp" />
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkTcpServer.hpp">
@@ -59,5 +60,6 @@
       <Filter>Network</Filter>
     </moc_header>
     <moc_header Include="MessageListener.h" />
+    <moc_header Include="Database.h" />
   </ItemGroup>
 </Project>

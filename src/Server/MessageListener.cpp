@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "MessageListener.h"
+#include "MessageListener.hpp"
 #include "moc_MessageListener.h"
 
 MessageListener::MessageListener(QObject* _parent) :

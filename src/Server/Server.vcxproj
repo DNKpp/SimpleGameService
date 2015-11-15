@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="log.hpp" />
+    <moc_header Include="Database.h" />
     <moc_header Include="MessageListener.h" />
     <moc_header Include="NetworkConnection.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Database.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="MessageListener.cpp" />
     <ClCompile Include="NetworkConnection.cpp" />
