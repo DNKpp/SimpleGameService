@@ -19,6 +19,8 @@
 #include <mutex>
 #include <atomic>
 #include <queue>
+#include <unordered_set>
+#include <unordered_map>
 
 // boost
 #include <boost/noncopyable.hpp>
@@ -29,6 +31,8 @@
 #include <QtNetwork/QTcpSocket>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
+#include <QtCore/QCryptographicHash>
 
 // SimpleLib
 #include <SimpleLib/log/Log.h>

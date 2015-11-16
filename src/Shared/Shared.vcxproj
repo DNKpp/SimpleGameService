@@ -20,7 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="log.cpp" />
-    <ClCompile Include="Message.pb.cc">
+    <ClCompile Include="Messages.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -36,7 +36,7 @@
     <ClInclude Include="log.hpp" />
     <moc_header Include="NetworkConnection.hpp" />
     <ClInclude Include="NetworkExceptions.h" />
-    <ClInclude Include="Message.pb.h">
+    <ClInclude Include="Messages.pb.h">
       <FileType>Document</FileType>
     </ClInclude>
     <moc_header Include="NetworkMessage.hpp" />
@@ -45,7 +45,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="Message.proto">
+    <CustomBuild Include="Messages.proto">
       <FileType>Document</FileType>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">protoc -I=$(ProjectDir)%(RelativeDir) --cpp_out=$(ProjectDir)%(RelativeDir) $(ProjectDir)%(Identity)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">protoc %(Identity)</Message>

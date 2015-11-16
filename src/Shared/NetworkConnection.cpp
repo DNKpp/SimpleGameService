@@ -5,13 +5,13 @@
 
 namespace
 {
-	QByteArray _setupMsg(QByteArray _msg)
+	QByteArray _setupMsg(QByteArray _msg, uint32_t _type)
 	{
 		QByteArray buffer;
 		QDataStream out(&buffer, QIODevice::WriteOnly);
 		out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
 		out << (uint16_t)1;	// version
-		out << (uint16_t)1;	// type
+		out << (uint16_t)_type;
 		out << (uint32_t)_msg.size();
 		buffer += _msg;
 		return buffer;
@@ -21,9 +21,11 @@ namespace
 
 namespace network
 {
+	uint64_t Connection::currentConnectionID = 0;
 	Connection::Connection(QTcpSocket& _socket, QObject* _parent) :
 		super(_parent),
-		m_Socket(_socket)
+		m_Socket(_socket),
+		m_ConnectionID(++currentConnectionID)	// make connectionID unique per server runtime
 	{
 		assert(_parent);
 		assert(connect(&m_Socket, SIGNAL(disconnected()), this, SLOT(_onDisconnected())));
@@ -33,20 +35,40 @@ namespace network
 		assert(connect(&m_Socket, SIGNAL(bytesWritten(qint64)), this, SLOT(_onBytesWritten(qint64))));
 	}
 
-	void Connection::_onDisconnected()
-	{
-		m_Socket.deleteLater();
-		deleteLater();
-	}
-
 	void Connection::_createNewMessage(QByteArray& _buffer)
 	{
-		m_NewMessage = std::make_unique<IMessage>(this);
+		m_NewMessage = std::make_unique<IMessage>(getConnectionID());
 		_buffer.remove(0, m_NewMessage->setupHeader(_buffer.constData(), _buffer.size()));
+	}
 
-		assert(connect(&m_Socket, SIGNAL(disconnected()), this, SLOT(_onDisconnected())));
-		if (m_Socket.state() != QAbstractSocket::ConnectedState)
-			m_NewMessage->onConnectionClosed();
+	void Connection::send(QByteArray _msg, uint32_t _type)
+	{
+		bool empty = m_OutBuffers.empty();
+		_msg = _setupMsg(_msg, _type);
+		m_OutBuffers.push(_msg);
+		// send only if buffer is empty, thus we get sure, we do not mix two messages
+		if (empty)
+			m_Socket.write(_msg.data(), _msg.size());
+	}
+
+	void Connection::authenticatedAs(uint64_t _ID)
+	{
+		m_UserID = _ID;
+	}
+
+	bool Connection::isAuthenticated() const
+	{
+		return m_UserID != 0;
+	}
+
+	uint64_t Connection::getUserID() const
+	{
+		return m_UserID;
+	}
+
+	uint64_t Connection::getConnectionID() const
+	{
+		return m_ConnectionID;
 	}
 
 	void Connection::_onReadyRead()
@@ -91,27 +113,23 @@ namespace network
 		}
 	}
 
-	void Connection::send(QByteArray _msg)
-	{
-		bool empty = m_OutBuffers.empty();
-		_msg = _setupMsg(_msg);
-		m_OutBuffers.push(_msg);
-		// send only if buffer is empty, thus we get sure, we do not mix two messages
-		if (empty)
-			m_Socket.write(_msg.data(), _msg.size());
-	}
-
 	void Connection::_onBytesWritten(qint64 _bytes)
 	{
 		auto& buffer = m_OutBuffers.front();
 		if (buffer.size() == _bytes)
 		{
 			m_OutBuffers.pop();
-			qDebug() << "Message written.";
 			if (!m_OutBuffers.empty())
 				m_Socket.write(m_OutBuffers.front().data(), m_OutBuffers.front().size());
 		}
 		else
 			buffer.remove(0, _bytes);
+	}
+
+	void Connection::_onDisconnected()
+	{
+		emit disconnected(*this);
+		m_Socket.deleteLater();
+		deleteLater();
 	}
 } // namespace network

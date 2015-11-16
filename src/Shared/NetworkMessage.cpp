@@ -7,11 +7,11 @@
 
 namespace network
 {
-	IMessage::IMessage(Connection* _connection, QObject* _parent) :
+	IMessage::IMessage(uint64_t _conID, QObject* _parent) :
 		super(_parent),
-		m_Connection(_connection)
+		m_ConnectionID(_conID)
 	{
-		assert(_connection);
+		assert(_conID);
 	}
 
 	int IMessage::setupHeader(const char* _c, int _size)
@@ -26,8 +26,6 @@ namespace network
 		if (m_Version <= 0)
 			throw IMessageError("Invalid version received.");
 		in >> m_MessageType;
-		if (m_MessageType <= 0)
-			throw IMessageError("Invalid message type received.");
 		in >> m_ExpectedSize;
 		if (m_ExpectedSize <= 0)
 			throw IMessageError("Invalid packet size received.");
@@ -58,11 +56,6 @@ namespace network
 		return m_CurrentByte == m_ExpectedSize;
 	}
 
-	void IMessage::onConnectionClosed()
-	{
-		m_Connection = nullptr;
-	}
-
 	uint16_t IMessage::getMessageType() const
 	{
 		return m_MessageType;
@@ -71,5 +64,10 @@ namespace network
 	uint16_t IMessage::getVersion() const
 	{
 		return m_Version;
+	}
+
+	uint64_t IMessage::getConnectionID() const
+	{
+		return m_ConnectionID;
 	}
 }

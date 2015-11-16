@@ -2,23 +2,37 @@
 #include "Database.hpp"
 #include "DatabaseConfig.hpp"
 #include "DatabaseExceptions.hpp"
+#include "DatabaseTables.hpp"
+
+namespace
+{
+	QSqlDatabase _openDB(QString _name, QString _hostName, uint16_t _port, QString _dbName, QString _userName, QString _password)
+	{
+		auto db = QSqlDatabase::addDatabase("QMYSQL", _name);
+		if (!db.isValid())
+			throw database::ConnectionError("Unable to load SQL driver.");
+		db.setHostName(_hostName);
+		db.setPort(_port);
+		db.setDatabaseName(_dbName);
+		db.setUserName(_userName);
+		db.setPassword(_password);
+		if (!db.open())
+			throw database::ConnectionError("Unable to connect to the SQL Database.");
+		LOG_INFO("Successfully connected to database: " + _dbName + " at host: " + _hostName);
+		return db;
+	}
+} // anonymous namespace
 
 namespace database
 {
 	void Database::connect(const config::Database& _config)
 	{
-		if (m_Database.isOpen())
-			m_Database.close();
-		m_Database = QSqlDatabase::addDatabase("QMYSQL");
-		if (!m_Database.isValid())
-			throw ConnectionError("Unable to load SQL driver.");
-		m_Database.setHostName(_config.getHostName());
-		m_Database.setPort(_config.getPort());
-		m_Database.setDatabaseName(_config.getDatabaseName());
-		m_Database.setUserName(_config.getUserName());
-		m_Database.setPassword(_config.getPassword());
-		if (!m_Database.open())
-			throw ConnectionError("Unable to connect to the SQL Database.");
-		LOG_INFO("Successfully connected to database: " + _config.getDatabaseName() + " at host: " + _config.getHostName());
+		if (m_UsersDatabase.isOpen())
+			m_UsersDatabase.close();
+		if (m_AchievementDatabase.isOpen())
+			m_AchievementDatabase.close();
+
+		m_UsersDatabase = _openDB("Users", _config.getHostName(), _config.getPort(), _config.getDatabaseName(), _config.getUserName(), _config.getPassword());
+		m_AchievementDatabase = _openDB("Achievements", _config.getHostName(), _config.getPort(), _config.getDatabaseName(), _config.getUserName(), _config.getPassword());
 	}
 } // namespace database

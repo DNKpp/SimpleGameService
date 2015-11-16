@@ -12,12 +12,16 @@
     <ClCompile Include="main.cpp">
       <Filter>others</Filter>
     </ClCompile>
-    <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="testclientpch.cpp">
       <Filter>others</Filter>
     </ClCompile>
+    <ClCompile Include="NetworkClient.cpp">
+      <Filter>Client</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <moc_header Include="NetworkClient.h" />
+    <moc_header Include="NetworkClient.h">
+      <Filter>Client</Filter>
+    </moc_header>
   </ItemGroup>
 </Project>

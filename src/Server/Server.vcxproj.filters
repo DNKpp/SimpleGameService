@@ -16,6 +16,7 @@
     <ClInclude Include="DatabaseExceptions.hpp">
       <Filter>Database</Filter>
     </ClInclude>
+    <ClInclude Include="Commands.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp" />
@@ -52,7 +53,7 @@
     <moc_header Include="DatabaseConfig.hpp">
       <Filter>Database</Filter>
     </moc_header>
-    <moc_header Include="DatabaseTables.h">
+    <moc_header Include="DatabaseTables.hpp">
       <Filter>Database</Filter>
     </moc_header>
   </ItemGroup>

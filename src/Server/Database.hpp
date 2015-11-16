@@ -10,7 +10,8 @@ namespace database
 	class Database : boost::noncopyable
 	{
 	private:
-		QSqlDatabase m_Database;
+		QSqlDatabase m_UsersDatabase;
+		QSqlDatabase m_AchievementDatabase;
 
 	public:
 		void connect(const config::Database& _config);

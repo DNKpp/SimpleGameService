@@ -160,10 +160,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Commands.hpp" />
     <ClInclude Include="DatabaseExceptions.hpp" />
     <moc_header Include="Database.hpp" />
     <moc_header Include="DatabaseConfig.hpp" />
-    <moc_header Include="DatabaseTables.h" />
+    <moc_header Include="DatabaseTables.hpp" />
     <moc_header Include="MessageListener.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
     <moc_header Include="NetworkTcpServer.hpp">
