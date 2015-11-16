@@ -27,4 +27,8 @@ namespace config
 		return "tbc";
 	}
 
+	uint16_t Database::getPort() const
+	{
+		return 3306;
+	}
 }

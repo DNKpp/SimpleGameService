@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package network.protobuf;
+
+message Login
+{
+    string name = 1;
+    string password = 2;
+}
+
+message GameAchievement
+{
+    GameIdent gameID = 1;
+
+    repeated Achievement achievements = 2;
+}
+
+message GameIdent
+{
+    uint64 gameID = 1;
+    bytes hash = 2;
+}
+
+message Achievement
+{
+    uint32 ID = 1;
+
+    enum Type
+    {
+        COMPLETE = 0;
+        ADD = 1;
+    }
+    Type type = 2;
+};

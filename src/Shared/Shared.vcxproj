@@ -19,12 +19,47 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="log.cpp" />
+    <ClCompile Include="Message.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="NetworkConnection.cpp" />
     <ClCompile Include="NetworkExceptions.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="sharedpch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="log.hpp" />
+    <moc_header Include="NetworkConnection.hpp" />
     <ClInclude Include="NetworkExceptions.h" />
+    <ClInclude Include="Message.pb.h">
+      <FileType>Document</FileType>
+    </ClInclude>
     <moc_header Include="NetworkMessage.hpp" />
+    <ClInclude Include="stdafx.h">
+      <FileType>Document</FileType>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Message.proto">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">protoc -I=$(ProjectDir)%(RelativeDir) --cpp_out=$(ProjectDir)%(RelativeDir) $(ProjectDir)%(Identity)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">protoc %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)%(RelativeDir)%(Filename).pb.cc; $(ProjectDir)%(RelativeDir)%(Filename).pb.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">protoc -I=$(ProjectDir)%(RelativeDir) --cpp_out=$(ProjectDir)%(RelativeDir) $(ProjectDir)%(Identity)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">protoc %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)%(RelativeDir)%(Filename).pb.cc; $(ProjectDir)%(RelativeDir)%(Filename).pb.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">protoc -I=$(ProjectDir)%(RelativeDir) --cpp_out=$(ProjectDir)%(RelativeDir) $(ProjectDir)%(Identity)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">protoc %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)%(RelativeDir)%(Filename).pb.cc; $(ProjectDir)%(RelativeDir)%(Filename).pb.h</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">protoc -I=$(ProjectDir)%(RelativeDir) --cpp_out=$(ProjectDir)%(RelativeDir) $(ProjectDir)%(Identity)</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">protoc %(Identity)</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)%(RelativeDir)%(Filename).pb.cc; $(ProjectDir)%(RelativeDir)%(Filename).pb.h</Outputs>
+    </CustomBuild>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C7BE48D7-BB59-415F-B1B7-8480A8A35830}</ProjectGuid>
@@ -77,35 +112,43 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\lib\</OutDir>
-    <IncludePath>$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <TargetName>$(ProjectName)d</TargetName>
-    <IntDir>$(SolutionDir)\bin\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(Protobuf)\bin;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
+    <LibraryPath>$(Protobuf)\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(QtDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\lib\</OutDir>
-    <IncludePath>$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <TargetName>$(ProjectName)</TargetName>
-    <IntDir>$(SolutionDir)\bin\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(Protobuf)\bin;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(QtDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp\shared.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>
+      </AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -124,13 +167,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalOptions>-D_SCL_SECURE_NO_WARNINGS %(AdditionalOptions)</AdditionalOptions>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp\shared.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

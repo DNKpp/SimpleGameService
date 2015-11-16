@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "NetworkMessage.hpp"
 #include "moc_NetworkMessage.hpp"
 #include <cassert>
@@ -21,11 +22,17 @@ namespace network
 			throw IMessageHeaderError("Invalid packet received.");
 		QDataStream in(buffer);
 		in.skipRawData(index + PacketBegin.size());
+		in >> m_Version;
+		if (m_Version <= 0)
+			throw IMessageError("Invalid version received.");
+		in >> m_MessageType;
+		if (m_MessageType <= 0)
+			throw IMessageError("Invalid message type received.");
 		in >> m_ExpectedSize;
 		if (m_ExpectedSize <= 0)
 			throw IMessageError("Invalid packet size received.");
 		m_Bytes.resize(m_ExpectedSize);
-		return (int)PacketBegin.size() + SizeBytes;
+		return (int)PacketBegin.size() + sizeof(m_ExpectedSize) + sizeof(m_Version) + sizeof(m_MessageType);
 	}
 
 	int IMessage::append(const char* _c, int _size)
@@ -54,5 +61,15 @@ namespace network
 	void IMessage::onConnectionClosed()
 	{
 		m_Connection = nullptr;
+	}
+
+	uint16_t IMessage::getMessageType() const
+	{
+		return m_MessageType;
+	}
+
+	uint16_t IMessage::getVersion() const
+	{
+		return m_Version;
 	}
 }

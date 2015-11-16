@@ -3,44 +3,41 @@
 #include "moc_NetworkClient.h"
 #include "NetworkMessage.hpp"
 #include <QtCore/QDataStream>
+#include "Message.pb.h"
+#include "NetworkConnection.hpp"
+
+namespace
+{
+	QByteArray _createMessage()
+	{
+		std::cin.ignore();
+		using namespace network::protobuf;
+		GameAchievement msg;
+		auto ident = std::make_unique<GameIdent>();
+		ident->set_gameid(1);
+		std::array<uint8_t, 16> hash = { 0xc4, 0xca, 0x42, 0x38, 0xa0, 0xb9, 0x23, 0x82, 0x0d, 0xcc, 0x50, 0x9a, 0x6f, 0x75, 0x84, 0x9b };
+		ident->set_hash(hash.data(), hash.size());
+		msg.set_allocated_gameid(ident.release());
+		auto achive = msg.add_achievements();
+		achive->set_id(1);
+		QByteArray buffer(msg.ByteSize(), 0);
+		msg.SerializeToArray(buffer.data(), buffer.size());
+		return buffer;
+	}
+} // anonymous namespace
 
 NetworkClient::NetworkClient()
 {
 	m_Socket = new QTcpSocket(this);
 	m_Socket->connectToHost(QHostAddress::LocalHost, 2015);
 	connect(m_Socket, SIGNAL(connected()), this, SLOT(_onConnected()));
-}
 
-void NetworkClient::_createMsg()
-{
-	std::string in;
-	std::getline(std::cin, in);
-	QDataStream out(&m_Message, QIODevice::WriteOnly);
-	out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
-	//out << (uint32_t)in.size();
-	//out.writeRawData(in.data(), in.size());
-	std::array<char, 50000> a;
-	a.fill('I');
-	out << (uint32_t)a.size();
-	out.writeRawData(a.data(), a.size());
+	//connect(con, SIGNAL(messageComplete(const network::IMessage&)), &m_MsgListener, SLOT(onMessageReceived(const network::IMessage&)));
 }
 
 void NetworkClient::_onConnected()
 {
 	qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
-	connect(m_Socket, SIGNAL(bytesWritten(qint64)), this, SLOT(_onBytesWritten(qint64)));
-	_createMsg();
-	m_Socket->write(m_Message.data(), m_Message.size());
-}
-
-void NetworkClient::_onBytesWritten(qint64 _bytes)
-{
-	if (m_Message.size() == _bytes)
-	{
-		qDebug() << "Message written.";
-		_createMsg();
-	}
-	else
-		m_Message.remove(0, _bytes);
-	m_Socket->write(m_Message.data(), m_Message.size());
+	m_Connection = new network::Connection(*m_Socket, this);
+	m_Connection->send(_createMessage());
 }

@@ -8,15 +8,17 @@ int main(int argc, char* argv[])
 	GlobalLog.addOutput(std::make_unique<sl::log::ConsoleOutput>());
 
 	QCoreApplication app(argc, argv);
+	app.setLibraryPaths(QStringList{ "." });
 	Server svr;
 
 	try
 	{
 		svr.start();
+		return app.exec();
 	}
-	catch (const network::InitError& e)
+	catch (const std::runtime_error& e)
 	{
 		LOG_CRITIC(e.what());
+		std::cin.ignore();
 	}
-	return app.exec();
 }

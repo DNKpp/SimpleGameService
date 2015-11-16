@@ -5,6 +5,7 @@
 /bin
 /lib
 /ipch
+/temp
 src/Server/moc_*.h
 src/Server/moc_*.hpp
 src/Shared/moc_*.h

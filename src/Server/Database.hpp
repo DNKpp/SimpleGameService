@@ -7,7 +7,7 @@ namespace config
 
 namespace database
 {
-	class Database
+	class Database : boost::noncopyable
 	{
 	private:
 		QSqlDatabase m_Database;

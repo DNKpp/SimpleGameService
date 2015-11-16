@@ -19,8 +19,9 @@ namespace network
 		auto socket = m_Server->nextPendingConnection();
 		if (socket)
 		{
+			LOG_INFO("New connection from host: " + socket->peerAddress().toString() + " at port: " + socket->peerPort());
 			auto con = new Connection(*socket, m_Server);
-			connect(con, SIGNAL(messageComplete(const network::IMessage&)), &m_MsgListener, SLOT(onMessageReceived(const network::IMessage&)));
+			assert(connect(con, SIGNAL(messageReceived(const network::IMessage&)), &m_MsgListener, SLOT(onMessageReceived(const network::IMessage&))));
 		}
 	}
 

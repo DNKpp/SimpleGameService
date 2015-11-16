@@ -69,10 +69,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(SolutionDir)src\shared\;$(SimpleLib)\include;$(QtDir)\include;$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\;$(SimpleLib)\bin;$(QtDir)\lib;$(BoostBin);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <IncludePath>$(Protobuf)\include;$(SolutionDir)src\shared\;$(SimpleLib)\include;$(QtDir)\include;$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(Protobuf)\lib;$(SolutionDir)lib\;$(SimpleLib)\bin;$(QtDir)\lib;$(BoostBin);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\bin\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -81,10 +82,11 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)src\shared\;$(SimpleLib)\include;$(QtDir)\include;$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
-    <LibraryPath>$(SolutionDir)lib\;$(SimpleLib)\bin;$(QtDir)\lib;$(BoostBin);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86)</LibraryPath>
+    <IncludePath>$(Protobuf)\include;$(SolutionDir)src\shared\;$(SimpleLib)\include;$(QtDir)\include;$(BoostDir);$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(Protobuf)\lib;$(SolutionDir)lib\;$(SimpleLib)\bin;$(QtDir)\lib;$(BoostBin);$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
     <OutDir>$(SolutionDir)\bin\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)\bin\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
+    <ExecutablePath>$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -98,11 +100,12 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp\server.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>Sharedd.lib;Qt5Sqld.lib;SimpleLib_d.lib;Qt5Cored.lib;Qt5Networkd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>libprotobufd.lib;libprotocd.lib;Sharedd.lib;Qt5Sqld.lib;SimpleLib_d.lib;Qt5Cored.lib;Qt5Networkd.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -128,6 +131,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <PrecompiledHeaderOutputFile>$(SolutionDir)temp\server.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -157,11 +161,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DatabaseExceptions.hpp" />
-    <ClInclude Include="log.hpp" />
     <moc_header Include="Database.hpp" />
     <moc_header Include="DatabaseConfig.hpp" />
+    <moc_header Include="DatabaseTables.h" />
     <moc_header Include="MessageListener.hpp" />
-    <moc_header Include="NetworkConnection.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
     <moc_header Include="NetworkTcpServer.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</Command>
@@ -178,25 +181,22 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename)%(Extension)</Outputs>
     </moc_header>
     <ClInclude Include="Server.hpp" />
-    <ClInclude Include="stdafx.h" />
-    <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseConfig.cpp" />
     <ClCompile Include="DatabaseExceptions.cpp" />
-    <ClCompile Include="log.cpp" />
+    <ClCompile Include="DatabaseTables.cpp" />
     <ClCompile Include="MessageListener.cpp" />
-    <ClCompile Include="NetworkConnection.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkConfig.cpp" />
     <ClCompile Include="NetworkTcpServer.cpp" />
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="serverpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)temp\server.pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp\server.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

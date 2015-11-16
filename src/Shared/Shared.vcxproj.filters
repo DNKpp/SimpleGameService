@@ -3,11 +3,35 @@
   <ItemGroup>
     <ClCompile Include="NetworkMessage.cpp" />
     <ClCompile Include="NetworkExceptions.cpp" />
+    <ClCompile Include="Message.pb.cc" />
+    <ClCompile Include="NetworkConnection.cpp" />
+    <ClCompile Include="sharedpch.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
+    <ClCompile Include="log.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NetworkExceptions.h" />
+    <ClInclude Include="Message.pb.h" />
+    <ClInclude Include="stdafx.h">
+      <Filter>others</Filter>
+    </ClInclude>
+    <ClInclude Include="log.hpp">
+      <Filter>others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkMessage.hpp" />
+    <moc_header Include="NetworkConnection.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Message.proto" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="others">
+      <UniqueIdentifier>{20e0e1c0-43a3-4004-83ca-e48d2bafe5e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

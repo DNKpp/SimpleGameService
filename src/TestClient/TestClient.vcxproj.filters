@@ -9,21 +9,13 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>others</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>others</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>others</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>others</Filter>
     </ClCompile>
     <ClCompile Include="NetworkClient.cpp" />
+    <ClCompile Include="testclientpch.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkClient.h" />
