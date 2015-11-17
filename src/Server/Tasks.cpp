@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "Tasks.h"
-#include "moc_Tasks.h"
+#include "Tasks.hpp"
+#include "moc_Tasks.hpp"
 #include "DatabaseTables.hpp"
 #include "Messages.pb.h"
 #include "MessageTypes.hpp"

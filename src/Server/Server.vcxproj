@@ -160,7 +160,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Commands.hpp" />
     <ClInclude Include="DatabaseExceptions.hpp" />
     <moc_header Include="Database.hpp" />
     <moc_header Include="DatabaseConfig.hpp" />
@@ -182,7 +181,7 @@
     </moc_header>
     <ClInclude Include="Server.hpp" />
     <moc_header Include="Session.hpp" />
-    <moc_header Include="Tasks.h">
+    <moc_header Include="Tasks.hpp">
       <FileType>Document</FileType>
     </moc_header>
   </ItemGroup>

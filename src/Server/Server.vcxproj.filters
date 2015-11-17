@@ -16,7 +16,6 @@
     <ClInclude Include="DatabaseExceptions.hpp">
       <Filter>Database</Filter>
     </ClInclude>
-    <ClInclude Include="Commands.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp" />
@@ -57,6 +56,6 @@
       <Filter>Database</Filter>
     </moc_header>
     <moc_header Include="Session.hpp" />
-    <moc_header Include="Tasks.h" />
+    <moc_header Include="Tasks.hpp" />
   </ItemGroup>
 </Project>
