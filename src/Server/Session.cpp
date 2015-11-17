@@ -1,7 +1,10 @@
 #include "stdafx.h"
-#include "Session.h"
-#include "moc_Session.h"
+#include "Session.hpp"
+#include "moc_Session.hpp"
 #include "NetworkConnection.hpp"
+#include "Tasks.h"
+
+uint64_t Session::SessionCounter = 0;
 
 Session::Session(network::Connection* _con, QObject* _parent) :
 	super(_parent),
@@ -30,15 +33,44 @@ void Session::setUserID(uint64_t _id)
 	m_UserID = std::move(_id);
 }
 
+uint64_t Session::getID() const
+{
+	return m_SessionID;
+}
+
 void Session::sendReply(QByteArray _buffer, uint32_t _type)
 {
-	QMutexLocker lock(&m_ConnectionMutex);
 	if (m_Connection)
 		m_Connection->send(_buffer, _type);
 }
 
 void Session::_onDisconnected()
 {
-	QMutexLocker lock(&m_ConnectionMutex);
 	m_Connection = nullptr;
+}
+
+void Session::_onMessageReceived(const network::IMessage& _msg)
+{
+	if (!_msg.isComplete() || _msg.getBytes().isEmpty())
+	{
+		LOG_ERR("Session: " + getID() + " Received message is empty or not complete.");
+		return;
+	}
+
+	try
+	{
+		auto taskWatcher = std::make_unique<task::TaskWatcher>(*this, this);
+		taskWatcher->run(_msg.getBytes(), _msg.getMessageType());
+		taskWatcher.release();		// not needed anymore. deletes itself when finishes.
+	}
+	catch (const std::runtime_error& e)
+	{
+		LOG_ERR(e.what());
+		return;
+	}
+}
+
+void Session::_onTaskFinished(QByteArray _buffer, uint32_t _type)
+{
+	sendReply(_buffer, _type);
 }

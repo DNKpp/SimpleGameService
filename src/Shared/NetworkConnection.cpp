@@ -39,6 +39,8 @@ namespace network
 
 	void Connection::send(QByteArray _msg, uint32_t _type)
 	{
+		if (_msg.isEmpty() || _type <= 0)
+			return;
 		bool empty = m_OutBuffers.empty();
 		_msg = _setupMsg(_msg, _type);
 		m_OutBuffers.push(_msg);
@@ -47,21 +49,11 @@ namespace network
 			m_Socket.write(_msg.data(), _msg.size());
 	}
 
-	Session* Connection::getSession() const
-	{
-		return m_Session;
-	}
-
-	void Connection::setSession(Session* _session)
-	{
-		m_Session = _session;
-	}
-
 	void Connection::_onReadyRead()
 	{
 		auto buffer = m_PreviousBuffer;
 		auto newBuffer = m_Socket.readAll();
-		LOG_INFO("Received " + newBuffer.size() + " bytes from host: " + m_Socket.peerAddress().toString() + " port: " + m_Socket.peerPort());
+		LOG_INFO("Received " + newBuffer.size() + " bytes Host: " + m_Socket.peerAddress().toString() + " port: " + m_Socket.peerPort());
 		buffer += newBuffer;
 		m_PreviousBuffer.clear();
 		try
@@ -101,6 +93,7 @@ namespace network
 
 	void Connection::_onBytesWritten(qint64 _bytes)
 	{
+		LOG_INFO("Sent " + _bytes + " bytes Host: " + m_Socket.peerAddress().toString() + " Port: " + m_Socket.peerPort());
 		auto& buffer = m_OutBuffers.front();
 		if (buffer.size() == _bytes)
 		{

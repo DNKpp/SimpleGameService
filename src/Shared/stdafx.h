@@ -27,21 +27,18 @@
 #include <boost/noncopyable.hpp>
 
 // Qt
-#include <QtCore/QCoreApplication>
+#include <QtCore/QtCore>
+#include <QtConcurrent/QtConcurrent>
 #include <QtNetwork/QTcpServer>
 #include <QtNetwork/QTcpSocket>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
-#include <QtCore/QCryptographicHash>
-#include <QtCore/QThreadPool>
-#include <QtCore/QRunnable>
-#include <QtCore/QMutex>
-#include <QtCore/QMutexLocker>
 
 // SimpleLib
 #include <SimpleLib/log/Log.h>
 #include <SimpleLib/log/ConsoleOutput.h>
+#include <SimpleLib/log/HTMLFileOutput.h>
 
 // others
 #include "log.hpp"

@@ -1,146 +1,209 @@
 #include "stdafx.h"
 #include "Tasks.h"
+#include "moc_Tasks.h"
 #include "DatabaseTables.hpp"
 #include "Messages.pb.h"
 #include "MessageTypes.hpp"
-#include "Session.h"
+#include "Session.hpp"
 
 namespace task
 {
-	// factory
-	std::unique_ptr<QRunnable> createTask(QByteArray _buffer, Session& _session, const database::Database& _database, uint32_t _type)
+	// we need this counter to name all database connections unique
+	static uint64_t TaskCounter = 0;
+	/*#####
+	# TaskWatcher
+	#####*/
+	template <class Task>
+	QFuture<Result> run(QByteArray _buffer, Session& _session)
 	{
-		std::unique_ptr<QRunnable> result;
+		Task task(_buffer, _session);
+		return QtConcurrent::run(task, &Task::run);
+	}
 
-		using namespace network::svr;
+	QFuture<Result> run(QByteArray _buffer, Session& _session, uint32_t _type)
+	{
+		++TaskCounter;
 		switch (_type)
 		{
-		case authentication:
-			result = std::make_unique<Authenticate>(_buffer, _session, _database);
-			break;
-		case login:
-			result = std::make_unique<Login>(_buffer, _session, _database);
-			break;
-		case achievement:
-			result = std::make_unique<Achievement>(_buffer, _session, _database);
-			break;
+		case network::svr::authentication: return run<Authenticate>(_buffer, _session);
+		case network::svr::login: return run<Login>(_buffer, _session);
 		default:
-			LOG_ERR("Invalid task type.");
+			throw std::runtime_error("Unknown task type.");
 		}
-		return result;
 	}
 
-	/*#####
-	# Base
-	#####*/
-	Base::Base(QByteArray _buffer, Session& _session, const database::Database& _database) :
-		m_Database(_database),
+	TaskWatcher::TaskWatcher(Session& _session, QObject* _parent) :
+		super(_parent),
 		m_Session(_session)
 	{
+		assert(_parent);
+		++m_Session.m_TaskCounter;
+		assert(connect(this, SIGNAL(replyCreated(QByteArray, uint32_t)), &m_Session, SLOT(_onTaskFinished(QByteArray, uint32_t))));
 	}
 
-	Session& Base::getSession() const
+	TaskWatcher::~TaskWatcher()
 	{
-		return m_Session;
+		m_Future.waitForFinished();
+		++m_Session.m_TaskCounter;
 	}
 
-	database::Database& Base::getDatabase()
+	void TaskWatcher::run(QByteArray _buffer, uint32_t id)
 	{
-		return m_Database;
+		assert(connect(&m_Watcher, SIGNAL(finished()), this, SLOT(_onFinished())));
+		m_Future = task::run(_buffer, m_Session, id);
+		m_Watcher.setFuture(m_Future);
 	}
 
-	QByteArray Base::getBuffer() const
+	void TaskWatcher::_onFinished()
 	{
-		return m_Buffer;
+		auto result = m_Watcher.result();
+		emit replyCreated(result.first, result.second);
+		deleteLater();
 	}
 
 	/*#####
 	# Authenticate
 	#####*/
-	Authenticate::Authenticate(QByteArray _buffer, Session& _session, const database::Database& _database) :
-		super(_buffer, _session, _database)
+	Authenticate::Authenticate(QByteArray _buffer, Session& _session) :
+		m_Buffer(_buffer),
+		m_Session(_session)
 	{
 	}
 
-	void Authenticate::run()
+	bool Authenticate::_authGame()
 	{
+		auto database = QSqlDatabase::cloneDatabase(QSqlDatabase::database("DB"), QString::number(TaskCounter));
 		try
 		{
-			getDatabase().open();
+			database.open();
 		}
 		catch (const std::runtime_error& e)
 		{
 			LOG_ERR(e.what());
-			return;
+			return false;
 		}
 
 		protobuf::Authentication msg;
-		msg.ParseFromArray(getBuffer().data(), getBuffer().size());
+		msg.ParseFromArray(m_Buffer.data(), m_Buffer.size());
 
 		using namespace database;
-		QSqlQuery query;
-		(QString("SELECT ") + TableGames::Field::hash + " FROM " + TableGames::name + " WHERE " + TableGames::Field::id + "=" +
-			QString::number(msg.id()), getDatabase().getDatabase());
+		QSqlQuery query(database);
 		query.setForwardOnly(true);
-		assert(query.exec());
+		assert(query.exec(QString("SELECT ") + TableGames::Field::hash + " FROM " + TableGames::name + " WHERE " + TableGames::Field::id + "=" + QString::number(msg.id())));
 		if (!query.first())
 		{
-			LOG_ERR("Invalid game: " + msg.id());
-			return;
+			LOG_ERR("Session: " + m_Session.getID() + " Invalid game : " + msg.id());
+			return false;
 		}
 
 		// check the received hash for the game.
-		if (QByteArray::fromRawData(msg.hash().data(), msg.hash().size()) != query.value(0).toByteArray())
+		auto received = QByteArray::fromRawData(msg.hash().data(), msg.hash().size());
+		auto game = query.value(0).toByteArray();
+		if (received != game)
 		{
-			LOG_ERR("Invalid hash received for game: " + msg.id());
-			return;
+			qDebug() << received;
+			qDebug() << game << "\n";
+			LOG_ERR("Session: " + m_Session.getID() + " Invalid hash received for game: " + msg.id());
+			return false;
 		}
 
-		getSession().setGameID(msg.id());
-		// ToDo: create reply			
+		m_Session.setGameID(msg.id());
+		LOG_INFO("Session: " + m_Session.getID() + " Authenticated for game: " + msg.id());
+		return true;
+	}
+
+	Result Authenticate::run()
+	{
+		protobuf::AuthenticationReply reply;
+		reply.set_result(_authGame());
+		Result result;
+		result.first.resize(reply.ByteSize());
+		result.second = network::client::authenticationReply;
+		reply.SerializePartialToArray(result.first.data(), result.first.size());
+		return result;
 	}
 
 	/*#####
 	# Login
 	#####*/
-	Login::Login(QByteArray _buffer, Session& _session, const database::Database& _database) :
-		super(_buffer, _session, _database)
+	Login::Login(QByteArray _buffer, Session& _session) :
+		m_Buffer(_buffer),
+		m_Session(_session)
 	{
 	}
 
-	void Login::run()
+	bool Login::_tryLogin()
 	{
+		auto database = QSqlDatabase::cloneDatabase(QSqlDatabase::database("DB"), QString::number(TaskCounter));
 		try
 		{
-			getDatabase().open();
+			database.open();
 		}
 		catch (const std::runtime_error& e)
 		{
 			LOG_ERR(e.what());
-			return;
+			return false;
 		}
 
-	}
+		protobuf::Login msg;
+		msg.ParseFromArray(m_Buffer.data(), m_Buffer.size());
 
-	/*#####
-	# Achievement
-	#####*/
-	Achievement::Achievement(QByteArray _buffer, Session& _session, const database::Database& _database) :
-		super(_buffer, _session, _database)
-	{
-	}
+		using namespace database;
+		QSqlQuery query(database);
+		query.setForwardOnly(true);
+		assert(query.exec(QString("SELECT * FROM ") + TableUsers::name + " WHERE " +
+			TableUsers::Field::name + " = '" + QString::fromStdString(msg.name()) + "'"));
 
-	void Achievement::run()
-	{
-		try
+		// user not found
+		if (!query.first())
 		{
-			getDatabase().open();
-		}
-		catch (const std::runtime_error& e)
-		{
-			LOG_ERR(e.what());
-			return;
+			LOG_ERR("Session: " + m_Session.getID() + " User not found Name:" + msg.name());
+			return false;
 		}
 
+		auto userID = query.value(TableUsers::Field::id).toLongLong();
+
+		// wrong password
+		auto password = QByteArray::fromRawData(msg.password().data(), msg.password().size());
+		// hash the received values, after that put salt in front and hash it again. That is the password hash stored in DB.
+		password = QCryptographicHash::hash(password, QCryptographicHash::Sha256);
+		password = QCryptographicHash::hash(query.value(TableUsers::Field::salt).toByteArray() + password, QCryptographicHash::Sha256);
+		if (password != query.value(TableUsers::Field::password).toByteArray())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " Incorrect password for user ID: " + userID);
+			return false;
+		}
+
+		m_Session.setUserID(userID);
+		LOG_INFO("Session: " + m_Session.getID() + " Login as ID: " + userID);
+		return true;
 	}
+
+	Result Login::run()
+	{
+		protobuf::LoginReply reply;
+		reply.set_result(_tryLogin());
+		Result result;
+		result.first.resize(reply.ByteSize());
+		result.second = network::client::loginReply;
+		reply.SerializePartialToArray(result.first.data(), result.first.size());
+		return result;
+	}
+
+	///*#####
+	//# Achievement
+	//#####*/
+	//Result Achievement::run()
+	//{
+	//	try
+	//	{
+	//		_database.open();
+	//	}
+	//	catch (const std::runtime_error& e)
+	//	{
+	//		LOG_ERR(e.what());
+	//		return Result();
+	//	}
+	//	return Result();
+	//}
 } // namespace task

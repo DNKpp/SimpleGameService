@@ -6,6 +6,9 @@ int main(int argc, char* argv[])
 {
 	// init log
 	GlobalLog.addOutput(std::make_unique<sl::log::ConsoleOutput>());
+	GlobalLog.addOutput(std::make_unique<sl::log::HTMLFileOutput>("logfile"));
+
+	//qRegisterMetaType<uint32_t>("uint32_t");
 
 	QCoreApplication app(argc, argv);
 	app.setLibraryPaths(QStringList{ "." });

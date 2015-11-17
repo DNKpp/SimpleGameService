@@ -19,19 +19,21 @@ namespace
 		msg.set_password(password.data(), password.size());
 		QByteArray buffer(msg.ByteSize(), 0);
 		msg.SerializeToArray(buffer.data(), buffer.size());
+		LOG_INFO("Try login.");
 		return buffer;
 	}
 
-	QByteArray _createMessage()
+	QByteArray _createAuthenticate()
 	{
 		protobuf::Authentication msg;
 		msg.set_id(1);
 		QByteArray hash;
-		hash.append(52);
+		hash.append(0x52);
 		hash = QCryptographicHash::hash(hash, QCryptographicHash::Sha256);
 		msg.set_hash(hash.data(), hash.size());
 		QByteArray buffer(msg.ByteSize(), 0);
 		msg.SerializeToArray(buffer.data(), buffer.size());
+		LOG_INFO("Try authenticate.");
 		return buffer;
 	}
 } // anonymous namespace
@@ -49,6 +51,6 @@ void NetworkClient::_onConnected()
 {
 	qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
 	m_Connection = new network::Connection(*m_Socket, this);
-	m_Connection->send(_createMessage(), network::svr::authentication);
+	//m_Connection->send(_createAuthenticate(), network::svr::authentication);
 	m_Connection->send(_createLogin(), network::svr::login);
 }

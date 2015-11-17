@@ -3,17 +3,11 @@
 #include "moc_NetworkTcpServer.hpp"
 #include "NetworkConfig.hpp"
 #include "NetworkExceptions.h"
-#include "MessageExecuter.hpp"
 #include "NetworkConnection.hpp"
-#include "Session.h"
+#include "Session.hpp"
 
 namespace network
 {
-	TcpServer::TcpServer(MessageExecuter& _msgListener) :
-		m_MsgListener(_msgListener)
-	{
-	}
-
 	void TcpServer::start(const config::Network& _config)
 	{
 		m_Server = new QTcpServer(this);
@@ -30,12 +24,11 @@ namespace network
 		auto socket = m_Server->nextPendingConnection();
 		if (socket)
 		{
-			LOG_INFO("New connection from host: " + socket->peerAddress().toString() + " at port: " + socket->peerPort());
 			auto con = new Connection(*socket, m_Server);
 			auto session = new Session(con, this);
-			con->setSession(session);
+			LOG_INFO("New connection Session: " + session->getID() + " Host: " + socket->peerAddress().toString() + " Port: " + socket->peerPort());
 			assert(connect(socket, SIGNAL(disconnected()), session, SLOT(_onDisconnected())));
-			assert(connect(con, SIGNAL(messageReceived(const network::IMessage&)), &m_MsgListener, SLOT(onMessageReceived(const network::IMessage&))));
+			assert(connect(con, SIGNAL(messageReceived(const network::IMessage&)), session, SLOT(_onMessageReceived(const network::IMessage&))));
 		}
 	}
 } // namespace network

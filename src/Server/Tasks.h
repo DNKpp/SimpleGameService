@@ -6,52 +6,63 @@ class Session;
 
 namespace task
 {
-	std::unique_ptr<QRunnable> createTask(QByteArray _buffer, Session& _session, const database::Database& _database, uint32_t _type);
+	using Result = std::pair<QByteArray, uint32_t>;
 
-	class Base : public QRunnable, boost::noncopyable
+	class TaskWatcher : public QObject
 	{
-		using super = QRunnable;
-
+		Q_OBJECT
 	private:
-		database::Database m_Database;
+		using super = QObject;
+
+		QFuture<Result> m_Future;
+		QFutureWatcher<Result> m_Watcher;
+
 		Session& m_Session;
+
+	public:
+		TaskWatcher(Session& _session, QObject* _parent);
+		~TaskWatcher();
+
+		void run(QByteArray _buffer, uint32_t id);
+
+	signals:
+		void replyCreated(QByteArray, uint32_t);
+
+	private slots:
+		void _onFinished();
+	};
+
+	class Authenticate
+	{
+	private:
 		QByteArray m_Buffer;
+		Session& m_Session;
+
+		bool _authGame();
 
 	public:
-		Base(QByteArray _buffer, Session& _session, const database::Database& _database);
-		virtual ~Base() = default;
+		Authenticate(QByteArray _buffer, Session& _session);
 
-		Session& getSession() const;
-		database::Database& getDatabase();
-		QByteArray getBuffer() const;
+		Result run();
 	};
 
-	class Authenticate : public Base
+	class Login
 	{
-		using super = Base;
-	public:
-		Authenticate(QByteArray _buffer, Session& _session, const database::Database& _database);
+	private:
+		QByteArray m_Buffer;
+		Session& m_Session;
 
-		void run() override;
-	};
-
-	class Login : public Base
-	{
-		using super = Base;
+		bool _tryLogin();
 
 	public:
-		Login(QByteArray _buffer, Session& _session, const database::Database& _database);
+		Login(QByteArray _buffer, Session& _session);
 
-		void run() override;
+		Result run();
 	};
 
-	class Achievement : public Base
-	{
-		using super = Base;
-
-	public:
-		Achievement(QByteArray _buffer, Session& _session, const database::Database& _database);
-
-		void run() override;
-	};
+	//class Achievement
+	//{
+	//public:
+	//	Result run(QByteArray _buffer, Session& _session, database::Database& _database);
+	//};
 } // namespace task

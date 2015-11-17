@@ -165,7 +165,6 @@
     <moc_header Include="Database.hpp" />
     <moc_header Include="DatabaseConfig.hpp" />
     <moc_header Include="DatabaseTables.hpp" />
-    <moc_header Include="MessageExecuter.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
     <moc_header Include="NetworkTcpServer.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</Command>
@@ -182,15 +181,16 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename)%(Extension)</Outputs>
     </moc_header>
     <ClInclude Include="Server.hpp" />
-    <moc_header Include="Session.h" />
-    <moc_header Include="Tasks.h" />
+    <moc_header Include="Session.hpp" />
+    <moc_header Include="Tasks.h">
+      <FileType>Document</FileType>
+    </moc_header>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseConfig.cpp" />
     <ClCompile Include="DatabaseExceptions.cpp" />
     <ClCompile Include="DatabaseTables.cpp" />
-    <ClCompile Include="MessageExecuter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkConfig.cpp" />
     <ClCompile Include="NetworkTcpServer.cpp" />

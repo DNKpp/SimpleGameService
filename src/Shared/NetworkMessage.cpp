@@ -65,14 +65,4 @@ namespace network
 	{
 		return m_Version;
 	}
-
-	Session* IMessage::getSession() const
-	{
-		return m_Session;
-	}
-
-	void IMessage::setSession(Session* _session)
-	{
-		m_Session = _session;
-	}
 } // namespace network;

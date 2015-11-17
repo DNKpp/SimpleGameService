@@ -17,9 +17,6 @@ namespace network
 		QByteArray m_PreviousBuffer;	// If an exception is thrown, because of invalid header, it could be partial available. Because of this, we store the
 										// buffer here, if an IMessageHeaderError exception was thrown.
 
-		// Server only
-		Session* m_Session = nullptr;
-
 	private:
 		void _createNewMessage(QByteArray& _buffer);
 
@@ -27,10 +24,6 @@ namespace network
 		Connection(QTcpSocket& _socket, QObject* _parent);
 
 		void close();
-		void send(QByteArray _msg, uint32_t _type);
-
-		Session* getSession() const;
-		void setSession(Session* _session);
 
 	signals:
 		void messageReceived(const network::IMessage&);
@@ -39,5 +32,8 @@ namespace network
 		void _onDisconnected();
 		void _onReadyRead();
 		void _onBytesWritten(qint64 _bytes);
+
+	public slots:
+		void send(QByteArray _msg, uint32_t _type);
 	};
 }

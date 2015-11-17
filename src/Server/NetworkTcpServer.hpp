@@ -18,10 +18,8 @@ namespace network
 	private:
 		using super = QObject;
 		QTcpServer* m_Server = nullptr;
-		MessageExecuter& m_MsgListener;
 
 	public:
-		TcpServer(MessageExecuter& _msgListener);
 		void start(const config::Network& _config);
 
 	private slots:

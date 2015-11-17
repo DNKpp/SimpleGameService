@@ -2,8 +2,6 @@
 
 #include "NetworkExceptions.h"
 
-class Session;
-
 namespace network
 {
 	static const std::string PacketBegin{ "simpledata" };
@@ -19,9 +17,6 @@ namespace network
 		uint16_t m_Version = 0;
 		std::size_t m_CurrentByte = 0;
 
-		// Server only
-		Session* m_Session = nullptr;
-
 	public:
 		IMessage(QObject* _parent = nullptr);
 
@@ -33,8 +28,5 @@ namespace network
 
 		uint16_t getMessageType() const;
 		uint16_t getVersion() const;
-
-		Session* getSession() const;
-		void setSession(Session* _session);
 	};
 }

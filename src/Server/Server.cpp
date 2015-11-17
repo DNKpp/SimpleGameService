@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "Server.hpp"
 #include "NetworkConfig.hpp"
+#include "DatabaseConfig.hpp"
 
 Server::Server() :
-	m_TcpServer(m_MsgListener)
+	m_Database(config::Database())
 {
 }
 

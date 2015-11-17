@@ -40,7 +40,6 @@
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="serverpch.cpp" />
-    <ClCompile Include="MessageExecuter.cpp" />
     <ClCompile Include="Tasks.cpp" />
     <ClCompile Include="Session.cpp" />
   </ItemGroup>
@@ -57,8 +56,7 @@
     <moc_header Include="DatabaseTables.hpp">
       <Filter>Database</Filter>
     </moc_header>
-    <moc_header Include="MessageExecuter.hpp" />
+    <moc_header Include="Session.hpp" />
     <moc_header Include="Tasks.h" />
-    <moc_header Include="Session.h" />
   </ItemGroup>
 </Project>
