@@ -1,18 +1,22 @@
 #pragma once
 
+#include "Database.hpp"
+
 namespace network
 {
 	class IMessage;
 }
 
-class MessageListener : public QObject, boost::noncopyable
+class MessageExecuter : public QObject, boost::noncopyable
 {
 	Q_OBJECT
 private:
 	using super = QObject;
 
+	database::Database m_Database;
+
 public:
-	MessageListener(QObject* _parent = nullptr);
+	MessageExecuter(QObject* _parent = nullptr);
 
 public slots:
 	void onMessageReceived(const network::IMessage&);

@@ -21,6 +21,7 @@
       <Filter>others</Filter>
     </ClInclude>
     <ClInclude Include="Messages.pb.h" />
+    <ClInclude Include="MessageTypes.hpp" />
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkMessage.hpp" />

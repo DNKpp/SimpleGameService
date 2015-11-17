@@ -1,7 +1,5 @@
 #pragma once
 
-#include <stdexcept>
-
 namespace network
 {
 	class Exception : public std::runtime_error

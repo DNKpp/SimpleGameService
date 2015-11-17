@@ -1,15 +1,13 @@
 #pragma once
 
 #include "NetworkTcpServer.hpp"
-#include "MessageListener.hpp"
-#include "Database.hpp"
+#include "MessageExecuter.hpp"
 
 class Server : boost::noncopyable
 {
 private:
-	MessageListener m_MsgListener;
+	MessageExecuter m_MsgListener;
 	network::TcpServer m_TcpServer;
-	database::Database m_Database;
 
 public:
 	Server();

@@ -21,6 +21,7 @@
 #include <queue>
 #include <unordered_set>
 #include <unordered_map>
+#include <stdexcept>
 
 // boost
 #include <boost/noncopyable.hpp>
@@ -33,6 +34,10 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <QtCore/QCryptographicHash>
+#include <QtCore/QThreadPool>
+#include <QtCore/QRunnable>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
 
 // SimpleLib
 #include <SimpleLib/log/Log.h>

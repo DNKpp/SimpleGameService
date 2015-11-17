@@ -21,23 +21,19 @@ namespace
 
 namespace network
 {
-	uint64_t Connection::currentConnectionID = 0;
 	Connection::Connection(QTcpSocket& _socket, QObject* _parent) :
 		super(_parent),
-		m_Socket(_socket),
-		m_ConnectionID(++currentConnectionID)	// make connectionID unique per server runtime
+		m_Socket(_socket)
 	{
 		assert(_parent);
 		assert(connect(&m_Socket, SIGNAL(disconnected()), this, SLOT(_onDisconnected())));
-		if (m_Socket.state() != QAbstractSocket::ConnectedState)
-			_onDisconnected();
 		assert(connect(&m_Socket, SIGNAL(readyRead()), this, SLOT(_onReadyRead())));
 		assert(connect(&m_Socket, SIGNAL(bytesWritten(qint64)), this, SLOT(_onBytesWritten(qint64))));
 	}
 
 	void Connection::_createNewMessage(QByteArray& _buffer)
 	{
-		m_NewMessage = std::make_unique<IMessage>(getConnectionID());
+		m_NewMessage = std::make_unique<IMessage>();
 		_buffer.remove(0, m_NewMessage->setupHeader(_buffer.constData(), _buffer.size()));
 	}
 
@@ -51,24 +47,14 @@ namespace network
 			m_Socket.write(_msg.data(), _msg.size());
 	}
 
-	void Connection::authenticatedAs(uint64_t _ID)
+	Session* Connection::getSession() const
 	{
-		m_UserID = _ID;
+		return m_Session;
 	}
 
-	bool Connection::isAuthenticated() const
+	void Connection::setSession(Session* _session)
 	{
-		return m_UserID != 0;
-	}
-
-	uint64_t Connection::getUserID() const
-	{
-		return m_UserID;
-	}
-
-	uint64_t Connection::getConnectionID() const
-	{
-		return m_ConnectionID;
+		m_Session = _session;
 	}
 
 	void Connection::_onReadyRead()
@@ -128,7 +114,6 @@ namespace network
 
 	void Connection::_onDisconnected()
 	{
-		emit disconnected(*this);
 		m_Socket.deleteLater();
 		deleteLater();
 	}

@@ -165,7 +165,7 @@
     <moc_header Include="Database.hpp" />
     <moc_header Include="DatabaseConfig.hpp" />
     <moc_header Include="DatabaseTables.hpp" />
-    <moc_header Include="MessageListener.hpp" />
+    <moc_header Include="MessageExecuter.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
     <moc_header Include="NetworkTcpServer.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</Command>
@@ -182,13 +182,15 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">moc_%(Filename)%(Extension)</Outputs>
     </moc_header>
     <ClInclude Include="Server.hpp" />
+    <moc_header Include="Session.h" />
+    <moc_header Include="Tasks.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Database.cpp" />
     <ClCompile Include="DatabaseConfig.cpp" />
     <ClCompile Include="DatabaseExceptions.cpp" />
     <ClCompile Include="DatabaseTables.cpp" />
-    <ClCompile Include="MessageListener.cpp" />
+    <ClCompile Include="MessageExecuter.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkConfig.cpp" />
     <ClCompile Include="NetworkTcpServer.cpp" />
@@ -199,6 +201,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)temp\server.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
+    <ClCompile Include="Session.cpp" />
+    <ClCompile Include="Tasks.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

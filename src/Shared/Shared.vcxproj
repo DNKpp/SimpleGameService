@@ -35,6 +35,7 @@
   <ItemGroup>
     <ClInclude Include="log.hpp" />
     <moc_header Include="NetworkConnection.hpp" />
+    <ClInclude Include="MessageTypes.hpp" />
     <ClInclude Include="NetworkExceptions.h" />
     <ClInclude Include="Messages.pb.h">
       <FileType>Document</FileType>

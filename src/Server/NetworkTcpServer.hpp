@@ -5,7 +5,7 @@ namespace config
 	class Network;
 }
 
-class MessageListener;
+class MessageExecuter;
 
 namespace network
 {
@@ -18,18 +18,13 @@ namespace network
 	private:
 		using super = QObject;
 		QTcpServer* m_Server = nullptr;
-		MessageListener& m_MsgListener;
-
-		std::unordered_map<uint64_t/*connectionID*/, Connection*> m_Connections;
+		MessageExecuter& m_MsgListener;
 
 	public:
-		TcpServer(MessageListener& _msgListener);
+		TcpServer(MessageExecuter& _msgListener);
 		void start(const config::Network& _config);
-
-		Connection* findConnection(uint64_t _ID) const;
 
 	private slots:
 		void _onConnect();
-		void _onDisconnected(const Connection&);
 	};
 } // namespace network

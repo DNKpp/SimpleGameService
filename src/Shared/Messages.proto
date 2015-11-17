@@ -4,26 +4,28 @@ package protobuf;
 
 message Authentication
 {
+    uint64 ID = 1;
+    bytes hash = 2;
+}
+
+message AuthenticationReply
+{
+    bool result = 1;
+}
+
+message Login
+{
     string name = 1;
     bytes password = 2;
 }
 
-message AuthenticationAnswer
+message LoginReply
 {
-    enum Result
-    {
-        success = 0;
-        unknown = 1;
-        wrongPassword = 2;
-        other = 3;
-    }
-    Result result = 1;
+    bool result = 1;
 }
 
 message Achievement
 {
-    GameIdent gameID = 1;
-
     message Ident
     {
         uint64 ID = 1;
@@ -37,10 +39,3 @@ message Achievement
     }
     repeated Ident achievements = 2;
 }
-
-message GameIdent
-{
-    uint64 gameID = 1;
-    bytes hash = 2;
-}
-

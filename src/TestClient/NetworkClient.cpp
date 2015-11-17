@@ -5,12 +5,13 @@
 #include <QtCore/QDataStream>
 #include "Messages.pb.h"
 #include "NetworkConnection.hpp"
+#include "MessageTypes.hpp"
 
 namespace
 {
 	QByteArray _createLogin()
 	{
-		protobuf::Authentication msg;
+		protobuf::Login msg;
 		msg.set_name("anti-freak");
 		QByteArray password;
 		password.append(1);
@@ -23,16 +24,12 @@ namespace
 
 	QByteArray _createMessage()
 	{
-		protobuf::Achievement msg;
-		auto ident = std::make_unique<protobuf::GameIdent>();
-		ident->set_gameid(1);
-		std::array<uint8_t, 16> hash = { 0xc4, 0xca, 0x42, 0x38, 0xa0, 0xb9, 0x23, 0x82, 0x0d, 0xcc, 0x50, 0x9a, 0x6f, 0x75, 0x84, 0x9b };
-		ident->set_hash(hash.data(), hash.size());
-		msg.set_allocated_gameid(ident.release());
-		auto achive = msg.add_achievements();
-		achive->set_id(1);
-		achive = msg.add_achievements();
-		achive->set_id(2);
+		protobuf::Authentication msg;
+		msg.set_id(1);
+		QByteArray hash;
+		hash.append(52);
+		hash = QCryptographicHash::hash(hash, QCryptographicHash::Sha256);
+		msg.set_hash(hash.data(), hash.size());
 		QByteArray buffer(msg.ByteSize(), 0);
 		msg.SerializeToArray(buffer.data(), buffer.size());
 		return buffer;
@@ -52,6 +49,6 @@ void NetworkClient::_onConnected()
 {
 	qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
 	m_Connection = new network::Connection(*m_Socket, this);
-	m_Connection->send(_createLogin(), 0);
-	m_Connection->send(_createMessage(), 1);
+	m_Connection->send(_createMessage(), network::svr::authentication);
+	m_Connection->send(_createLogin(), network::svr::login);
 }
