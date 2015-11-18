@@ -20,7 +20,7 @@ namespace database
 	const char* TableAchievements::name = "Achievements";
 	const char* TableAchievements::Field::id = "ID";
 	const char* TableAchievements::Field::gameID = "GameID";
-	const char* TableAchievements::Field::name = "Name";
+	const char* TableAchievements::Field::infoID = "InfoID";
 
 	// TableUserAchievements
 	const char* TableUserAchievements::name = "User_Achievements";
@@ -33,7 +33,7 @@ namespace database
 	const char* TableCollectorAchievements::Field::id = "ID";
 	const char* TableCollectorAchievements::Field::gameID = "GameID";
 	const char* TableCollectorAchievements::Field::number = "Number";
-	const char* TableCollectorAchievements::Field::name = "Name";
+	const char* TableCollectorAchievements::Field::infoID = "InfoID";
 
 	// TableUserCollectorAchievements
 	const char* TableUserCollectorAchievements::name = "user_collector_achievements";

@@ -32,7 +32,7 @@ namespace database
 		{
 			static const char* id;
 			static const char* gameID;
-			static const char* name;
+			static const char* infoID;
 		};
 	};
 
@@ -55,7 +55,7 @@ namespace database
 			static const char* id;
 			static const char* gameID;
 			static const char* number;
-			static const char* name;
+			static const char* infoID;
 		};
 	};
 
