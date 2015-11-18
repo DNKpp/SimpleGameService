@@ -4,7 +4,7 @@
 
 namespace network
 {
-	class Connection : public QObject, boost::noncopyable
+	class Connection : public QObject
 	{
 		Q_OBJECT
 
