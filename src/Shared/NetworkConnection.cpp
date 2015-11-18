@@ -11,7 +11,7 @@ namespace
 		QDataStream out(&buffer, QIODevice::WriteOnly);
 		out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
 		out << (uint16_t)1;	// version
-		out << (uint16_t)_type;
+		out << _type;
 		out << (uint32_t)_msg.size();
 		buffer += _msg;
 		return buffer;

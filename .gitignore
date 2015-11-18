@@ -10,3 +10,5 @@ src/Server/moc_*.h
 src/Server/moc_*.hpp
 src/Shared/moc_*.h
 src/Shared/moc_*.hpp
+src/TestClient/moc_*.h
+src/TestClient/moc_*.hpp
