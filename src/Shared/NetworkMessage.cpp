@@ -56,7 +56,7 @@ namespace network
 		return m_CurrentByte == m_ExpectedSize;
 	}
 
-	uint16_t IMessage::getMessageType() const
+	uint32_t IMessage::getMessageType() const
 	{
 		return m_MessageType;
 	}

@@ -1,8 +1,7 @@
 #include "stdafx.h"
-#include "NetworkClient.h"
-#include "moc_NetworkClient.h"
+#include "NetworkClient.hpp"
+#include "moc_NetworkClient.hpp"
 #include "NetworkMessage.hpp"
-#include <QtCore/QDataStream>
 #include "Messages.pb.h"
 #include "NetworkConnection.hpp"
 #include "MessageTypes.hpp"
@@ -48,20 +47,27 @@ namespace
 	}
 } // anonymous namespace
 
-NetworkClient::NetworkClient()
+namespace network
 {
-	m_Socket = new QTcpSocket(this);
-	m_Socket->connectToHost(QHostAddress::LocalHost, 2015);
-	connect(m_Socket, SIGNAL(connected()), this, SLOT(_onConnected()));
+	Client::Client()
+	{
+		m_Socket = new QTcpSocket(this);
+		m_Socket->connectToHost(QHostAddress::LocalHost, 2015);
+		connect(m_Socket, SIGNAL(connected()), this, SLOT(_onConnected()));
+	}
 
-	//connect(con, SIGNAL(messageComplete(const network::IMessage&)), &m_MsgListener, SLOT(onMessageReceived(const network::IMessage&)));
-}
+	void Client::_onConnected()
+	{
+		qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
+		m_Connection = new network::Connection(*m_Socket, this);
+		assert(connect(m_Connection, SIGNAL(messageReceived(const network::IMessage&)), this, SLOT(_onMessageReceived(const network::IMessage&))));
+		m_Connection->send(_createAuthenticate(), network::svr::authentication);
+		m_Connection->send(_createLogin("test"), network::svr::login);
+		m_Connection->send(_createAchievement(1), network::svr::achievement);
+	}
 
-void NetworkClient::_onConnected()
-{
-	qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
-	m_Connection = new network::Connection(*m_Socket, this);
-	m_Connection->send(_createAuthenticate(), network::svr::authentication);
-	m_Connection->send(_createLogin("test"), network::svr::login);
-	m_Connection->send(_createAchievement(1), network::svr::achievement);
-}
+	void Client::_onMessageReceived(const network::IMessage& _msg)
+	{
+		emit messageReceived(_msg);
+	}
+} // namespace network

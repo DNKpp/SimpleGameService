@@ -18,9 +18,11 @@
     <ClCompile Include="NetworkClient.cpp">
       <Filter>Client</Filter>
     </ClCompile>
+    <ClCompile Include="ReplyHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <moc_header Include="NetworkClient.h">
+    <moc_header Include="ReplyHandler.hpp" />
+    <moc_header Include="NetworkClient.hpp">
       <Filter>Client</Filter>
     </moc_header>
   </ItemGroup>

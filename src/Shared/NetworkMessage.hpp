@@ -13,7 +13,7 @@ namespace network
 		using super = QObject;
 		QByteArray m_Bytes;
 		uint32_t m_ExpectedSize = 0;
-		uint16_t m_MessageType = 0;
+		uint32_t m_MessageType = 0;
 		uint16_t m_Version = 0;
 		std::size_t m_CurrentByte = 0;
 
@@ -26,7 +26,7 @@ namespace network
 		QByteArray getBytes() const;
 		bool isComplete() const;
 
-		uint16_t getMessageType() const;
+		uint32_t getMessageType() const;
 		uint16_t getVersion() const;
 	};
 }
