@@ -40,6 +40,9 @@ const ::google::protobuf::Descriptor* AchievementReply_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   AchievementReply_reflection_ = NULL;
 const ::google::protobuf::EnumDescriptor* AchievementReply_Type_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* Welcome_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  Welcome_reflection_ = NULL;
 
 }  // namespace
 
@@ -146,6 +149,21 @@ void protobuf_AssignDesc_Messages_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, _is_default_instance_));
   AchievementReply_Type_descriptor_ = AchievementReply_descriptor_->enum_type(0);
+  Welcome_descriptor_ = file->message_type(6);
+  static const int Welcome_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Welcome, key_),
+  };
+  Welcome_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      Welcome_descriptor_,
+      Welcome::default_instance_,
+      Welcome_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(Welcome),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Welcome, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Welcome, _is_default_instance_));
 }
 
 namespace {
@@ -170,6 +188,8 @@ void protobuf_RegisterTypes(const ::std::string&) {
       Achievement_descriptor_, &Achievement::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       AchievementReply_descriptor_, &AchievementReply::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      Welcome_descriptor_, &Welcome::default_instance());
 }
 
 }  // namespace
@@ -187,6 +207,8 @@ void protobuf_ShutdownFile_Messages_2eproto() {
   delete Achievement_reflection_;
   delete AchievementReply::default_instance_;
   delete AchievementReply_reflection_;
+  delete Welcome::default_instance_;
+  delete Welcome_reflection_;
 }
 
 void protobuf_AddDesc_Messages_2eproto() {
@@ -206,7 +228,8 @@ void protobuf_AddDesc_Messages_2eproto() {
     "\"\213\001\n\020AchievementReply\022\n\n\002ID\030\001 \001(\004\022/\n\006res"
     "ult\030\002 \001(\0162\037.protobuf.AchievementReply.Ty"
     "pe\":\n\004Type\022\014\n\010complete\020\000\022\n\n\006failed\020\001\022\n\n\006"
-    "exists\020\002\022\014\n\010progress\020\003b\006proto3", 430);
+    "exists\020\002\022\014\n\010progress\020\003\"\026\n\007Welcome\022\013\n\003key"
+    "\030\001 \001(\014b\006proto3", 454);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Messages.proto", &protobuf_RegisterTypes);
   Authentication::default_instance_ = new Authentication();
@@ -215,12 +238,14 @@ void protobuf_AddDesc_Messages_2eproto() {
   LoginReply::default_instance_ = new LoginReply();
   Achievement::default_instance_ = new Achievement();
   AchievementReply::default_instance_ = new AchievementReply();
+  Welcome::default_instance_ = new Welcome();
   Authentication::default_instance_->InitAsDefaultInstance();
   AuthenticationReply::default_instance_->InitAsDefaultInstance();
   Login::default_instance_->InitAsDefaultInstance();
   LoginReply::default_instance_->InitAsDefaultInstance();
   Achievement::default_instance_->InitAsDefaultInstance();
   AchievementReply::default_instance_->InitAsDefaultInstance();
+  Welcome::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Messages_2eproto);
 }
 
@@ -1983,6 +2008,265 @@ void AchievementReply::clear_result() {
   
   result_ = value;
   // @@protoc_insertion_point(field_set:protobuf.AchievementReply.result)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int Welcome::kKeyFieldNumber;
+#endif  // !_MSC_VER
+
+Welcome::Welcome()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protobuf.Welcome)
+}
+
+void Welcome::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+Welcome::Welcome(const Welcome& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:protobuf.Welcome)
+}
+
+void Welcome::SharedCtor() {
+    _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  key_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+Welcome::~Welcome() {
+  // @@protoc_insertion_point(destructor:protobuf.Welcome)
+  SharedDtor();
+}
+
+void Welcome::SharedDtor() {
+  key_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void Welcome::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* Welcome::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return Welcome_descriptor_;
+}
+
+const Welcome& Welcome::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_Messages_2eproto();
+  return *default_instance_;
+}
+
+Welcome* Welcome::default_instance_ = NULL;
+
+Welcome* Welcome::New(::google::protobuf::Arena* arena) const {
+  Welcome* n = new Welcome;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void Welcome::Clear() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+bool Welcome::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:protobuf.Welcome)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional bytes key = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_key()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:protobuf.Welcome)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:protobuf.Welcome)
+  return false;
+#undef DO_
+}
+
+void Welcome::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:protobuf.Welcome)
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      1, this->key(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:protobuf.Welcome)
+}
+
+::google::protobuf::uint8* Welcome::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protobuf.Welcome)
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        1, this->key(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:protobuf.Welcome)
+  return target;
+}
+
+int Welcome::ByteSize() const {
+  int total_size = 0;
+
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->key());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void Welcome::MergeFrom(const ::google::protobuf::Message& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const Welcome* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const Welcome>(
+          &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void Welcome::MergeFrom(const Welcome& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.key().size() > 0) {
+
+    key_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.key_);
+  }
+}
+
+void Welcome::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void Welcome::CopyFrom(const Welcome& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Welcome::IsInitialized() const {
+
+  return true;
+}
+
+void Welcome::Swap(Welcome* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void Welcome::InternalSwap(Welcome* other) {
+  key_.Swap(&other->key_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata Welcome::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = Welcome_descriptor_;
+  metadata.reflection = Welcome_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// Welcome
+
+// optional bytes key = 1;
+void Welcome::clear_key() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& Welcome::key() const {
+  // @@protoc_insertion_point(field_get:protobuf.Welcome.key)
+  return key_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void Welcome::set_key(const ::std::string& value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:protobuf.Welcome.key)
+}
+ void Welcome::set_key(const char* value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protobuf.Welcome.key)
+}
+ void Welcome::set_key(const void* value, size_t size) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protobuf.Welcome.key)
+}
+ ::std::string* Welcome::mutable_key() {
+  
+  // @@protoc_insertion_point(field_mutable:protobuf.Welcome.key)
+  return key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* Welcome::release_key() {
+  
+  return key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void Welcome::set_allocated_key(::std::string* key) {
+  if (key != NULL) {
+    
+  } else {
+    
+  }
+  key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
+  // @@protoc_insertion_point(field_set_allocated:protobuf.Welcome.key)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

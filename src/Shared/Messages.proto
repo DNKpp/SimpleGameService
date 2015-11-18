@@ -49,3 +49,8 @@ message AchievementReply
     }
     Type result = 2;
 }
+
+message Welcome
+{
+    bytes key = 1;
+}

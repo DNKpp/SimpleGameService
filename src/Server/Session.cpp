@@ -3,6 +3,7 @@
 #include "moc_Session.hpp"
 #include "NetworkConnection.hpp"
 #include "Tasks.hpp"
+#include "Messages.pb.h"
 
 uint64_t Session::SessionCounter = 0;
 
@@ -11,6 +12,19 @@ Session::Session(network::Connection* _con, QObject* _parent) :
 	m_Connection(_con)
 {
 	assert(_con);
+	_sendWelcomeMessage();
+}
+
+void Session::_sendWelcomeMessage()
+{
+	protobuf::Welcome msg;
+	// setup key pair
+	QByteArray key;
+	key.append(88);
+	msg.set_key(key.data(), key.size());
+	QByteArray buffer(msg.ByteSize(), 0);
+	msg.SerializeToArray(buffer.data(), buffer.size());
+	sendReply(buffer, network::client::welcome);
 }
 
 uint64_t Session::getGameID() const

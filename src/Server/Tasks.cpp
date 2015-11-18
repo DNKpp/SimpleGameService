@@ -3,7 +3,6 @@
 #include "moc_Tasks.hpp"
 #include "DatabaseTables.hpp"
 #include "Messages.pb.h"
-#include "MessageTypes.hpp"
 #include "Session.hpp"
 
 namespace task

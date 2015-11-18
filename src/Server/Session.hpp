@@ -30,6 +30,8 @@ private:
 	const uint64_t m_SessionID = ++SessionCounter;
 	int m_TaskCounter = 0;
 
+	void _sendWelcomeMessage();
+
 public:
 	Session(network::Connection* _con, QObject* _parent = nullptr);
 

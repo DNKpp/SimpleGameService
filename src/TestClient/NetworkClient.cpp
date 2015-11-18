@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "NetworkClient.hpp"
 #include "moc_NetworkClient.hpp"
-#include "NetworkMessage.hpp"
 #include "Messages.pb.h"
 #include "NetworkConnection.hpp"
-#include "MessageTypes.hpp"
 
 namespace
 {

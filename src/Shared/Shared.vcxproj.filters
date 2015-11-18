@@ -24,7 +24,6 @@
       <Filter>others</Filter>
     </ClInclude>
     <ClInclude Include="Messages.pb.h" />
-    <ClInclude Include="MessageTypes.hpp" />
     <ClInclude Include="SharedDefines.hpp">
       <Filter>others</Filter>
     </ClInclude>
