@@ -22,7 +22,7 @@ namespace task
 		return QtConcurrent::run(std::bind(&Task::start, _task.get()));
 	}
 
-	QFuture<Result> run(QByteArray _buffer, Session& _session, uint32_t _type, std::unique_ptr<Base>& _task)
+	QFuture<Result> run(QByteArray _buffer, Session& _session, network::MessageType _type, std::unique_ptr<Base>& _task)
 	{
 		switch (_type)
 		{
@@ -40,7 +40,7 @@ namespace task
 	{
 		assert(_parent);
 		++m_Session.m_TaskCounter;
-		assert(connect(this, SIGNAL(replyCreated(QByteArray, uint32_t)), &m_Session, SLOT(_onTaskFinished(QByteArray, uint32_t))));
+		assert(connect(this, SIGNAL(replyCreated(QByteArray, network::MessageType)), &m_Session, SLOT(_onTaskFinished(QByteArray, network::MessageType))));
 	}
 
 	TaskWatcher::~TaskWatcher()
@@ -49,7 +49,7 @@ namespace task
 		++m_Session.m_TaskCounter;
 	}
 
-	void TaskWatcher::run(QByteArray _buffer, uint32_t id)
+	void TaskWatcher::run(QByteArray _buffer, network::MessageType id)
 	{
 		assert(connect(&m_Watcher, SIGNAL(finished()), this, SLOT(_onFinished())));
 		m_Future = task::run(_buffer, m_Session, id, m_Task);

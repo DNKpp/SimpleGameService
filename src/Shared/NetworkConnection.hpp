@@ -34,6 +34,6 @@ namespace network
 		void _onBytesWritten(qint64 _bytes);
 
 	public slots:
-		void send(QByteArray _msg, uint32_t _type);
+		void send(QByteArray _msg, MessageType _type);
 	};
 }

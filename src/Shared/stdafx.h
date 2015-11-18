@@ -42,3 +42,4 @@
 
 // others
 #include "log.hpp"
+#include "SharedDefines.hpp"

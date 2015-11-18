@@ -5,14 +5,14 @@
 
 namespace
 {
-	QByteArray _setupMsg(QByteArray _msg, uint32_t _type)
+	QByteArray _setupMsg(QByteArray _msg, network::MessageType _type)
 	{
 		QByteArray buffer;
 		QDataStream out(&buffer, QIODevice::WriteOnly);
 		out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
-		out << (uint16_t)1;	// version
+		out << (network::VersionType)1;	// version
 		out << _type;
-		out << (uint32_t)_msg.size();
+		out << (network::MessageSizeType)_msg.size();
 		buffer += _msg;
 		return buffer;
 	}
@@ -37,7 +37,7 @@ namespace network
 		_buffer.remove(0, m_NewMessage->setupHeader(_buffer.constData(), _buffer.size()));
 	}
 
-	void Connection::send(QByteArray _msg, uint32_t _type)
+	void Connection::send(QByteArray _msg, MessageType _type)
 	{
 		if (_msg.isEmpty() || _type <= 0)
 			return;

@@ -27,6 +27,7 @@
     <ClCompile Include="NetworkConnection.cpp" />
     <ClCompile Include="NetworkExceptions.cpp" />
     <ClCompile Include="NetworkMessage.cpp" />
+    <ClCompile Include="SharedDefines.cpp" />
     <ClCompile Include="sharedpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -41,6 +42,7 @@
       <FileType>Document</FileType>
     </ClInclude>
     <moc_header Include="NetworkMessage.hpp" />
+    <ClInclude Include="SharedDefines.hpp" />
     <ClInclude Include="stdafx.h">
       <FileType>Document</FileType>
     </ClInclude>

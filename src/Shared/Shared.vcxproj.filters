@@ -11,6 +11,9 @@
       <Filter>others</Filter>
     </ClCompile>
     <ClCompile Include="Messages.pb.cc" />
+    <ClCompile Include="SharedDefines.cpp">
+      <Filter>others</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NetworkExceptions.h" />
@@ -22,6 +25,9 @@
     </ClInclude>
     <ClInclude Include="Messages.pb.h" />
     <ClInclude Include="MessageTypes.hpp" />
+    <ClInclude Include="SharedDefines.hpp">
+      <Filter>others</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkMessage.hpp" />

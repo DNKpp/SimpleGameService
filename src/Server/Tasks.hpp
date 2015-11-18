@@ -11,7 +11,7 @@ namespace protobuf
 
 namespace task
 {
-	using Result = std::pair<QByteArray, uint32_t>;
+	using Result = std::pair<QByteArray, network::MessageType>;
 
 	class Base : boost::noncopyable
 	{
@@ -86,10 +86,10 @@ namespace task
 		TaskWatcher(Session& _session, QObject* _parent);
 		~TaskWatcher();
 
-		void run(QByteArray _buffer, uint32_t id);
+		void run(QByteArray _buffer, network::MessageType id);
 
 	signals:
-		void replyCreated(QByteArray, uint32_t);
+		void replyCreated(QByteArray, network::MessageType);
 
 		private slots:
 		void _onFinished();

@@ -38,7 +38,7 @@ uint64_t Session::getID() const
 	return m_SessionID;
 }
 
-void Session::sendReply(QByteArray _buffer, uint32_t _type)
+void Session::sendReply(QByteArray _buffer, network::MessageType _type)
 {
 	if (m_Connection)
 		m_Connection->send(_buffer, _type);
@@ -70,7 +70,7 @@ void Session::_onMessageReceived(const network::IMessage& _msg)
 	}
 }
 
-void Session::_onTaskFinished(QByteArray _buffer, uint32_t _type)
+void Session::_onTaskFinished(QByteArray _buffer, network::MessageType _type)
 {
 	sendReply(_buffer, _type);
 }

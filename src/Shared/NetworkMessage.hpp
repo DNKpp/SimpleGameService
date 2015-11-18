@@ -4,17 +4,15 @@
 
 namespace network
 {
-	static const std::string PacketBegin{ "simpledata" };
-
 	class IMessage : public QObject
 	{
 		Q_OBJECT
 	private:
 		using super = QObject;
 		QByteArray m_Bytes;
-		uint32_t m_ExpectedSize = 0;
-		uint32_t m_MessageType = 0;
-		uint16_t m_Version = 0;
+		MessageSizeType m_ExpectedSize = 0;
+		MessageType m_MessageType = 0;
+		VersionType m_Version = 0;
 		std::size_t m_CurrentByte = 0;
 
 	public:
@@ -26,7 +24,7 @@ namespace network
 		QByteArray getBytes() const;
 		bool isComplete() const;
 
-		uint32_t getMessageType() const;
-		uint16_t getVersion() const;
+		MessageType getMessageType() const;
+		VersionType getVersion() const;
 	};
 }
