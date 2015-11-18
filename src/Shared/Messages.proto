@@ -26,16 +26,26 @@ message LoginReply
 
 message Achievement
 {
-    message Ident
-    {
-        uint64 ID = 1;
+    uint64 ID = 1;
 
-        enum Type
-        {
-            complete = 0;
-            add = 1;
-        }
-        Type type = 2;
+    enum Type
+    {
+        complete    = 0;
+        add         = 1;
     }
-    repeated Ident achievements = 2;
+    Type type = 2;
+}
+
+message AchievementReply
+{
+    uint64 ID = 1;
+
+    enum Type
+    {
+        complete    = 0;
+        failed      = 1;
+        exists      = 2;
+        progress    = 3;
+    }
+    Type result = 2;
 }

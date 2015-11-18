@@ -38,32 +38,55 @@ void protobuf_AssignDesc_Messages_2eproto();
 void protobuf_ShutdownFile_Messages_2eproto();
 
 class Achievement;
-class Achievement_Ident;
+class AchievementReply;
 class Authentication;
 class AuthenticationReply;
 class Login;
 class LoginReply;
 
-enum Achievement_Ident_Type {
-  Achievement_Ident_Type_complete = 0,
-  Achievement_Ident_Type_add = 1,
-  Achievement_Ident_Type_Achievement_Ident_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
-  Achievement_Ident_Type_Achievement_Ident_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+enum Achievement_Type {
+  Achievement_Type_complete = 0,
+  Achievement_Type_add = 1,
+  Achievement_Type_Achievement_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  Achievement_Type_Achievement_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
 };
-bool Achievement_Ident_Type_IsValid(int value);
-const Achievement_Ident_Type Achievement_Ident_Type_Type_MIN = Achievement_Ident_Type_complete;
-const Achievement_Ident_Type Achievement_Ident_Type_Type_MAX = Achievement_Ident_Type_add;
-const int Achievement_Ident_Type_Type_ARRAYSIZE = Achievement_Ident_Type_Type_MAX + 1;
+bool Achievement_Type_IsValid(int value);
+const Achievement_Type Achievement_Type_Type_MIN = Achievement_Type_complete;
+const Achievement_Type Achievement_Type_Type_MAX = Achievement_Type_add;
+const int Achievement_Type_Type_ARRAYSIZE = Achievement_Type_Type_MAX + 1;
 
-const ::google::protobuf::EnumDescriptor* Achievement_Ident_Type_descriptor();
-inline const ::std::string& Achievement_Ident_Type_Name(Achievement_Ident_Type value) {
+const ::google::protobuf::EnumDescriptor* Achievement_Type_descriptor();
+inline const ::std::string& Achievement_Type_Name(Achievement_Type value) {
   return ::google::protobuf::internal::NameOfEnum(
-    Achievement_Ident_Type_descriptor(), value);
+    Achievement_Type_descriptor(), value);
 }
-inline bool Achievement_Ident_Type_Parse(
-    const ::std::string& name, Achievement_Ident_Type* value) {
-  return ::google::protobuf::internal::ParseNamedEnum<Achievement_Ident_Type>(
-    Achievement_Ident_Type_descriptor(), name, value);
+inline bool Achievement_Type_Parse(
+    const ::std::string& name, Achievement_Type* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<Achievement_Type>(
+    Achievement_Type_descriptor(), name, value);
+}
+enum AchievementReply_Type {
+  AchievementReply_Type_complete = 0,
+  AchievementReply_Type_failed = 1,
+  AchievementReply_Type_exists = 2,
+  AchievementReply_Type_progress = 3,
+  AchievementReply_Type_AchievementReply_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  AchievementReply_Type_AchievementReply_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool AchievementReply_Type_IsValid(int value);
+const AchievementReply_Type AchievementReply_Type_Type_MIN = AchievementReply_Type_complete;
+const AchievementReply_Type AchievementReply_Type_Type_MAX = AchievementReply_Type_progress;
+const int AchievementReply_Type_Type_ARRAYSIZE = AchievementReply_Type_Type_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* AchievementReply_Type_descriptor();
+inline const ::std::string& AchievementReply_Type_Name(AchievementReply_Type value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    AchievementReply_Type_descriptor(), value);
+}
+inline bool AchievementReply_Type_Parse(
+    const ::std::string& name, AchievementReply_Type* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<AchievementReply_Type>(
+    AchievementReply_Type_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -408,115 +431,6 @@ class LoginReply : public ::google::protobuf::Message {
 };
 // -------------------------------------------------------------------
 
-class Achievement_Ident : public ::google::protobuf::Message {
- public:
-  Achievement_Ident();
-  virtual ~Achievement_Ident();
-
-  Achievement_Ident(const Achievement_Ident& from);
-
-  inline Achievement_Ident& operator=(const Achievement_Ident& from) {
-    CopyFrom(from);
-    return *this;
-  }
-
-  static const ::google::protobuf::Descriptor* descriptor();
-  static const Achievement_Ident& default_instance();
-
-  void Swap(Achievement_Ident* other);
-
-  // implements Message ----------------------------------------------
-
-  inline Achievement_Ident* New() const { return New(NULL); }
-
-  Achievement_Ident* New(::google::protobuf::Arena* arena) const;
-  void CopyFrom(const ::google::protobuf::Message& from);
-  void MergeFrom(const ::google::protobuf::Message& from);
-  void CopyFrom(const Achievement_Ident& from);
-  void MergeFrom(const Achievement_Ident& from);
-  void Clear();
-  bool IsInitialized() const;
-
-  int ByteSize() const;
-  bool MergePartialFromCodedStream(
-      ::google::protobuf::io::CodedInputStream* input);
-  void SerializeWithCachedSizes(
-      ::google::protobuf::io::CodedOutputStream* output) const;
-  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
-  int GetCachedSize() const { return _cached_size_; }
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const;
-  void InternalSwap(Achievement_Ident* other);
-  private:
-  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
-    return _internal_metadata_.arena();
-  }
-  inline void* MaybeArenaPtr() const {
-    return _internal_metadata_.raw_arena_ptr();
-  }
-  public:
-
-  ::google::protobuf::Metadata GetMetadata() const;
-
-  // nested types ----------------------------------------------------
-
-  typedef Achievement_Ident_Type Type;
-  static const Type complete = Achievement_Ident_Type_complete;
-  static const Type add = Achievement_Ident_Type_add;
-  static inline bool Type_IsValid(int value) {
-    return Achievement_Ident_Type_IsValid(value);
-  }
-  static const Type Type_MIN =
-    Achievement_Ident_Type_Type_MIN;
-  static const Type Type_MAX =
-    Achievement_Ident_Type_Type_MAX;
-  static const int Type_ARRAYSIZE =
-    Achievement_Ident_Type_Type_ARRAYSIZE;
-  static inline const ::google::protobuf::EnumDescriptor*
-  Type_descriptor() {
-    return Achievement_Ident_Type_descriptor();
-  }
-  static inline const ::std::string& Type_Name(Type value) {
-    return Achievement_Ident_Type_Name(value);
-  }
-  static inline bool Type_Parse(const ::std::string& name,
-      Type* value) {
-    return Achievement_Ident_Type_Parse(name, value);
-  }
-
-  // accessors -------------------------------------------------------
-
-  // optional uint64 ID = 1;
-  void clear_id();
-  static const int kIDFieldNumber = 1;
-  ::google::protobuf::uint64 id() const;
-  void set_id(::google::protobuf::uint64 value);
-
-  // optional .protobuf.Achievement.Ident.Type type = 2;
-  void clear_type();
-  static const int kTypeFieldNumber = 2;
-  ::protobuf::Achievement_Ident_Type type() const;
-  void set_type(::protobuf::Achievement_Ident_Type value);
-
-  // @@protoc_insertion_point(class_scope:protobuf.Achievement.Ident)
- private:
-
-  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
-  bool _is_default_instance_;
-  ::google::protobuf::uint64 id_;
-  int type_;
-  mutable int _cached_size_;
-  friend void  protobuf_AddDesc_Messages_2eproto();
-  friend void protobuf_AssignDesc_Messages_2eproto();
-  friend void protobuf_ShutdownFile_Messages_2eproto();
-
-  void InitAsDefaultInstance();
-  static Achievement_Ident* default_instance_;
-};
-// -------------------------------------------------------------------
-
 class Achievement : public ::google::protobuf::Message {
  public:
   Achievement();
@@ -571,28 +485,51 @@ class Achievement : public ::google::protobuf::Message {
 
   // nested types ----------------------------------------------------
 
-  typedef Achievement_Ident Ident;
+  typedef Achievement_Type Type;
+  static const Type complete = Achievement_Type_complete;
+  static const Type add = Achievement_Type_add;
+  static inline bool Type_IsValid(int value) {
+    return Achievement_Type_IsValid(value);
+  }
+  static const Type Type_MIN =
+    Achievement_Type_Type_MIN;
+  static const Type Type_MAX =
+    Achievement_Type_Type_MAX;
+  static const int Type_ARRAYSIZE =
+    Achievement_Type_Type_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Type_descriptor() {
+    return Achievement_Type_descriptor();
+  }
+  static inline const ::std::string& Type_Name(Type value) {
+    return Achievement_Type_Name(value);
+  }
+  static inline bool Type_Parse(const ::std::string& name,
+      Type* value) {
+    return Achievement_Type_Parse(name, value);
+  }
 
   // accessors -------------------------------------------------------
 
-  // repeated .protobuf.Achievement.Ident achievements = 2;
-  int achievements_size() const;
-  void clear_achievements();
-  static const int kAchievementsFieldNumber = 2;
-  const ::protobuf::Achievement_Ident& achievements(int index) const;
-  ::protobuf::Achievement_Ident* mutable_achievements(int index);
-  ::protobuf::Achievement_Ident* add_achievements();
-  ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >*
-      mutable_achievements();
-  const ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >&
-      achievements() const;
+  // optional uint64 ID = 1;
+  void clear_id();
+  static const int kIDFieldNumber = 1;
+  ::google::protobuf::uint64 id() const;
+  void set_id(::google::protobuf::uint64 value);
+
+  // optional .protobuf.Achievement.Type type = 2;
+  void clear_type();
+  static const int kTypeFieldNumber = 2;
+  ::protobuf::Achievement_Type type() const;
+  void set_type(::protobuf::Achievement_Type value);
 
   // @@protoc_insertion_point(class_scope:protobuf.Achievement)
  private:
 
   ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
   bool _is_default_instance_;
-  ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident > achievements_;
+  ::google::protobuf::uint64 id_;
+  int type_;
   mutable int _cached_size_;
   friend void  protobuf_AddDesc_Messages_2eproto();
   friend void protobuf_AssignDesc_Messages_2eproto();
@@ -600,6 +537,117 @@ class Achievement : public ::google::protobuf::Message {
 
   void InitAsDefaultInstance();
   static Achievement* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class AchievementReply : public ::google::protobuf::Message {
+ public:
+  AchievementReply();
+  virtual ~AchievementReply();
+
+  AchievementReply(const AchievementReply& from);
+
+  inline AchievementReply& operator=(const AchievementReply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const AchievementReply& default_instance();
+
+  void Swap(AchievementReply* other);
+
+  // implements Message ----------------------------------------------
+
+  inline AchievementReply* New() const { return New(NULL); }
+
+  AchievementReply* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const AchievementReply& from);
+  void MergeFrom(const AchievementReply& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(AchievementReply* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef AchievementReply_Type Type;
+  static const Type complete = AchievementReply_Type_complete;
+  static const Type failed = AchievementReply_Type_failed;
+  static const Type exists = AchievementReply_Type_exists;
+  static const Type progress = AchievementReply_Type_progress;
+  static inline bool Type_IsValid(int value) {
+    return AchievementReply_Type_IsValid(value);
+  }
+  static const Type Type_MIN =
+    AchievementReply_Type_Type_MIN;
+  static const Type Type_MAX =
+    AchievementReply_Type_Type_MAX;
+  static const int Type_ARRAYSIZE =
+    AchievementReply_Type_Type_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Type_descriptor() {
+    return AchievementReply_Type_descriptor();
+  }
+  static inline const ::std::string& Type_Name(Type value) {
+    return AchievementReply_Type_Name(value);
+  }
+  static inline bool Type_Parse(const ::std::string& name,
+      Type* value) {
+    return AchievementReply_Type_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional uint64 ID = 1;
+  void clear_id();
+  static const int kIDFieldNumber = 1;
+  ::google::protobuf::uint64 id() const;
+  void set_id(::google::protobuf::uint64 value);
+
+  // optional .protobuf.AchievementReply.Type result = 2;
+  void clear_result();
+  static const int kResultFieldNumber = 2;
+  ::protobuf::AchievementReply_Type result() const;
+  void set_result(::protobuf::AchievementReply_Type value);
+
+  // @@protoc_insertion_point(class_scope:protobuf.AchievementReply)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::uint64 id_;
+  int result_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_Messages_2eproto();
+  friend void protobuf_AssignDesc_Messages_2eproto();
+  friend void protobuf_ShutdownFile_Messages_2eproto();
+
+  void InitAsDefaultInstance();
+  static AchievementReply* default_instance_;
 };
 // ===================================================================
 
@@ -794,68 +842,66 @@ inline void LoginReply::set_result(bool value) {
 
 // -------------------------------------------------------------------
 
-// Achievement_Ident
+// Achievement
 
 // optional uint64 ID = 1;
-inline void Achievement_Ident::clear_id() {
+inline void Achievement::clear_id() {
   id_ = GOOGLE_ULONGLONG(0);
 }
-inline ::google::protobuf::uint64 Achievement_Ident::id() const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.Ident.ID)
+inline ::google::protobuf::uint64 Achievement::id() const {
+  // @@protoc_insertion_point(field_get:protobuf.Achievement.ID)
   return id_;
 }
-inline void Achievement_Ident::set_id(::google::protobuf::uint64 value) {
+inline void Achievement::set_id(::google::protobuf::uint64 value) {
   
   id_ = value;
-  // @@protoc_insertion_point(field_set:protobuf.Achievement.Ident.ID)
+  // @@protoc_insertion_point(field_set:protobuf.Achievement.ID)
 }
 
-// optional .protobuf.Achievement.Ident.Type type = 2;
-inline void Achievement_Ident::clear_type() {
+// optional .protobuf.Achievement.Type type = 2;
+inline void Achievement::clear_type() {
   type_ = 0;
 }
-inline ::protobuf::Achievement_Ident_Type Achievement_Ident::type() const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.Ident.type)
-  return static_cast< ::protobuf::Achievement_Ident_Type >(type_);
+inline ::protobuf::Achievement_Type Achievement::type() const {
+  // @@protoc_insertion_point(field_get:protobuf.Achievement.type)
+  return static_cast< ::protobuf::Achievement_Type >(type_);
 }
-inline void Achievement_Ident::set_type(::protobuf::Achievement_Ident_Type value) {
+inline void Achievement::set_type(::protobuf::Achievement_Type value) {
   
   type_ = value;
-  // @@protoc_insertion_point(field_set:protobuf.Achievement.Ident.type)
+  // @@protoc_insertion_point(field_set:protobuf.Achievement.type)
 }
 
 // -------------------------------------------------------------------
 
-// Achievement
+// AchievementReply
 
-// repeated .protobuf.Achievement.Ident achievements = 2;
-inline int Achievement::achievements_size() const {
-  return achievements_.size();
+// optional uint64 ID = 1;
+inline void AchievementReply::clear_id() {
+  id_ = GOOGLE_ULONGLONG(0);
 }
-inline void Achievement::clear_achievements() {
-  achievements_.Clear();
+inline ::google::protobuf::uint64 AchievementReply::id() const {
+  // @@protoc_insertion_point(field_get:protobuf.AchievementReply.ID)
+  return id_;
 }
-inline const ::protobuf::Achievement_Ident& Achievement::achievements(int index) const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.achievements)
-  return achievements_.Get(index);
+inline void AchievementReply::set_id(::google::protobuf::uint64 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.AchievementReply.ID)
 }
-inline ::protobuf::Achievement_Ident* Achievement::mutable_achievements(int index) {
-  // @@protoc_insertion_point(field_mutable:protobuf.Achievement.achievements)
-  return achievements_.Mutable(index);
+
+// optional .protobuf.AchievementReply.Type result = 2;
+inline void AchievementReply::clear_result() {
+  result_ = 0;
 }
-inline ::protobuf::Achievement_Ident* Achievement::add_achievements() {
-  // @@protoc_insertion_point(field_add:protobuf.Achievement.achievements)
-  return achievements_.Add();
+inline ::protobuf::AchievementReply_Type AchievementReply::result() const {
+  // @@protoc_insertion_point(field_get:protobuf.AchievementReply.result)
+  return static_cast< ::protobuf::AchievementReply_Type >(result_);
 }
-inline ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >*
-Achievement::mutable_achievements() {
-  // @@protoc_insertion_point(field_mutable_list:protobuf.Achievement.achievements)
-  return &achievements_;
-}
-inline const ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >&
-Achievement::achievements() const {
-  // @@protoc_insertion_point(field_list:protobuf.Achievement.achievements)
-  return achievements_;
+inline void AchievementReply::set_result(::protobuf::AchievementReply_Type value) {
+  
+  result_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.AchievementReply.result)
 }
 
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
@@ -878,10 +924,15 @@ Achievement::achievements() const {
 namespace google {
 namespace protobuf {
 
-template <> struct is_proto_enum< ::protobuf::Achievement_Ident_Type> : ::google::protobuf::internal::true_type {};
+template <> struct is_proto_enum< ::protobuf::Achievement_Type> : ::google::protobuf::internal::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::protobuf::Achievement_Ident_Type>() {
-  return ::protobuf::Achievement_Ident_Type_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::protobuf::Achievement_Type>() {
+  return ::protobuf::Achievement_Type_descriptor();
+}
+template <> struct is_proto_enum< ::protobuf::AchievementReply_Type> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protobuf::AchievementReply_Type>() {
+  return ::protobuf::AchievementReply_Type_descriptor();
 }
 
 }  // namespace protobuf

@@ -35,10 +35,11 @@ const ::google::protobuf::internal::GeneratedMessageReflection*
 const ::google::protobuf::Descriptor* Achievement_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Achievement_reflection_ = NULL;
-const ::google::protobuf::Descriptor* Achievement_Ident_descriptor_ = NULL;
+const ::google::protobuf::EnumDescriptor* Achievement_Type_descriptor_ = NULL;
+const ::google::protobuf::Descriptor* AchievementReply_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
-  Achievement_Ident_reflection_ = NULL;
-const ::google::protobuf::EnumDescriptor* Achievement_Ident_Type_descriptor_ = NULL;
+  AchievementReply_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* AchievementReply_Type_descriptor_ = NULL;
 
 }  // namespace
 
@@ -112,8 +113,9 @@ void protobuf_AssignDesc_Messages_2eproto() {
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginReply, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(LoginReply, _is_default_instance_));
   Achievement_descriptor_ = file->message_type(4);
-  static const int Achievement_offsets_[1] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement, achievements_),
+  static const int Achievement_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement, id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement, type_),
   };
   Achievement_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
@@ -126,23 +128,24 @@ void protobuf_AssignDesc_Messages_2eproto() {
       sizeof(Achievement),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement, _is_default_instance_));
-  Achievement_Ident_descriptor_ = Achievement_descriptor_->nested_type(0);
-  static const int Achievement_Ident_offsets_[2] = {
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement_Ident, id_),
-    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement_Ident, type_),
+  Achievement_Type_descriptor_ = Achievement_descriptor_->enum_type(0);
+  AchievementReply_descriptor_ = file->message_type(5);
+  static const int AchievementReply_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, id_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, result_),
   };
-  Achievement_Ident_reflection_ =
+  AchievementReply_reflection_ =
     ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
-      Achievement_Ident_descriptor_,
-      Achievement_Ident::default_instance_,
-      Achievement_Ident_offsets_,
+      AchievementReply_descriptor_,
+      AchievementReply::default_instance_,
+      AchievementReply_offsets_,
       -1,
       -1,
       -1,
-      sizeof(Achievement_Ident),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement_Ident, _internal_metadata_),
-      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Achievement_Ident, _is_default_instance_));
-  Achievement_Ident_Type_descriptor_ = Achievement_Ident_descriptor_->enum_type(0);
+      sizeof(AchievementReply),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(AchievementReply, _is_default_instance_));
+  AchievementReply_Type_descriptor_ = AchievementReply_descriptor_->enum_type(0);
 }
 
 namespace {
@@ -166,7 +169,7 @@ void protobuf_RegisterTypes(const ::std::string&) {
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Achievement_descriptor_, &Achievement::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
-      Achievement_Ident_descriptor_, &Achievement_Ident::default_instance());
+      AchievementReply_descriptor_, &AchievementReply::default_instance());
 }
 
 }  // namespace
@@ -182,8 +185,8 @@ void protobuf_ShutdownFile_Messages_2eproto() {
   delete LoginReply_reflection_;
   delete Achievement::default_instance_;
   delete Achievement_reflection_;
-  delete Achievement_Ident::default_instance_;
-  delete Achievement_Ident_reflection_;
+  delete AchievementReply::default_instance_;
+  delete AchievementReply_reflection_;
 }
 
 void protobuf_AddDesc_Messages_2eproto() {
@@ -197,11 +200,13 @@ void protobuf_AddDesc_Messages_2eproto() {
     "tion\022\n\n\002ID\030\001 \001(\004\022\014\n\004hash\030\002 \001(\014\"%\n\023Authen"
     "ticationReply\022\016\n\006result\030\001 \001(\010\"\'\n\005Login\022\014"
     "\n\004name\030\001 \001(\t\022\020\n\010password\030\002 \001(\014\"\034\n\nLoginR"
-    "eply\022\016\n\006result\030\001 \001(\010\"\244\001\n\013Achievement\0221\n\014"
-    "achievements\030\002 \003(\0132\033.protobuf.Achievemen"
-    "t.Ident\032b\n\005Ident\022\n\n\002ID\030\001 \001(\004\022.\n\004type\030\002 \001"
-    "(\0162 .protobuf.Achievement.Ident.Type\"\035\n\004"
-    "Type\022\014\n\010complete\020\000\022\007\n\003add\020\001b\006proto3", 355);
+    "eply\022\016\n\006result\030\001 \001(\010\"b\n\013Achievement\022\n\n\002I"
+    "D\030\001 \001(\004\022(\n\004type\030\002 \001(\0162\032.protobuf.Achieve"
+    "ment.Type\"\035\n\004Type\022\014\n\010complete\020\000\022\007\n\003add\020\001"
+    "\"\213\001\n\020AchievementReply\022\n\n\002ID\030\001 \001(\004\022/\n\006res"
+    "ult\030\002 \001(\0162\037.protobuf.AchievementReply.Ty"
+    "pe\":\n\004Type\022\014\n\010complete\020\000\022\n\n\006failed\020\001\022\n\n\006"
+    "exists\020\002\022\014\n\010progress\020\003b\006proto3", 430);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Messages.proto", &protobuf_RegisterTypes);
   Authentication::default_instance_ = new Authentication();
@@ -209,13 +214,13 @@ void protobuf_AddDesc_Messages_2eproto() {
   Login::default_instance_ = new Login();
   LoginReply::default_instance_ = new LoginReply();
   Achievement::default_instance_ = new Achievement();
-  Achievement_Ident::default_instance_ = new Achievement_Ident();
+  AchievementReply::default_instance_ = new AchievementReply();
   Authentication::default_instance_->InitAsDefaultInstance();
   AuthenticationReply::default_instance_->InitAsDefaultInstance();
   Login::default_instance_->InitAsDefaultInstance();
   LoginReply::default_instance_->InitAsDefaultInstance();
   Achievement::default_instance_->InitAsDefaultInstance();
-  Achievement_Ident::default_instance_->InitAsDefaultInstance();
+  AchievementReply::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Messages_2eproto);
 }
 
@@ -1354,11 +1359,11 @@ void LoginReply::clear_result() {
 
 // ===================================================================
 
-const ::google::protobuf::EnumDescriptor* Achievement_Ident_Type_descriptor() {
+const ::google::protobuf::EnumDescriptor* Achievement_Type_descriptor() {
   protobuf_AssignDescriptorsOnce();
-  return Achievement_Ident_Type_descriptor_;
+  return Achievement_Type_descriptor_;
 }
-bool Achievement_Ident_Type_IsValid(int value) {
+bool Achievement_Type_IsValid(int value) {
   switch(value) {
     case 0:
     case 1:
@@ -1369,274 +1374,15 @@ bool Achievement_Ident_Type_IsValid(int value) {
 }
 
 #ifndef _MSC_VER
-const Achievement_Ident_Type Achievement_Ident::complete;
-const Achievement_Ident_Type Achievement_Ident::add;
-const Achievement_Ident_Type Achievement_Ident::Type_MIN;
-const Achievement_Ident_Type Achievement_Ident::Type_MAX;
-const int Achievement_Ident::Type_ARRAYSIZE;
+const Achievement_Type Achievement::complete;
+const Achievement_Type Achievement::add;
+const Achievement_Type Achievement::Type_MIN;
+const Achievement_Type Achievement::Type_MAX;
+const int Achievement::Type_ARRAYSIZE;
 #endif  // _MSC_VER
 #ifndef _MSC_VER
-const int Achievement_Ident::kIDFieldNumber;
-const int Achievement_Ident::kTypeFieldNumber;
-#endif  // !_MSC_VER
-
-Achievement_Ident::Achievement_Ident()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  SharedCtor();
-  // @@protoc_insertion_point(constructor:protobuf.Achievement.Ident)
-}
-
-void Achievement_Ident::InitAsDefaultInstance() {
-  _is_default_instance_ = true;
-}
-
-Achievement_Ident::Achievement_Ident(const Achievement_Ident& from)
-  : ::google::protobuf::Message(),
-    _internal_metadata_(NULL) {
-  SharedCtor();
-  MergeFrom(from);
-  // @@protoc_insertion_point(copy_constructor:protobuf.Achievement.Ident)
-}
-
-void Achievement_Ident::SharedCtor() {
-    _is_default_instance_ = false;
-  _cached_size_ = 0;
-  id_ = GOOGLE_ULONGLONG(0);
-  type_ = 0;
-}
-
-Achievement_Ident::~Achievement_Ident() {
-  // @@protoc_insertion_point(destructor:protobuf.Achievement.Ident)
-  SharedDtor();
-}
-
-void Achievement_Ident::SharedDtor() {
-  if (this != default_instance_) {
-  }
-}
-
-void Achievement_Ident::SetCachedSize(int size) const {
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-}
-const ::google::protobuf::Descriptor* Achievement_Ident::descriptor() {
-  protobuf_AssignDescriptorsOnce();
-  return Achievement_Ident_descriptor_;
-}
-
-const Achievement_Ident& Achievement_Ident::default_instance() {
-  if (default_instance_ == NULL) protobuf_AddDesc_Messages_2eproto();
-  return *default_instance_;
-}
-
-Achievement_Ident* Achievement_Ident::default_instance_ = NULL;
-
-Achievement_Ident* Achievement_Ident::New(::google::protobuf::Arena* arena) const {
-  Achievement_Ident* n = new Achievement_Ident;
-  if (arena != NULL) {
-    arena->Own(n);
-  }
-  return n;
-}
-
-void Achievement_Ident::Clear() {
-#define ZR_HELPER_(f) reinterpret_cast<char*>(\
-  &reinterpret_cast<Achievement_Ident*>(16)->f)
-
-#define ZR_(first, last) do {\
-  ::memset(&first, 0,\
-           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
-} while (0)
-
-  ZR_(id_, type_);
-
-#undef ZR_HELPER_
-#undef ZR_
-
-}
-
-bool Achievement_Ident::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:protobuf.Achievement.Ident)
-  for (;;) {
-    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // optional uint64 ID = 1;
-      case 1: {
-        if (tag == 8) {
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
-                 input, &id_)));
-
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectTag(16)) goto parse_type;
-        break;
-      }
-
-      // optional .protobuf.Achievement.Ident.Type type = 2;
-      case 2: {
-        if (tag == 16) {
-         parse_type:
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          set_type(static_cast< ::protobuf::Achievement_Ident_Type >(value));
-        } else {
-          goto handle_unusual;
-        }
-        if (input->ExpectAtEnd()) goto success;
-        break;
-      }
-
-      default: {
-      handle_unusual:
-        if (tag == 0 ||
-            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
-            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
-          goto success;
-        }
-        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
-        break;
-      }
-    }
-  }
-success:
-  // @@protoc_insertion_point(parse_success:protobuf.Achievement.Ident)
-  return true;
-failure:
-  // @@protoc_insertion_point(parse_failure:protobuf.Achievement.Ident)
-  return false;
-#undef DO_
-}
-
-void Achievement_Ident::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:protobuf.Achievement.Ident)
-  // optional uint64 ID = 1;
-  if (this->id() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->id(), output);
-  }
-
-  // optional .protobuf.Achievement.Ident.Type type = 2;
-  if (this->type() != 0) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      2, this->type(), output);
-  }
-
-  // @@protoc_insertion_point(serialize_end:protobuf.Achievement.Ident)
-}
-
-::google::protobuf::uint8* Achievement_Ident::SerializeWithCachedSizesToArray(
-    ::google::protobuf::uint8* target) const {
-  // @@protoc_insertion_point(serialize_to_array_start:protobuf.Achievement.Ident)
-  // optional uint64 ID = 1;
-  if (this->id() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->id(), target);
-  }
-
-  // optional .protobuf.Achievement.Ident.Type type = 2;
-  if (this->type() != 0) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      2, this->type(), target);
-  }
-
-  // @@protoc_insertion_point(serialize_to_array_end:protobuf.Achievement.Ident)
-  return target;
-}
-
-int Achievement_Ident::ByteSize() const {
-  int total_size = 0;
-
-  // optional uint64 ID = 1;
-  if (this->id() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::UInt64Size(
-        this->id());
-  }
-
-  // optional .protobuf.Achievement.Ident.Type type = 2;
-  if (this->type() != 0) {
-    total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
-  }
-
-  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
-  _cached_size_ = total_size;
-  GOOGLE_SAFE_CONCURRENT_WRITES_END();
-  return total_size;
-}
-
-void Achievement_Ident::MergeFrom(const ::google::protobuf::Message& from) {
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  const Achievement_Ident* source = 
-      ::google::protobuf::internal::DynamicCastToGenerated<const Achievement_Ident>(
-          &from);
-  if (source == NULL) {
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
-  } else {
-    MergeFrom(*source);
-  }
-}
-
-void Achievement_Ident::MergeFrom(const Achievement_Ident& from) {
-  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  if (from.id() != 0) {
-    set_id(from.id());
-  }
-  if (from.type() != 0) {
-    set_type(from.type());
-  }
-}
-
-void Achievement_Ident::CopyFrom(const ::google::protobuf::Message& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void Achievement_Ident::CopyFrom(const Achievement_Ident& from) {
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool Achievement_Ident::IsInitialized() const {
-
-  return true;
-}
-
-void Achievement_Ident::Swap(Achievement_Ident* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
-void Achievement_Ident::InternalSwap(Achievement_Ident* other) {
-  std::swap(id_, other->id_);
-  std::swap(type_, other->type_);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
-  std::swap(_cached_size_, other->_cached_size_);
-}
-
-::google::protobuf::Metadata Achievement_Ident::GetMetadata() const {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::Metadata metadata;
-  metadata.descriptor = Achievement_Ident_descriptor_;
-  metadata.reflection = Achievement_Ident_reflection_;
-  return metadata;
-}
-
-
-// -------------------------------------------------------------------
-
-#ifndef _MSC_VER
-const int Achievement::kAchievementsFieldNumber;
+const int Achievement::kIDFieldNumber;
+const int Achievement::kTypeFieldNumber;
 #endif  // !_MSC_VER
 
 Achievement::Achievement()
@@ -1660,6 +1406,8 @@ Achievement::Achievement(const Achievement& from)
 void Achievement::SharedCtor() {
     _is_default_instance_ = false;
   _cached_size_ = 0;
+  id_ = GOOGLE_ULONGLONG(0);
+  type_ = 0;
 }
 
 Achievement::~Achievement() {
@@ -1698,7 +1446,19 @@ Achievement* Achievement::New(::google::protobuf::Arena* arena) const {
 }
 
 void Achievement::Clear() {
-  achievements_.Clear();
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<Achievement*>(16)->f)
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(id_, type_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
 }
 
 bool Achievement::MergePartialFromCodedStream(
@@ -1711,18 +1471,32 @@ bool Achievement::MergePartialFromCodedStream(
     tag = p.first;
     if (!p.second) goto handle_unusual;
     switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
-      // repeated .protobuf.Achievement.Ident achievements = 2;
-      case 2: {
-        if (tag == 18) {
-          DO_(input->IncrementRecursionDepth());
-         parse_loop_achievements:
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessageNoVirtualNoRecursionDepth(
-                input, add_achievements()));
+      // optional uint64 ID = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &id_)));
+
         } else {
           goto handle_unusual;
         }
-        if (input->ExpectTag(18)) goto parse_loop_achievements;
-        input->UnsafeDecrementRecursionDepth();
+        if (input->ExpectTag(16)) goto parse_type;
+        break;
+      }
+
+      // optional .protobuf.Achievement.Type type = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_type:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_type(static_cast< ::protobuf::Achievement_Type >(value));
+        } else {
+          goto handle_unusual;
+        }
         if (input->ExpectAtEnd()) goto success;
         break;
       }
@@ -1751,10 +1525,15 @@ failure:
 void Achievement::SerializeWithCachedSizes(
     ::google::protobuf::io::CodedOutputStream* output) const {
   // @@protoc_insertion_point(serialize_start:protobuf.Achievement)
-  // repeated .protobuf.Achievement.Ident achievements = 2;
-  for (unsigned int i = 0, n = this->achievements_size(); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2, this->achievements(i), output);
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->id(), output);
+  }
+
+  // optional .protobuf.Achievement.Type type = 2;
+  if (this->type() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->type(), output);
   }
 
   // @@protoc_insertion_point(serialize_end:protobuf.Achievement)
@@ -1763,11 +1542,15 @@ void Achievement::SerializeWithCachedSizes(
 ::google::protobuf::uint8* Achievement::SerializeWithCachedSizesToArray(
     ::google::protobuf::uint8* target) const {
   // @@protoc_insertion_point(serialize_to_array_start:protobuf.Achievement)
-  // repeated .protobuf.Achievement.Ident achievements = 2;
-  for (unsigned int i = 0, n = this->achievements_size(); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      WriteMessageNoVirtualToArray(
-        2, this->achievements(i), target);
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->id(), target);
+  }
+
+  // optional .protobuf.Achievement.Type type = 2;
+  if (this->type() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->type(), target);
   }
 
   // @@protoc_insertion_point(serialize_to_array_end:protobuf.Achievement)
@@ -1777,12 +1560,17 @@ void Achievement::SerializeWithCachedSizes(
 int Achievement::ByteSize() const {
   int total_size = 0;
 
-  // repeated .protobuf.Achievement.Ident achievements = 2;
-  total_size += 1 * this->achievements_size();
-  for (int i = 0; i < this->achievements_size(); i++) {
-    total_size +=
-      ::google::protobuf::internal::WireFormatLite::MessageSizeNoVirtual(
-        this->achievements(i));
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->id());
+  }
+
+  // optional .protobuf.Achievement.Type type = 2;
+  if (this->type() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->type());
   }
 
   GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
@@ -1805,7 +1593,12 @@ void Achievement::MergeFrom(const ::google::protobuf::Message& from) {
 
 void Achievement::MergeFrom(const Achievement& from) {
   if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
-  achievements_.MergeFrom(from.achievements_);
+  if (from.id() != 0) {
+    set_id(from.id());
+  }
+  if (from.type() != 0) {
+    set_type(from.type());
+  }
 }
 
 void Achievement::CopyFrom(const ::google::protobuf::Message& from) {
@@ -1830,7 +1623,8 @@ void Achievement::Swap(Achievement* other) {
   InternalSwap(other);
 }
 void Achievement::InternalSwap(Achievement* other) {
-  achievements_.UnsafeArenaSwap(&other->achievements_);
+  std::swap(id_, other->id_);
+  std::swap(type_, other->type_);
   _internal_metadata_.Swap(&other->_internal_metadata_);
   std::swap(_cached_size_, other->_cached_size_);
 }
@@ -1844,68 +1638,351 @@ void Achievement::InternalSwap(Achievement* other) {
 }
 
 #if PROTOBUF_INLINE_NOT_IN_HEADERS
-// Achievement_Ident
-
-// optional uint64 ID = 1;
-void Achievement_Ident::clear_id() {
-  id_ = GOOGLE_ULONGLONG(0);
-}
- ::google::protobuf::uint64 Achievement_Ident::id() const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.Ident.ID)
-  return id_;
-}
- void Achievement_Ident::set_id(::google::protobuf::uint64 value) {
-  
-  id_ = value;
-  // @@protoc_insertion_point(field_set:protobuf.Achievement.Ident.ID)
-}
-
-// optional .protobuf.Achievement.Ident.Type type = 2;
-void Achievement_Ident::clear_type() {
-  type_ = 0;
-}
- ::protobuf::Achievement_Ident_Type Achievement_Ident::type() const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.Ident.type)
-  return static_cast< ::protobuf::Achievement_Ident_Type >(type_);
-}
- void Achievement_Ident::set_type(::protobuf::Achievement_Ident_Type value) {
-  
-  type_ = value;
-  // @@protoc_insertion_point(field_set:protobuf.Achievement.Ident.type)
-}
-
-// -------------------------------------------------------------------
-
 // Achievement
 
-// repeated .protobuf.Achievement.Ident achievements = 2;
-int Achievement::achievements_size() const {
-  return achievements_.size();
+// optional uint64 ID = 1;
+void Achievement::clear_id() {
+  id_ = GOOGLE_ULONGLONG(0);
 }
-void Achievement::clear_achievements() {
-  achievements_.Clear();
+ ::google::protobuf::uint64 Achievement::id() const {
+  // @@protoc_insertion_point(field_get:protobuf.Achievement.ID)
+  return id_;
 }
-const ::protobuf::Achievement_Ident& Achievement::achievements(int index) const {
-  // @@protoc_insertion_point(field_get:protobuf.Achievement.achievements)
-  return achievements_.Get(index);
+ void Achievement::set_id(::google::protobuf::uint64 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.Achievement.ID)
 }
-::protobuf::Achievement_Ident* Achievement::mutable_achievements(int index) {
-  // @@protoc_insertion_point(field_mutable:protobuf.Achievement.achievements)
-  return achievements_.Mutable(index);
+
+// optional .protobuf.Achievement.Type type = 2;
+void Achievement::clear_type() {
+  type_ = 0;
 }
-::protobuf::Achievement_Ident* Achievement::add_achievements() {
-  // @@protoc_insertion_point(field_add:protobuf.Achievement.achievements)
-  return achievements_.Add();
+ ::protobuf::Achievement_Type Achievement::type() const {
+  // @@protoc_insertion_point(field_get:protobuf.Achievement.type)
+  return static_cast< ::protobuf::Achievement_Type >(type_);
 }
-::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >*
-Achievement::mutable_achievements() {
-  // @@protoc_insertion_point(field_mutable_list:protobuf.Achievement.achievements)
-  return &achievements_;
+ void Achievement::set_type(::protobuf::Achievement_Type value) {
+  
+  type_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.Achievement.type)
 }
-const ::google::protobuf::RepeatedPtrField< ::protobuf::Achievement_Ident >&
-Achievement::achievements() const {
-  // @@protoc_insertion_point(field_list:protobuf.Achievement.achievements)
-  return achievements_;
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+const ::google::protobuf::EnumDescriptor* AchievementReply_Type_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AchievementReply_Type_descriptor_;
+}
+bool AchievementReply_Type_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const AchievementReply_Type AchievementReply::complete;
+const AchievementReply_Type AchievementReply::failed;
+const AchievementReply_Type AchievementReply::exists;
+const AchievementReply_Type AchievementReply::progress;
+const AchievementReply_Type AchievementReply::Type_MIN;
+const AchievementReply_Type AchievementReply::Type_MAX;
+const int AchievementReply::Type_ARRAYSIZE;
+#endif  // _MSC_VER
+#ifndef _MSC_VER
+const int AchievementReply::kIDFieldNumber;
+const int AchievementReply::kResultFieldNumber;
+#endif  // !_MSC_VER
+
+AchievementReply::AchievementReply()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protobuf.AchievementReply)
+}
+
+void AchievementReply::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+AchievementReply::AchievementReply(const AchievementReply& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:protobuf.AchievementReply)
+}
+
+void AchievementReply::SharedCtor() {
+    _is_default_instance_ = false;
+  _cached_size_ = 0;
+  id_ = GOOGLE_ULONGLONG(0);
+  result_ = 0;
+}
+
+AchievementReply::~AchievementReply() {
+  // @@protoc_insertion_point(destructor:protobuf.AchievementReply)
+  SharedDtor();
+}
+
+void AchievementReply::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void AchievementReply::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* AchievementReply::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return AchievementReply_descriptor_;
+}
+
+const AchievementReply& AchievementReply::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_Messages_2eproto();
+  return *default_instance_;
+}
+
+AchievementReply* AchievementReply::default_instance_ = NULL;
+
+AchievementReply* AchievementReply::New(::google::protobuf::Arena* arena) const {
+  AchievementReply* n = new AchievementReply;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void AchievementReply::Clear() {
+#define ZR_HELPER_(f) reinterpret_cast<char*>(\
+  &reinterpret_cast<AchievementReply*>(16)->f)
+
+#define ZR_(first, last) do {\
+  ::memset(&first, 0,\
+           ZR_HELPER_(last) - ZR_HELPER_(first) + sizeof(last));\
+} while (0)
+
+  ZR_(id_, result_);
+
+#undef ZR_HELPER_
+#undef ZR_
+
+}
+
+bool AchievementReply::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:protobuf.AchievementReply)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional uint64 ID = 1;
+      case 1: {
+        if (tag == 8) {
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   ::google::protobuf::uint64, ::google::protobuf::internal::WireFormatLite::TYPE_UINT64>(
+                 input, &id_)));
+
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(16)) goto parse_result;
+        break;
+      }
+
+      // optional .protobuf.AchievementReply.Type result = 2;
+      case 2: {
+        if (tag == 16) {
+         parse_result:
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_result(static_cast< ::protobuf::AchievementReply_Type >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:protobuf.AchievementReply)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:protobuf.AchievementReply)
+  return false;
+#undef DO_
+}
+
+void AchievementReply::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:protobuf.AchievementReply)
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteUInt64(1, this->id(), output);
+  }
+
+  // optional .protobuf.AchievementReply.Type result = 2;
+  if (this->result() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->result(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:protobuf.AchievementReply)
+}
+
+::google::protobuf::uint8* AchievementReply::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protobuf.AchievementReply)
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteUInt64ToArray(1, this->id(), target);
+  }
+
+  // optional .protobuf.AchievementReply.Type result = 2;
+  if (this->result() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->result(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:protobuf.AchievementReply)
+  return target;
+}
+
+int AchievementReply::ByteSize() const {
+  int total_size = 0;
+
+  // optional uint64 ID = 1;
+  if (this->id() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::UInt64Size(
+        this->id());
+  }
+
+  // optional .protobuf.AchievementReply.Type result = 2;
+  if (this->result() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void AchievementReply::MergeFrom(const ::google::protobuf::Message& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const AchievementReply* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const AchievementReply>(
+          &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void AchievementReply::MergeFrom(const AchievementReply& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.id() != 0) {
+    set_id(from.id());
+  }
+  if (from.result() != 0) {
+    set_result(from.result());
+  }
+}
+
+void AchievementReply::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void AchievementReply::CopyFrom(const AchievementReply& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool AchievementReply::IsInitialized() const {
+
+  return true;
+}
+
+void AchievementReply::Swap(AchievementReply* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void AchievementReply::InternalSwap(AchievementReply* other) {
+  std::swap(id_, other->id_);
+  std::swap(result_, other->result_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata AchievementReply::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = AchievementReply_descriptor_;
+  metadata.reflection = AchievementReply_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// AchievementReply
+
+// optional uint64 ID = 1;
+void AchievementReply::clear_id() {
+  id_ = GOOGLE_ULONGLONG(0);
+}
+ ::google::protobuf::uint64 AchievementReply::id() const {
+  // @@protoc_insertion_point(field_get:protobuf.AchievementReply.ID)
+  return id_;
+}
+ void AchievementReply::set_id(::google::protobuf::uint64 value) {
+  
+  id_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.AchievementReply.ID)
+}
+
+// optional .protobuf.AchievementReply.Type result = 2;
+void AchievementReply::clear_result() {
+  result_ = 0;
+}
+ ::protobuf::AchievementReply_Type AchievementReply::result() const {
+  // @@protoc_insertion_point(field_get:protobuf.AchievementReply.result)
+  return static_cast< ::protobuf::AchievementReply_Type >(result_);
+}
+ void AchievementReply::set_result(::protobuf::AchievementReply_Type value) {
+  
+  result_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.AchievementReply.result)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

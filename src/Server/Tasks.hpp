@@ -4,9 +4,71 @@
 
 class Session;
 
+namespace protobuf
+{
+	class AchievementReply;
+}
+
 namespace task
 {
 	using Result = std::pair<QByteArray, uint32_t>;
+
+	class Base : boost::noncopyable
+	{
+	private:
+		virtual Result run() = 0;
+
+	protected:
+		const uint64_t m_Index;
+		QByteArray m_Buffer;
+		Session& m_Session;
+		QSqlDatabase m_Database;
+
+	public:
+		Base(QByteArray _buffer, Session& _session, uint64_t _index);
+		~Base();
+
+		Result start();
+	};
+
+	class Authenticate : public Base
+	{
+	private:
+		using super = Base;
+
+		bool _authGame();
+		Result run() override;
+
+	public:
+		Authenticate(QByteArray _buffer, Session& _session, uint64_t _index);
+	};
+
+	class Login : public Base
+	{
+	private:
+		using super = Base;
+
+		bool _tryLogin();
+		Result run() override;
+
+	public:
+		Login(QByteArray _buffer, Session& _session, uint64_t _index);
+	};
+
+	class Achievement : public Base
+	{
+	private:
+		using super = Base;
+
+		protobuf::AchievementReply _check();
+		protobuf::AchievementReply _checkSingle();
+		protobuf::AchievementReply _checkAdd();
+
+		Result run() override;
+
+	public:
+		Achievement(QByteArray _buffer, Session& _session, uint64_t _index);
+	};
 
 	class TaskWatcher : public QObject
 	{
@@ -16,6 +78,7 @@ namespace task
 
 		QFuture<Result> m_Future;
 		QFutureWatcher<Result> m_Watcher;
+		std::unique_ptr<Base> m_Task;
 
 		Session& m_Session;
 
@@ -28,41 +91,7 @@ namespace task
 	signals:
 		void replyCreated(QByteArray, uint32_t);
 
-	private slots:
+		private slots:
 		void _onFinished();
 	};
-
-	class Authenticate
-	{
-	private:
-		QByteArray m_Buffer;
-		Session& m_Session;
-
-		bool _authGame();
-
-	public:
-		Authenticate(QByteArray _buffer, Session& _session);
-
-		Result run();
-	};
-
-	class Login
-	{
-	private:
-		QByteArray m_Buffer;
-		Session& m_Session;
-
-		bool _tryLogin();
-
-	public:
-		Login(QByteArray _buffer, Session& _session);
-
-		Result run();
-	};
-
-	//class Achievement
-	//{
-	//public:
-	//	Result run(QByteArray _buffer, Session& _session, database::Database& _database);
-	//};
 } // namespace task

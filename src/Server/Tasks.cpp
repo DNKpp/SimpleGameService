@@ -10,23 +10,25 @@ namespace task
 {
 	// we need this counter to name all database connections unique
 	static uint64_t TaskCounter = 0;
+
 	/*#####
 	# TaskWatcher
 	#####*/
 	template <class Task>
-	QFuture<Result> run(QByteArray _buffer, Session& _session)
+	QFuture<Result> run(QByteArray _buffer, Session& _session, std::unique_ptr<Base>& _task)
 	{
-		Task task(_buffer, _session);
-		return QtConcurrent::run(task, &Task::run);
+		auto index = ++TaskCounter;
+		_task = std::make_unique<Task>(_buffer, _session, index);
+		return QtConcurrent::run(std::bind(&Task::start, _task.get()));
 	}
 
-	QFuture<Result> run(QByteArray _buffer, Session& _session, uint32_t _type)
+	QFuture<Result> run(QByteArray _buffer, Session& _session, uint32_t _type, std::unique_ptr<Base>& _task)
 	{
-		++TaskCounter;
 		switch (_type)
 		{
-		case network::svr::authentication: return run<Authenticate>(_buffer, _session);
-		case network::svr::login: return run<Login>(_buffer, _session);
+		case network::svr::authentication: return run<Authenticate>(_buffer, _session, _task);
+		case network::svr::login: return run<Login>(_buffer, _session, _task);
+		case network::svr::achievement: return run<Achievement>(_buffer, _session, _task);
 		default:
 			throw std::runtime_error("Unknown task type.");
 		}
@@ -50,7 +52,7 @@ namespace task
 	void TaskWatcher::run(QByteArray _buffer, uint32_t id)
 	{
 		assert(connect(&m_Watcher, SIGNAL(finished()), this, SLOT(_onFinished())));
-		m_Future = task::run(_buffer, m_Session, id);
+		m_Future = task::run(_buffer, m_Session, id, m_Task);
 		m_Watcher.setFuture(m_Future);
 	}
 
@@ -62,32 +64,66 @@ namespace task
 	}
 
 	/*#####
+	# Base
+	#####*/
+	Base::Base(QByteArray _buffer, Session& _session, uint64_t _index) :
+		m_Buffer(_buffer),
+		m_Session(_session),
+		m_Index(_index)
+	{
+		m_Database = QSqlDatabase::cloneDatabase(QSqlDatabase::database("DB"), "DB" + QString::number(m_Index));
+	}
+
+	Base::~Base()
+	{
+		if (m_Database.isOpen())
+		{
+			m_Database.close();
+			m_Database = QSqlDatabase();
+		}
+		QSqlDatabase::removeDatabase("DB" + QString::number(m_Index));
+	}
+
+	Result Base::start()
+	{
+		Result result;
+		do
+		{
+			try
+			{
+				m_Database.open();
+			}
+			catch (const std::runtime_error& e)
+			{
+				LOG_ERR(e.what());
+				continue;
+			}
+			catch (...)
+			{
+				LOG_ERR("Session: " + m_Session.getID() + " unknown error while opening MySQL database.");
+				continue;
+			}
+			break;
+		} while (!m_Database.isOpen());
+
+		return run();
+	}
+
+	/*#####
 	# Authenticate
 	#####*/
-	Authenticate::Authenticate(QByteArray _buffer, Session& _session) :
-		m_Buffer(_buffer),
-		m_Session(_session)
+	Authenticate::Authenticate(QByteArray _buffer, Session& _session, uint64_t _index) :
+		Base(_buffer, _session, _index)
 	{
 	}
 
 	bool Authenticate::_authGame()
 	{
-		auto database = QSqlDatabase::cloneDatabase(QSqlDatabase::database("DB"), QString::number(TaskCounter));
-		try
-		{
-			database.open();
-		}
-		catch (const std::runtime_error& e)
-		{
-			LOG_ERR(e.what());
-			return false;
-		}
-
 		protobuf::Authentication msg;
 		msg.ParseFromArray(m_Buffer.data(), m_Buffer.size());
 
 		using namespace database;
-		QSqlQuery query(database);
+		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
 		assert(query.exec(QString("SELECT ") + TableGames::Field::hash + " FROM " + TableGames::name + " WHERE " + TableGames::Field::id + "=" + QString::number(msg.id())));
 		if (!query.first())
@@ -126,30 +162,18 @@ namespace task
 	/*#####
 	# Login
 	#####*/
-	Login::Login(QByteArray _buffer, Session& _session) :
-		m_Buffer(_buffer),
-		m_Session(_session)
+	Login::Login(QByteArray _buffer, Session& _session, uint64_t _index) :
+		Base(_buffer, _session, _index)
 	{
 	}
 
 	bool Login::_tryLogin()
 	{
-		auto database = QSqlDatabase::cloneDatabase(QSqlDatabase::database("DB"), QString::number(TaskCounter));
-		try
-		{
-			database.open();
-		}
-		catch (const std::runtime_error& e)
-		{
-			LOG_ERR(e.what());
-			return false;
-		}
-
 		protobuf::Login msg;
 		msg.ParseFromArray(m_Buffer.data(), m_Buffer.size());
 
 		using namespace database;
-		QSqlQuery query(database);
+		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
 		assert(query.exec(QString("SELECT * FROM ") + TableUsers::name + " WHERE " +
 			TableUsers::Field::name + " = '" + QString::fromStdString(msg.name()) + "'"));
@@ -190,20 +214,72 @@ namespace task
 		return result;
 	}
 
-	///*#####
-	//# Achievement
-	//#####*/
-	//Result Achievement::run()
-	//{
-	//	try
-	//	{
-	//		_database.open();
-	//	}
-	//	catch (const std::runtime_error& e)
-	//	{
-	//		LOG_ERR(e.what());
-	//		return Result();
-	//	}
-	//	return Result();
-	//}
+	/*#####
+	# Achievement
+	#####*/
+	Achievement::Achievement(QByteArray _buffer, Session& _session, uint64_t _index) :
+		Base(_buffer, _session, _index)
+	{
+	}
+
+	protobuf::AchievementReply Achievement::_check()
+	{
+		protobuf::Achievement msg;
+		protobuf::AchievementReply reply;
+		msg.ParseFromArray(m_Buffer.data(), m_Buffer.size());
+		auto achievementID = msg.id();
+		reply.set_id(achievementID);
+		reply.set_result(protobuf::AchievementReply_Type_failed);
+
+		auto userID = m_Session.getUserID();
+		auto gameID = m_Session.getGameID();
+		if (gameID == 0 || userID == 0)
+			return reply;
+
+		using namespace database;
+		std::unordered_set<uint64_t> IDs;
+
+		// check if achievement exists and belongs to the game
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("SELECT * FROM ") + TableAchievements::name + " WHERE " + TableAchievements::Field::id + "= ? AND " +
+			TableAchievements::Field::gameID + "= ?"));
+		query.addBindValue(achievementID);
+		query.addBindValue(gameID);
+		assert(query.exec());
+		if (!query.first())
+			return reply;
+
+		// check if user has achievement currently
+		assert(query.prepare(QString("SELECT ") + TableUserAchievements::Field::achievementID + " FROM " + TableUserAchievements::name + " WHERE " +
+			TableUserAchievements::Field::achievementID + "= ? AND " + TableUserAchievements::Field::userID + "= ?"));
+		query.addBindValue(achievementID);
+		query.addBindValue(userID);
+		assert(query.exec());
+		if (query.first())
+		{
+			reply.set_result(protobuf::AchievementReply_Type_exists);
+			return reply;
+		}
+		
+		// insert new achievements
+		assert(query.prepare(QString("INSERT INTO ") + TableUserAchievements::name + " (" +
+			TableUserAchievements::Field::achievementID + ", " + TableUserAchievements::Field::userID + ") VALUES (?, ?)"));
+		query.addBindValue(achievementID);
+		query.addBindValue(userID);
+		assert(query.exec());
+		reply.set_result(protobuf::AchievementReply_Type_complete);
+		LOG_INFO("Add user achievement for userID: " + userID + " achievement: " + achievementID);
+		return reply;
+	}
+
+	Result Achievement::run()
+	{
+		auto reply = _check();
+		Result result;
+		result.first.resize(reply.ByteSize());
+		result.second = network::client::achievementReply;
+		reply.SerializePartialToArray(result.first.data(), result.first.size());
+		return result;
+	}
 } // namespace task
