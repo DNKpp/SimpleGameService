@@ -27,4 +27,18 @@ namespace database
 	const char* TableUserAchievements::Field::id = "ID";
 	const char* TableUserAchievements::Field::userID = "UserID";
 	const char* TableUserAchievements::Field::achievementID = "achievementID";
+
+	// TableCollectorAchievements
+	const char* TableCollectorAchievements::name = "collector_achievements";
+	const char* TableCollectorAchievements::Field::id = "ID";
+	const char* TableCollectorAchievements::Field::gameID = "GameID";
+	const char* TableCollectorAchievements::Field::number = "Number";
+	const char* TableCollectorAchievements::Field::name = "Name";
+
+	// TableUserCollectorAchievements
+	const char* TableUserCollectorAchievements::name = "user_collector_achievements";
+	const char* TableUserCollectorAchievements::Field::id = "ID";
+	const char* TableUserCollectorAchievements::Field::userID = "UserID";
+	const char* TableUserCollectorAchievements::Field::achievementID = "achievementID";
+	const char* TableUserCollectorAchievements::Field::counter = "Counter";
 } // namespace database

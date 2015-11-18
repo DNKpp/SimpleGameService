@@ -99,7 +99,7 @@ namespace task
 			}
 			catch (...)
 			{
-				LOG_ERR("Session: " + m_Session.getID() + " unknown error while opening MySQL database.");
+				LOG_ERR("Session: " + m_Session.getID() + " unknown error while opening MySQL database connection.");
 				continue;
 			}
 			break;
@@ -221,6 +221,101 @@ namespace task
 	{
 	}
 
+	bool Achievement::_achievementBelongsToGame(uint64_t _achievementID, uint64_t _gameID)
+	{
+		using namespace database;
+		// check if achievement exists and belongs to the game
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("SELECT * FROM ") + TableAchievements::name + " WHERE " + TableAchievements::Field::id + "= ? AND " +
+			TableAchievements::Field::gameID + "= ?"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_gameID);
+		assert(query.exec());
+		return query.first();
+	}
+
+	bool Achievement::_hasAchievement(uint64_t _achievementID, uint64_t _userID)
+	{
+		using namespace database;
+		// check if user has achievement currently
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("SELECT * FROM ") + TableUserAchievements::name + " WHERE " +
+			TableUserAchievements::Field::achievementID + "= ? AND " + TableUserAchievements::Field::userID + "= ?"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_userID);
+		assert(query.exec());
+		return query.first();
+	}
+
+	void Achievement::_insertAchievement(uint64_t _achievementID, uint64_t _userID)
+	{
+		using namespace database;
+		// insert new achievements
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("INSERT INTO ") + TableUserAchievements::name + " (" +
+			TableUserAchievements::Field::achievementID + ", " + TableUserAchievements::Field::userID + ") VALUES (?, ?)"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_userID);
+		assert(query.exec());
+		LOG_INFO("Session: " + m_Session.getID() + " insert user_achievement ID: " + _achievementID);
+	}
+
+	uint64_t Achievement::_collectorAchievementBelongsToGame(uint64_t _achievementID, uint64_t _gameID)
+	{
+		using namespace database;
+		// check if achievement exists and belongs to the game
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("SELECT ") + TableCollectorAchievements::Field::number +" FROM " + TableCollectorAchievements::name + " WHERE " +
+			TableCollectorAchievements::Field::id + "= ? AND " + TableCollectorAchievements::Field::gameID + "= ?"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_gameID);
+		assert(query.exec());
+		if (!query.first())
+			return 0;
+		return query.value(0).toULongLong();
+	}
+
+	bool Achievement::_updateCollectorAchievement(uint64_t _achievementID, uint64_t _userID, uint64_t _number)
+	{
+		using namespace database;
+		// check if user has achievement currently
+		QSqlQuery query(m_Database);
+		query.setForwardOnly(true);
+		assert(query.prepare(QString("SELECT * FROM ") + TableUserCollectorAchievements::name + " WHERE " +
+			TableUserCollectorAchievements::Field::achievementID + "= ? AND " + TableUserCollectorAchievements::Field::userID + "= ?"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_userID);
+		assert(query.exec());
+		// update
+		if (query.first())
+		{
+			auto newCounter = query.value(TableUserCollectorAchievements::Field::counter).toULongLong() + 1;
+			auto id = query.value(TableUserCollectorAchievements::Field::id);
+			assert(query.prepare(QString("UPDATE ") + TableUserCollectorAchievements::name + " SET " + TableUserCollectorAchievements::Field::counter + "= ? WHERE " +
+				TableUserCollectorAchievements::Field::id + "= ?"));
+			query.addBindValue(newCounter);
+			query.addBindValue(id);
+			assert(query.exec());
+			LOG_INFO("Session: " + m_Session.getID() + " update user_collector_achievement ID: " + _achievementID + " Counter: " + newCounter);
+			return newCounter == _number;
+		}
+
+		// insert
+		assert(query.prepare(QString("INSERT INTO ") + TableUserCollectorAchievements::name + " (" +
+			TableUserCollectorAchievements::Field::achievementID + ", " + TableUserCollectorAchievements::Field::userID + ", " +
+			TableUserCollectorAchievements::Field::counter + ") VALUES (?, ?, ?)"));
+		query.addBindValue(_achievementID);
+		query.addBindValue(_userID);
+		query.addBindValue(1);
+		assert(query.exec());
+		LOG_INFO("Session: " + m_Session.getID() + " insert user_collector_achievement ID: " + _achievementID);
+		return _number == 1;
+	}
+
 	protobuf::AchievementReply Achievement::_check()
 	{
 		protobuf::Achievement msg;
@@ -236,39 +331,34 @@ namespace task
 			return reply;
 
 		using namespace database;
-		std::unordered_set<uint64_t> IDs;
-
-		// check if achievement exists and belongs to the game
-		QSqlQuery query(m_Database);
-		query.setForwardOnly(true);
-		assert(query.prepare(QString("SELECT * FROM ") + TableAchievements::name + " WHERE " + TableAchievements::Field::id + "= ? AND " +
-			TableAchievements::Field::gameID + "= ?"));
-		query.addBindValue(achievementID);
-		query.addBindValue(gameID);
-		assert(query.exec());
-		if (!query.first())
-			return reply;
-
-		// check if user has achievement currently
-		assert(query.prepare(QString("SELECT ") + TableUserAchievements::Field::achievementID + " FROM " + TableUserAchievements::name + " WHERE " +
-			TableUserAchievements::Field::achievementID + "= ? AND " + TableUserAchievements::Field::userID + "= ?"));
-		query.addBindValue(achievementID);
-		query.addBindValue(userID);
-		assert(query.exec());
-		if (query.first())
+		switch (msg.type())
 		{
-			reply.set_result(protobuf::AchievementReply_Type_exists);
-			return reply;
+		case protobuf::Achievement_Type_complete:
+			if (!_achievementBelongsToGame(achievementID, gameID))
+				return reply;
+			if (_hasAchievement(achievementID, userID))
+			{
+				reply.set_result(protobuf::AchievementReply_Type_exists);
+				return reply;
+			}
+			_insertAchievement(achievementID, userID);
+			reply.set_result(protobuf::AchievementReply_Type_complete);
+			break;
+
+		case protobuf::Achievement_Type_add:
+		{
+			auto number = _collectorAchievementBelongsToGame(achievementID, gameID);
+			if (number == 0)
+				return reply;
+			if (_updateCollectorAchievement(achievementID, userID, number))
+				reply.set_result(protobuf::AchievementReply_Type_complete);
+			else
+				reply.set_result(protobuf::AchievementReply_Type_progress);
+			break;
 		}
-		
-		// insert new achievements
-		assert(query.prepare(QString("INSERT INTO ") + TableUserAchievements::name + " (" +
-			TableUserAchievements::Field::achievementID + ", " + TableUserAchievements::Field::userID + ") VALUES (?, ?)"));
-		query.addBindValue(achievementID);
-		query.addBindValue(userID);
-		assert(query.exec());
-		reply.set_result(protobuf::AchievementReply_Type_complete);
-		LOG_INFO("Add user achievement for userID: " + userID + " achievement: " + achievementID);
+		default:
+			LOG_ERR("Session: " + m_Session.getID() + " unhandled achievement type received: " + msg.type());
+		}
 		return reply;
 	}
 

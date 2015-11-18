@@ -46,4 +46,28 @@ namespace database
 			static const char* achievementID;
 		};
 	};
+
+	struct TableCollectorAchievements
+	{
+		static const char* name;
+		struct Field
+		{
+			static const char* id;
+			static const char* gameID;
+			static const char* number;
+			static const char* name;
+		};
+	};
+
+	struct TableUserCollectorAchievements
+	{
+		static const char* name;
+		struct Field
+		{
+			static const char* id;
+			static const char* userID;
+			static const char* achievementID;
+			static const char* counter;
+		};
+	};
 } // namespace database

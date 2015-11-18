@@ -60,9 +60,14 @@ namespace task
 	private:
 		using super = Base;
 
+		bool _achievementBelongsToGame(uint64_t _achievementID, uint64_t _gameID);
+		bool _hasAchievement(uint64_t _achievementID, uint64_t _userID);
+		void _insertAchievement(uint64_t _achievementID, uint64_t _userID);
+
+		uint64_t _collectorAchievementBelongsToGame(uint64_t _achievementID, uint64_t _gameID);
+		// return true if new counter == number
+		bool _updateCollectorAchievement(uint64_t _achievementID, uint64_t _userID, uint64_t _number);
 		protobuf::AchievementReply _check();
-		protobuf::AchievementReply _checkSingle();
-		protobuf::AchievementReply _checkAdd();
 
 		Result run() override;
 

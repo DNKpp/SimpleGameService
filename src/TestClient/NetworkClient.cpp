@@ -38,6 +38,7 @@ namespace
 	{
 		protobuf::Achievement msg;
 		msg.set_id(id);
+		msg.set_type(protobuf::Achievement_Type_add);
 		QByteArray buffer(msg.ByteSize(), 0);
 		msg.SerializeToArray(buffer.data(), buffer.size());
 		LOG_INFO("Try achievement.");
