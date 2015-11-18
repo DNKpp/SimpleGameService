@@ -12,3 +12,5 @@ src/Shared/moc_*.h
 src/Shared/moc_*.hpp
 src/TestClient/moc_*.h
 src/TestClient/moc_*.hpp
+src/Web/Website/bin/
+src/Web/Website/obj/
