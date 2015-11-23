@@ -18,12 +18,12 @@
     <ClCompile Include="NetworkClient.cpp">
       <Filter>Client</Filter>
     </ClCompile>
-    <ClCompile Include="ReplyHandler.cpp" />
+    <ClCompile Include="Session.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <moc_header Include="ReplyHandler.hpp" />
     <moc_header Include="NetworkClient.hpp">
       <Filter>Client</Filter>
     </moc_header>
+    <moc_header Include="Session.hpp" />
   </ItemGroup>
 </Project>

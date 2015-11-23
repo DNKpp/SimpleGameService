@@ -159,12 +159,12 @@
     <moc_header Include="NetworkClient.hpp">
       <FileType>CppHeader</FileType>
     </moc_header>
-    <moc_header Include="ReplyHandler.hpp" />
+    <moc_header Include="Session.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="NetworkClient.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ReplyHandler.cpp" />
+    <ClCompile Include="Session.cpp" />
     <ClCompile Include="testclientpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
