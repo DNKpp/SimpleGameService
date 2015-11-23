@@ -17,11 +17,12 @@ Session::Session(network::Connection* _con, QObject* _parent) :
 
 void Session::_sendWelcomeMessage()
 {
+	auto publicKey = m_Crypt.generateRSA();
 	protobuf::Welcome msg;
-	// setup key pair
-	QByteArray key;
-	key.append(88);
-	msg.set_key(key.data(), key.size());
+	std::string keyString;
+	CryptoPP::StringSink keySink(keyString);
+	publicKey.Save(keySink);
+	msg.set_key(keyString);
 	QByteArray buffer(msg.ByteSize(), 0);
 	msg.SerializeToArray(buffer.data(), buffer.size());
 	sendReply(buffer, network::client::welcome);

@@ -10,8 +10,16 @@ namespace reply
 	{
 		protobuf::Welcome msg;
 		msg.ParseFromArray(_buffer.data(), _buffer.size());
-		m_Welcome = true;
-		LOG_INFO("Welcome received.");
+
+		try
+		{
+			CryptoPP::StringSource stringSrc(msg.key(), true);
+			CryptoPP::RSA::PublicKey publicKey;
+			publicKey.Load(stringSrc);
+			m_Crypt.setOtherRSAPublic(publicKey);
+			m_ValidPublicKey = true;
+		}
+		catch (...) {}
 	}
 
 	void Handler::_handleLoginReply(QByteArray _buffer)
@@ -41,7 +49,7 @@ namespace reply
 		auto type = _msg.getMessageType();
 		if (type == welcome)
 			_handleWelcome(_msg.getBytes());
-		else if (!m_Welcome)
+		else if (!m_ValidPublicKey)
 		{
 			LOG_ERR("Has not received welcome message.");
 			return;

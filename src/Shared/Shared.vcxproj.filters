@@ -14,6 +14,7 @@
     <ClCompile Include="SharedDefines.cpp">
       <Filter>others</Filter>
     </ClCompile>
+    <ClCompile Include="Crypt.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="NetworkExceptions.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="SharedDefines.hpp">
       <Filter>others</Filter>
     </ClInclude>
+    <ClInclude Include="Crypt.hpp" />
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkMessage.hpp" />

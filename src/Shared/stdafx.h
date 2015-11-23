@@ -40,6 +40,11 @@
 #include <SimpleLib/log/ConsoleOutput.h>
 #include <SimpleLib/log/HTMLFileOutput.h>
 
+// cryptopp
+#include <rsa.h>
+#include <aes.h>
+#include <osrng.h>
+
 // others
 #include "log.hpp"
 #include "SharedDefines.hpp"
