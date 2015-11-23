@@ -61,6 +61,7 @@ QByteArray Crypt::decryptRSA(QByteArray _buffer)
 		//  only know its maximum size
 		recovered.resize(result.messageLength);
 		message.append(recovered);
+		index += currentSize;
 	}
 	return message;
 }

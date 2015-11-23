@@ -37,7 +37,7 @@ namespace network
 		_buffer.remove(0, m_NewMessage->setupHeader(_buffer.constData(), _buffer.size()));
 	}
 
-	void Connection::send(QByteArray _msg, MessageType _type)
+	void Connection::onPacketSent(QByteArray _msg, MessageType _type)
 	{
 		if (_msg.isEmpty() || _type <= 0)
 			return;

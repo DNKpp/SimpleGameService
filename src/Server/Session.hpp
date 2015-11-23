@@ -44,7 +44,7 @@ public:
 	void setUserID(uint64_t _id);
 	uint64_t getID() const;
 
-	void sendReply(QByteArray _buffer, network::MessageType _type);
+	void sendPacket(QByteArray _buffer, network::MessageType _type);
 
 private slots:
 	void _onDisconnected();

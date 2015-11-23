@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Session.hpp"
+
 namespace network
 {
 	class Connection;
@@ -11,7 +13,8 @@ namespace network
 	private:
 		using super = QObject;
 		QTcpSocket* m_Socket = nullptr;
-		network::Connection* m_Connection = nullptr;
+
+		Session m_Session;
 
 		QByteArray m_Message;
 		void _createMsg();
@@ -19,11 +22,8 @@ namespace network
 	public:
 		Client();
 
-	signals:
-		void messageReceived(const network::IMessage&);
-
 	private slots:
 		void _onConnected();
-		void _onMessageReceived(const network::IMessage&);
+		void _onSessionReady();
 	};
 }

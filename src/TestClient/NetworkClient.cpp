@@ -58,15 +58,18 @@ namespace network
 	void Client::_onConnected()
 	{
 		qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
-		m_Connection = new network::Connection(*m_Socket, this);
-		assert(connect(m_Connection, SIGNAL(messageReceived(const network::IMessage&)), this, SLOT(_onMessageReceived(const network::IMessage&))));
-		m_Connection->send(_createAuthenticate(), network::svr::authentication);
-		m_Connection->send(_createLogin("test"), network::svr::login);
-		m_Connection->send(_createAchievement(1), network::svr::achievement);
+		auto connection = new network::Connection(*m_Socket, this);
+		assert(connect(connection, SIGNAL(messageReceived(const network::IMessage&)), &m_Session, SLOT(_onMessageReceived(const network::IMessage&))));
+		assert(connect(&m_Session, SIGNAL(send(QByteArray, network::MessageType)), connection, SLOT(onPacketSent(QByteArray, network::MessageType))));
+		assert(connect(&m_Session, SIGNAL(ready()), this, SLOT(_onSessionReady())));
 	}
 
-	void Client::_onMessageReceived(const network::IMessage& _msg)
+	void Client::_onSessionReady()
 	{
-		emit messageReceived(_msg);
+		LOG_INFO("Session ready.");
+		m_Session.sendPacket(_createAuthenticate(), network::svr::authentication);
+		//m_Connection->send(_createAuthenticate(), network::svr::authentication);
+		//m_Connection->send(_createLogin("test"), network::svr::login);
+		//m_Connection->send(_createAchievement(1), network::svr::achievement);
 	}
 } // namespace network
