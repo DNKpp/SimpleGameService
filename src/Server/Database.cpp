@@ -5,36 +5,16 @@
 
 namespace database
 {
-	uint64_t Database::ConnectionID = 0;
-
-	Database::Database(const config::Database& _config)
+	void Database::setup(const config::Database& _config)
 	{
-		++ConnectionID;
-
 		m_Database = QSqlDatabase::addDatabase("QMYSQL", "DB");
 		if (!m_Database.isValid())
 			throw database::ConnectionError("Unable to load SQL driver.");
-		m_Database.setHostName(_config.getHostName());
-		m_Database.setPort(_config.getPort());
-		m_Database.setDatabaseName(_config.getDatabaseName());
-		m_Database.setUserName(_config.getUserName());
-		m_Database.setPassword(_config.getPassword());
-	}
-
-	Database::Database(const Database& _other)
-	{
-		++ConnectionID;
-		m_Database = QSqlDatabase::cloneDatabase(_other.m_Database, "DB" + QString::number(ConnectionID));
-	}
-
-	void Database::open()
-	{
-		if (!m_Database.open())
-			throw database::ConnectionError("Unable to connect to the SQL Database.");
-	}
-
-	QSqlDatabase Database::getDatabase() const
-	{
-		return m_Database;
+		m_Database.setHostName(QString::fromStdString(_config.host));
+		m_Database.setPort(_config.port);
+		m_Database.setDatabaseName(QString::fromStdString(_config.database));
+		m_Database.setUserName(QString::fromStdString(_config.user));
+		m_Database.setPassword(QString::fromStdString(_config.password));
+		LOG_DEBUG("Database setup success.");
 	}
 } // namespace database

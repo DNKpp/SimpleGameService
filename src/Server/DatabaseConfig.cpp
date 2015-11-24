@@ -3,32 +3,28 @@
 
 namespace config
 {
-	Database::Database()
+	void Database::load(const std::string& _fileName)
 	{
+		boost::property_tree::ptree tree;
+		boost::property_tree::read_ini(_fileName, tree);
+
+		port = tree.get("database.port", port);
+		host = tree.get("database.host", host);
+		database = tree.get("database.database", database);
+		user = tree.get("database.user", user);
+		password = tree.get("database.password", password);
 	}
 
-	QString Database::getHostName() const
+	void Database::save(const std::string& _fileName) const
 	{
-		return "localhost";
-	}
+		boost::property_tree::ptree tree;
 
-	QString Database::getDatabaseName() const
-	{
-		return "SimpleGameService";
-	}
+		tree.add("database.port", port);
+		tree.add("database.host", host);
+		tree.add("database.database", database);
+		tree.add("database.user", user);
+		tree.add("database.password", password);
 
-	QString Database::getUserName() const
-	{
-		return "root";
+		boost::property_tree::write_ini(_fileName, tree);
 	}
-
-	QString Database::getPassword() const
-	{
-		return "tbc";
-	}
-
-	uint16_t Database::getPort() const
-	{
-		return 3306;
-	}
-}
+} // namespace config
