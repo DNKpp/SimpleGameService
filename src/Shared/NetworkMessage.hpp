@@ -27,4 +27,19 @@ namespace network
 		MessageType getMessageType() const;
 		VersionType getVersion() const;
 	};
+
+	class OMessage : public QObject
+	{
+		Q_OBJECT
+	private:
+		using super = QObject;
+		QByteArray m_Bytes;
+
+	public:
+		OMessage(QObject* _parent = nullptr);
+
+		void setup(VersionType _version, MessageType _type, QByteArray _buffer);
+
+		QByteArray getBytes() const;
+	};
 }

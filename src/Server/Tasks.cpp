@@ -38,19 +38,17 @@ namespace task
 		m_Session(_session)
 	{
 		assert(_parent);
-		++m_Session.m_TaskCounter;
-		assert(connect(this, SIGNAL(replyCreated(QByteArray, network::MessageType)), &m_Session, SLOT(_onTaskFinished(QByteArray, network::MessageType))));
+		connect(this, SIGNAL(replyCreated(QByteArray, network::MessageType)), &m_Session, SLOT(_onTaskFinished(QByteArray, network::MessageType)));
 	}
 
 	TaskWatcher::~TaskWatcher()
 	{
 		m_Future.waitForFinished();
-		++m_Session.m_TaskCounter;
 	}
 
 	void TaskWatcher::run(QByteArray _buffer, network::MessageType id)
 	{
-		assert(connect(&m_Watcher, SIGNAL(finished()), this, SLOT(_onFinished())));
+		connect(&m_Watcher, SIGNAL(finished()), this, SLOT(_onFinished()));
 		m_Future = task::run(_buffer, m_Session, id, m_Task);
 		m_Watcher.setFuture(m_Future);
 	}

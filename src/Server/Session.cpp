@@ -7,11 +7,9 @@
 
 uint64_t Session::SessionCounter = 0;
 
-Session::Session(network::Connection* _con, QObject* _parent) :
-	super(_parent),
-	m_Connection(_con)
+Session::Session(QObject* _parent) :
+	super(_parent)
 {
-	assert(_con);
 }
 
 uint64_t Session::getGameID() const
@@ -41,13 +39,22 @@ uint64_t Session::getID() const
 
 void Session::sendPacket(QByteArray _buffer, network::MessageType _type)
 {
-	if (m_Connection)
-		m_Connection->onPacketSent(_buffer, _type);
+	network::OMessage msg;
+	msg.setup(1, _type, _buffer);
+	emit packetReady(msg);
+}
+
+void Session::_deleteSelfIfNecessary()
+{
+	// delete self if no tasks working and not connected
+	if (m_TaskCounter == 0 && m_Disconnected)
+		deleteLater();
 }
 
 void Session::_onDisconnected()
 {
-	m_Connection = nullptr;
+	m_Disconnected = true;
+	_deleteSelfIfNecessary();
 }
 
 void Session::_onMessageReceived(const network::IMessage& _msg)
@@ -63,6 +70,7 @@ void Session::_onMessageReceived(const network::IMessage& _msg)
 		auto taskWatcher = std::make_unique<task::TaskWatcher>(*this, this);
 		taskWatcher->run(_msg.getBytes(), _msg.getMessageType());
 		taskWatcher.release();		// not needed anymore. deletes itself when finishes.
+		++m_TaskCounter;
 	}
 	catch (const std::runtime_error& e)
 	{
@@ -74,4 +82,6 @@ void Session::_onMessageReceived(const network::IMessage& _msg)
 void Session::_onTaskFinished(QByteArray _buffer, network::MessageType _type)
 {
 	sendPacket(_buffer, _type);
+	--m_TaskCounter;
+	_deleteSelfIfNecessary();
 }

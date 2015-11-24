@@ -7,6 +7,9 @@
 
 namespace network
 {
+	/*#####
+	# OMessage
+	#####*/
 	IMessage::IMessage(QObject* _parent) :
 		super(_parent)
 	{
@@ -64,5 +67,31 @@ namespace network
 	VersionType IMessage::getVersion() const
 	{
 		return m_Version;
+	}
+
+	/*#####
+	# OMessage
+	#####*/
+	OMessage::OMessage(QObject* _parent) :
+		super(_parent)
+	{
+	}
+
+	void OMessage::setup(VersionType _version, MessageType _type, QByteArray _buffer)
+	{
+		m_Bytes.clear();
+		QDataStream out(&m_Bytes, QIODevice::WriteOnly);
+		out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
+		out << _version;
+		out << _type;
+		out << (network::MessageSizeType)_buffer.size();
+		m_Bytes += _buffer;
+	}
+
+	QByteArray OMessage::getBytes() const
+	{
+		if (m_Bytes.isEmpty())
+			throw OMessageError("OMessage buffer is empty.");
+		return m_Bytes;
 	}
 } // namespace network;

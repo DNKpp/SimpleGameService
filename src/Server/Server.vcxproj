@@ -165,7 +165,7 @@
     <moc_header Include="DatabaseConfig.hpp" />
     <moc_header Include="DatabaseTables.hpp" />
     <ClInclude Include="NetworkConfig.hpp" />
-    <moc_header Include="NetworkTcpServer.hpp">
+    <moc_header Include="NetworkSSLServer.hpp">
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</Command>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">moc -o moc_%(Filename)%(Extension) %(Filename)%(Extension)</Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">moc %(Filename)%(Extension)</Message>
@@ -192,7 +192,7 @@
     <ClCompile Include="DatabaseTables.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="NetworkConfig.cpp" />
-    <ClCompile Include="NetworkTcpServer.cpp" />
+    <ClCompile Include="NetworkSSLServer.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="serverpch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

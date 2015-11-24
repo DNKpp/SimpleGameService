@@ -6,7 +6,9 @@
 
 void Session::sendPacket(QByteArray _msg, network::MessageType _type)
 {
-	emit send(_msg, _type);
+	network::OMessage msg;
+	msg.setup(1, _type, _msg);
+	emit send(msg);
 }
 
 void Session::_handleLoginReply(QByteArray _buffer)

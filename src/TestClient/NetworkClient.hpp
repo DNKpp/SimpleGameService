@@ -12,7 +12,7 @@ namespace network
 		Q_OBJECT
 	private:
 		using super = QObject;
-		QTcpSocket* m_Socket = nullptr;
+		QSslSocket* m_Socket = nullptr;
 
 		Session m_Session;
 

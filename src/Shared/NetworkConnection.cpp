@@ -3,32 +3,17 @@
 #include "moc_NetworkConnection.hpp"
 #include "NetworkExceptions.h"
 
-namespace
-{
-	QByteArray _setupMsg(QByteArray _msg, network::MessageType _type)
-	{
-		QByteArray buffer;
-		QDataStream out(&buffer, QIODevice::WriteOnly);
-		out.writeRawData(network::PacketBegin.data(), network::PacketBegin.size());
-		out << (network::VersionType)1;	// version
-		out << _type;
-		out << (network::MessageSizeType)_msg.size();
-		buffer += _msg;
-		return buffer;
-	}
-
-} // anonymous namespace
-
 namespace network
 {
-	Connection::Connection(QTcpSocket& _socket, QObject* _parent) :
+	Connection::Connection(QSslSocket& _socket, QObject* _parent) :
 		super(_parent),
 		m_Socket(_socket)
 	{
 		assert(_parent);
-		assert(connect(&m_Socket, SIGNAL(disconnected()), this, SLOT(_onDisconnected())));
-		assert(connect(&m_Socket, SIGNAL(readyRead()), this, SLOT(_onReadyRead())));
-		assert(connect(&m_Socket, SIGNAL(bytesWritten(qint64)), this, SLOT(_onBytesWritten(qint64))));
+		connect(&m_Socket, SIGNAL(encrypted()), this, SLOT(_onSocketReady()));
+		connect(&m_Socket, SIGNAL(disconnected()), this, SLOT(_onDisconnected()));
+		connect(&m_Socket, SIGNAL(readyRead()), this, SLOT(_onReadyRead()));
+		connect(&m_Socket, SIGNAL(bytesWritten(qint64)), this, SLOT(_onBytesWritten(qint64)));
 	}
 
 	void Connection::_createNewMessage(QByteArray& _buffer)
@@ -37,16 +22,9 @@ namespace network
 		_buffer.remove(0, m_NewMessage->setupHeader(_buffer.constData(), _buffer.size()));
 	}
 
-	void Connection::onPacketSent(QByteArray _msg, MessageType _type)
+	void Connection::onPacketSent(const network::OMessage& _msg)
 	{
-		if (_msg.isEmpty() || _type <= 0)
-			return;
-		bool empty = m_OutBuffers.empty();
-		_msg = _setupMsg(_msg, _type);
-		m_OutBuffers.push(_msg);
-		// send only if buffer is empty, thus we get sure, we do not mix two messages
-		if (empty)
-			m_Socket.write(_msg.data(), _msg.size());
+		m_Socket.write(_msg.getBytes());
 	}
 
 	void Connection::_onReadyRead()
@@ -93,16 +71,18 @@ namespace network
 
 	void Connection::_onBytesWritten(qint64 _bytes)
 	{
-		LOG_INFO("Sent " + _bytes + " bytes Host: " + m_Socket.peerAddress().toString() + " Port: " + m_Socket.peerPort());
-		auto& buffer = m_OutBuffers.front();
-		if (buffer.size() == _bytes)
-		{
-			m_OutBuffers.pop();
-			if (!m_OutBuffers.empty())
-				m_Socket.write(m_OutBuffers.front().data(), m_OutBuffers.front().size());
-		}
-		else
-			buffer.remove(0, _bytes);
+		LOG_DEBUG("Sent " + _bytes + " bytes Host: " + m_Socket.peerAddress().toString() + " Port: " + m_Socket.peerPort());
+	}
+
+	void Connection::_onSocketReady()
+	{
+		int x = 0;
+	}
+
+	void Connection::_onSSLErrors(const QList<QSslError>& _errors)
+	{
+		for (auto& error : _errors)
+			LOG_ERR(error.errorString().toStdString());
 	}
 
 	void Connection::_onDisconnected()

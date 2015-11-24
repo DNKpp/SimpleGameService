@@ -3,6 +3,7 @@
 namespace network
 {
 	class IMessage;
+	class OMessage;
 } // namespace network
 
 class Session : public QObject
@@ -13,13 +14,11 @@ private:
 	void _handleAuthenticationReply(QByteArray _buffer);
 	void _handleAchievementReply(QByteArray _buffer);
 
-	bool m_AESReply = false;
-
 public:
 	void sendPacket(QByteArray _msg, network::MessageType _type);
 
 signals:
-	void send(QByteArray, network::MessageType);
+	void send(const network::OMessage&);
 
 private slots:
 	void _onMessageReceived(const network::IMessage&);

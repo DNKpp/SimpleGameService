@@ -19,9 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Server.cpp" />
-    <ClCompile Include="NetworkTcpServer.cpp">
-      <Filter>Network</Filter>
-    </ClCompile>
     <ClCompile Include="Database.cpp">
       <Filter>Database</Filter>
     </ClCompile>
@@ -41,11 +38,11 @@
     <ClCompile Include="serverpch.cpp" />
     <ClCompile Include="Tasks.cpp" />
     <ClCompile Include="Session.cpp" />
+    <ClCompile Include="NetworkSSLServer.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <moc_header Include="NetworkTcpServer.hpp">
-      <Filter>Network</Filter>
-    </moc_header>
     <moc_header Include="Database.hpp">
       <Filter>Database</Filter>
     </moc_header>
@@ -57,5 +54,8 @@
     </moc_header>
     <moc_header Include="Session.hpp" />
     <moc_header Include="Tasks.hpp" />
+    <moc_header Include="NetworkSSLServer.hpp">
+      <Filter>Network</Filter>
+    </moc_header>
   </ItemGroup>
 </Project>

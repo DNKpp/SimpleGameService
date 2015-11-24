@@ -1,12 +1,12 @@
 #pragma once
 
-#include "NetworkTcpServer.hpp"
+#include "NetworkSSLServer.hpp"
 #include "Database.hpp"
 
 class Server : boost::noncopyable
 {
 private:
-	network::TcpServer m_TcpServer;
+	network::SSLServer m_TcpServer;
 	database::Database m_Database;
 
 public:

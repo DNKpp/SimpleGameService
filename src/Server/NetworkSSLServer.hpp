@@ -11,18 +11,18 @@ namespace network
 {
 	class Connection;
 
-	class TcpServer : public QObject, boost::noncopyable
+	class SSLServer : private QTcpServer
 	{
 		Q_OBJECT
 
 	private:
-		using super = QObject;
-		QTcpServer* m_Server = nullptr;
+		using super = QTcpServer;
+
+		std::unique_ptr<QSslCertificate> m_SSLCertificate;
+		std::unique_ptr<QSslKey> m_SSLKey;
+		void incomingConnection(int _socketDescriptor) override;
 
 	public:
 		void start(const config::Network& _config);
-
-	private slots:
-		void _onConnect();
 	};
 } // namespace network

@@ -33,11 +33,20 @@ namespace network
 		IMessageError(const std::string& _what);
 		virtual ~IMessageError() = default;
 	};
+
 	class IMessageHeaderError : public IMessageError
 	{
 		using super = IMessageError;
 	public:
 		IMessageHeaderError(const std::string& _what);
 		virtual ~IMessageHeaderError() = default;
+	};
+
+	class OMessageError : public MessageError
+	{
+		using super = MessageError;
+	public:
+		OMessageError(const std::string& _what);
+		virtual ~OMessageError() = default;
 	};
 } // namespace network

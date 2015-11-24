@@ -10,9 +10,8 @@ namespace network
 
 	private:
 		using super = QObject;
-		QTcpSocket& m_Socket;
+		QSslSocket& m_Socket;
 		std::unique_ptr<IMessage> m_NewMessage;
-		std::queue<QByteArray> m_OutBuffers;
 
 		QByteArray m_PreviousBuffer;	// If an exception is thrown, because of invalid header, it could be partial available. Because of this, we store the
 										// buffer here, if an IMessageHeaderError exception was thrown.
@@ -21,7 +20,7 @@ namespace network
 		void _createNewMessage(QByteArray& _buffer);
 
 	public:
-		Connection(QTcpSocket& _socket, QObject* _parent);
+		Connection(QSslSocket& _socket, QObject* _parent);
 
 		void close();
 
@@ -32,8 +31,10 @@ namespace network
 		void _onDisconnected();
 		void _onReadyRead();
 		void _onBytesWritten(qint64 _bytes);
+		void _onSocketReady();
+		void _onSSLErrors(const QList<QSslError>&);
 
 	public slots:
-		void onPacketSent(QByteArray _msg, network::MessageType _type);
+		void onPacketSent(const network::OMessage&);
 	};
 }

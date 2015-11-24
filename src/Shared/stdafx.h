@@ -29,8 +29,9 @@
 // Qt
 #include <QtCore/QtCore>
 #include <QtConcurrent/QtConcurrent>
+#include <QtNetwork/QSslSocket>
+#include <QtNetwork/QSslKey>
 #include <QtNetwork/QTcpServer>
-#include <QtNetwork/QTcpSocket>
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>

@@ -2,8 +2,8 @@
 
 namespace network
 {
-	class Connection;
 	class IMessage;
+	class OMessage;
 }
 
 namespace task
@@ -14,15 +14,10 @@ namespace task
 class Session : public QObject
 {
 	Q_OBJECT
-
-	friend class task::TaskWatcher;
-
 private:
 	using super = QObject;
 
 	static uint64_t SessionCounter;
-
-	network::Connection* m_Connection = nullptr;
 
 	std::atomic<uint64_t> m_GameID = 0;
 	std::atomic<uint64_t> m_UserID = 0;
@@ -30,8 +25,12 @@ private:
 	const uint64_t m_SessionID = ++SessionCounter;
 	int m_TaskCounter = 0;
 
+	bool m_Disconnected = false;
+
+	void _deleteSelfIfNecessary();
+
 public:
-	Session(network::Connection* _con, QObject* _parent = nullptr);
+	Session(QObject* _parent = nullptr);
 
 	uint64_t getGameID() const;
 	void setGameID(uint64_t _id);
@@ -40,6 +39,9 @@ public:
 	uint64_t getID() const;
 
 	void sendPacket(QByteArray _buffer, network::MessageType _type);
+
+signals:
+	void packetReady(const network::OMessage&);
 
 private slots:
 	void _onDisconnected();

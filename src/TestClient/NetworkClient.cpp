@@ -50,17 +50,18 @@ namespace network
 {
 	Client::Client()
 	{
-		m_Socket = new QTcpSocket(this);
-		m_Socket->connectToHost(QHostAddress::LocalHost, 2015);
-		connect(m_Socket, SIGNAL(connected()), this, SLOT(_onConnected()));
+		m_Socket = new QSslSocket(this);
+		m_Socket->setPeerVerifyMode(QSslSocket::VerifyNone);
+		m_Socket->connectToHostEncrypted("localhost", 2015);
+		connect(m_Socket, SIGNAL(encrypted()), this, SLOT(_onConnected()));
 	}
 
 	void Client::_onConnected()
 	{
 		qDebug() << "connected to address: " << m_Socket->peerAddress() << " port: " << m_Socket->peerPort();
 		auto connection = new network::Connection(*m_Socket, this);
-		assert(connect(connection, SIGNAL(messageReceived(const network::IMessage&)), &m_Session, SLOT(_onMessageReceived(const network::IMessage&))));
-		assert(connect(&m_Session, SIGNAL(send(QByteArray, network::MessageType)), connection, SLOT(onPacketSent(QByteArray, network::MessageType))));
+		connect(connection, SIGNAL(messageReceived(const network::IMessage&)), &m_Session, SLOT(_onMessageReceived(const network::IMessage&)));
+		connect(&m_Session, SIGNAL(send(const network::OMessage&)), connection, SLOT(onPacketSent(const network::OMessage&)));
 
 		m_Session.sendPacket(_createAuthenticate(), network::svr::authentication);
 		m_Session.sendPacket(_createLogin("test"), network::svr::login);

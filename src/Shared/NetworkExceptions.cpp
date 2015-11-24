@@ -27,4 +27,9 @@ namespace network
 		super(_what)
 	{
 	}
+
+	OMessageError::OMessageError(const std::string& _what) :
+		super(_what)
+	{
+	}
 } // namespace network
