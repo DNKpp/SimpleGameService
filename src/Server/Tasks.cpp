@@ -121,7 +121,12 @@ namespace task
 		using namespace database;
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.exec(QString("SELECT ") + TableGames::Field::hash + " FROM " + TableGames::name + " WHERE " + TableGames::Field::id + "=" + QString::number(msg.id())));
+		if (!query.exec(QString("SELECT ") + TableGames::Field::hash + " FROM " + TableGames::name + " WHERE " + TableGames::Field::id + "=" + QString::number(msg.id())))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		if (!query.first())
 		{
 			LOG_ERR("Session: " + m_Session.getID() + " Invalid game : " + msg.id());
@@ -171,8 +176,12 @@ namespace task
 		using namespace database;
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.exec(QString("SELECT * FROM ") + TableUsers::name + " WHERE " +
-			TableUsers::Field::name + " = '" + QString::fromStdString(msg.name()) + "'"));
+		if (!query.exec(QString("SELECT * FROM ") + TableUsers::name + " WHERE " +
+			TableUsers::Field::name + " = '" + QString::fromStdString(msg.name()) + "'"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
 
 		// user not found
 		if (!query.first())
@@ -224,11 +233,19 @@ namespace task
 		// check if achievement exists and belongs to the game
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.prepare(QString("SELECT * FROM ") + TableAchievements::name + " WHERE " + TableAchievements::Field::id + "= ? AND " +
-			TableAchievements::Field::gameID + "= ?"));
+		if (!query.prepare(QString("SELECT * FROM ") + TableAchievements::name + " WHERE " + TableAchievements::Field::id + "= ? AND " +
+			TableAchievements::Field::gameID + "= ?"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
 		query.addBindValue(_achievementID);
 		query.addBindValue(_gameID);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
 		return query.first();
 	}
 
@@ -238,11 +255,19 @@ namespace task
 		// check if user has achievement currently
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.prepare(QString("SELECT * FROM ") + TableUserAchievements::name + " WHERE " +
-			TableUserAchievements::Field::achievementID + "= ? AND " + TableUserAchievements::Field::userID + "= ?"));
+		if (!query.prepare(QString("SELECT * FROM ") + TableUserAchievements::name + " WHERE " +
+			TableUserAchievements::Field::achievementID + "= ? AND " + TableUserAchievements::Field::userID + "= ?"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
 		query.addBindValue(_achievementID);
 		query.addBindValue(_userID);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
 		return query.first();
 	}
 
@@ -252,11 +277,20 @@ namespace task
 		// insert new achievements
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.prepare(QString("INSERT INTO ") + TableUserAchievements::name + " (" +
-			TableUserAchievements::Field::achievementID + ", " + TableUserAchievements::Field::userID + ") VALUES (?, ?)"));
+		if (!query.prepare(QString("INSERT INTO ") + TableUserAchievements::name + " (" +
+			TableUserAchievements::Field::achievementID + ", " + TableUserAchievements::Field::userID + ") VALUES (?, ?)"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return;
+		}
+
 		query.addBindValue(_achievementID);
 		query.addBindValue(_userID);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return;
+		}
 		LOG_INFO("Session: " + m_Session.getID() + " insert user_achievement ID: " + _achievementID);
 	}
 
@@ -266,11 +300,20 @@ namespace task
 		// check if achievement exists and belongs to the game
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.prepare(QString("SELECT ") + TableCollectorAchievements::Field::number +" FROM " + TableCollectorAchievements::name + " WHERE " +
-			TableCollectorAchievements::Field::id + "= ? AND " + TableCollectorAchievements::Field::gameID + "= ?"));
+		if (!query.prepare(QString("SELECT ") + TableCollectorAchievements::Field::number +" FROM " + TableCollectorAchievements::name + " WHERE " +
+			TableCollectorAchievements::Field::id + "= ? AND " + TableCollectorAchievements::Field::gameID + "= ?"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return 0;
+		}
 		query.addBindValue(_achievementID);
 		query.addBindValue(_gameID);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		if (!query.first())
 			return 0;
 		return query.value(0).toULongLong();
@@ -282,33 +325,63 @@ namespace task
 		// check if user has achievement currently
 		QSqlQuery query(m_Database);
 		query.setForwardOnly(true);
-		assert(query.prepare(QString("SELECT * FROM ") + TableUserCollectorAchievements::name + " WHERE " +
-			TableUserCollectorAchievements::Field::achievementID + "= ? AND " + TableUserCollectorAchievements::Field::userID + "= ?"));
+		if (!query.prepare(QString("SELECT * FROM ") + TableUserCollectorAchievements::name + " WHERE " +
+			TableUserCollectorAchievements::Field::achievementID + "= ? AND " + TableUserCollectorAchievements::Field::userID + "= ?"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		query.addBindValue(_achievementID);
 		query.addBindValue(_userID);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		// update
 		if (query.first())
 		{
 			auto newCounter = query.value(TableUserCollectorAchievements::Field::counter).toULongLong() + 1;
 			auto id = query.value(TableUserCollectorAchievements::Field::id);
-			assert(query.prepare(QString("UPDATE ") + TableUserCollectorAchievements::name + " SET " + TableUserCollectorAchievements::Field::counter + "= ? WHERE " +
-				TableUserCollectorAchievements::Field::id + "= ?"));
+			if (!query.prepare(QString("UPDATE ") + TableUserCollectorAchievements::name + " SET " + TableUserCollectorAchievements::Field::counter + "= ? WHERE " +
+				TableUserCollectorAchievements::Field::id + "= ?"))
+			{
+				LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+				return false;
+			}
+
 			query.addBindValue(newCounter);
 			query.addBindValue(id);
-			assert(query.exec());
+			if (!query.exec())
+			{
+				LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+				return false;
+			}
+
 			LOG_INFO("Session: " + m_Session.getID() + " update user_collector_achievement ID: " + _achievementID + " Counter: " + newCounter);
 			return newCounter == _number;
 		}
 
 		// insert
-		assert(query.prepare(QString("INSERT INTO ") + TableUserCollectorAchievements::name + " (" +
+		if (!query.prepare(QString("INSERT INTO ") + TableUserCollectorAchievements::name + " (" +
 			TableUserCollectorAchievements::Field::achievementID + ", " + TableUserCollectorAchievements::Field::userID + ", " +
-			TableUserCollectorAchievements::Field::counter + ") VALUES (?, ?, ?)"));
+			TableUserCollectorAchievements::Field::counter + ") VALUES (?, ?, ?)"))
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		query.addBindValue(_achievementID);
 		query.addBindValue(_userID);
 		query.addBindValue(1);
-		assert(query.exec());
+		if (!query.exec())
+		{
+			LOG_ERR("Session: " + m_Session.getID() + " MySQL query error: " + query.lastError().text());
+			return false;
+		}
+
 		LOG_INFO("Session: " + m_Session.getID() + " insert user_collector_achievement ID: " + _achievementID);
 		return _number == 1;
 	}
