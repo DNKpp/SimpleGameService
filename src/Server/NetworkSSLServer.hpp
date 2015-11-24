@@ -24,5 +24,6 @@ namespace network
 
 	public:
 		void start(const config::Network& _config);
+		config::Network saveSettings() const;
 	};
 } // namespace network

@@ -10,22 +10,24 @@ namespace network
 {
 	void SSLServer::start(const config::Network& _config)
 	{
-		QFile file("./ssl/server.key");
+		QFile file(QString::fromStdString(_config.ssl_key));
 		if (!file.open(QIODevice::ReadOnly))
-			throw InitError(file.errorString().toStdString());
+			throw InitError("SSL key: " + file.errorString().toStdString());
 		m_SSLKey = std::make_unique<QSslKey>(&file, QSsl::Rsa, QSsl::Pem, QSsl::PrivateKey, QByteArray("1234"));
 		if (m_SSLKey->isNull())
 			throw InitError("Unable to read ssl private key.");
+		LOG_DEBUG("SSL key success.");
 
 		file.close();
-		file.setFileName("./ssl/server.crt");
+		file.setFileName(QString::fromStdString(_config.ssl_certificate));
 		if (!file.open(QIODevice::ReadOnly))
-			throw InitError(file.errorString().toStdString());
+			throw InitError("SSL certificate: " + file.errorString().toStdString());
 		m_SSLCertificate = std::make_unique<QSslCertificate>(&file);
 		if (m_SSLCertificate->isNull())
 			throw InitError("Unable to read ssl certificate.");
+		LOG_DEBUG("SSL certificate success.");
 
-		if (!listen(QHostAddress::Any, _config.getPort()))
+		if (!listen(QHostAddress::Any, _config.port))
 			throw InitError(errorString().toStdString());
 		LOG_INFO("TCP Server open on port: " + serverPort());
 	}
