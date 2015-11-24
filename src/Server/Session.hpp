@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Crypt.hpp"
-
 namespace network
 {
 	class Connection;
@@ -31,9 +29,6 @@ private:
 
 	const uint64_t m_SessionID = ++SessionCounter;
 	int m_TaskCounter = 0;
-
-	Crypt m_Crypt;
-	void _sendWelcomeMessage();
 
 public:
 	Session(network::Connection* _con, QObject* _parent = nullptr);

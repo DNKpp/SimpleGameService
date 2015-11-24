@@ -96,7 +96,7 @@ namespace task
 	signals:
 		void replyCreated(QByteArray, network::MessageType);
 
-		private slots:
+	private slots:
 		void _onFinished();
 	};
 } // namespace task

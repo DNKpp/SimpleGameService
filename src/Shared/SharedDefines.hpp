@@ -17,6 +17,8 @@ namespace svr
 		authentication	= 1,
 		login			= 2,
 		achievement		= 3,
+		welcome			= 4,
+		aes_key			= 5,
 	};
 } // namespace svr
 
@@ -28,6 +30,7 @@ namespace client
 		loginReply			= 2,
 		achievementReply	= 3,
 		welcome				= 4,
+		cryptReply			= 5,
 	};
 } // namespace client
 } // namespace network

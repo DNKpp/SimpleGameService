@@ -61,7 +61,9 @@ namespace network
 		auto connection = new network::Connection(*m_Socket, this);
 		assert(connect(connection, SIGNAL(messageReceived(const network::IMessage&)), &m_Session, SLOT(_onMessageReceived(const network::IMessage&))));
 		assert(connect(&m_Session, SIGNAL(send(QByteArray, network::MessageType)), connection, SLOT(onPacketSent(QByteArray, network::MessageType))));
-		assert(connect(&m_Session, SIGNAL(ready()), this, SLOT(_onSessionReady())));
+
+		m_Session.sendPacket(_createAuthenticate(), network::svr::authentication);
+		m_Session.sendPacket(_createLogin("test"), network::svr::login);
 	}
 
 	void Client::_onSessionReady()

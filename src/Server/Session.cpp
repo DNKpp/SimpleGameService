@@ -12,20 +12,6 @@ Session::Session(network::Connection* _con, QObject* _parent) :
 	m_Connection(_con)
 {
 	assert(_con);
-	_sendWelcomeMessage();
-}
-
-void Session::_sendWelcomeMessage()
-{
-	auto publicKey = m_Crypt.generateRSA();
-	protobuf::Welcome msg;
-	std::string keyString;
-	CryptoPP::StringSink keySink(keyString);
-	publicKey.Save(keySink);
-	msg.set_key(keyString);
-	QByteArray buffer(msg.ByteSize(), 0);
-	msg.SerializeToArray(buffer.data(), buffer.size());
-	m_Connection->onPacketSent(buffer, network::client::welcome);
 }
 
 uint64_t Session::getGameID() const
@@ -74,9 +60,8 @@ void Session::_onMessageReceived(const network::IMessage& _msg)
 
 	try
 	{
-		auto decrypt = m_Crypt.decryptRSA(_msg.getBytes());
 		auto taskWatcher = std::make_unique<task::TaskWatcher>(*this, this);
-		taskWatcher->run(decrypt, _msg.getMessageType());
+		taskWatcher->run(_msg.getBytes(), _msg.getMessageType());
 		taskWatcher.release();		// not needed anymore. deletes itself when finishes.
 	}
 	catch (const std::runtime_error& e)

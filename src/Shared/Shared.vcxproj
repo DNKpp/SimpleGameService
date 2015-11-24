@@ -19,7 +19,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Crypt.cpp" />
     <ClCompile Include="log.cpp" />
     <ClCompile Include="Messages.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
@@ -36,9 +35,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="log.hpp" />
-    <ClInclude Include="Crypt.hpp">
-      <FileType>Document</FileType>
-    </ClInclude>
     <moc_header Include="NetworkConnection.hpp" />
     <ClInclude Include="NetworkExceptions.h" />
     <ClInclude Include="Messages.pb.h">
@@ -118,22 +114,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)\lib\</OutDir>
-    <IncludePath>$(CryptoppDir);$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <TargetName>$(ProjectName)d</TargetName>
     <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
     <ExecutablePath>$(Protobuf)\bin;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
-    <LibraryPath>$(CryptoppDir)\lib;$(Protobuf)\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(Protobuf)\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(QtDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)\lib\</OutDir>
-    <IncludePath>$(CryptoppDir);$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <IncludePath>$(SimpleLib)\include;$(BoostDir);$(Protobuf)\include;$(QtDir)\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
     <TargetName>$(ProjectName)</TargetName>
     <IntDir>$(SolutionDir)\temp\$(Configuration)\$(ProjectName)\</IntDir>
     <ExecutablePath>$(Protobuf)\bin;$(VC_ExecutablePath_x86);$(WindowsSDK_ExecutablePath);$(VS_ExecutablePath);$(MSBuild_ExecutablePath);$(SystemRoot)\SysWow64;$(FxCopDir);$(PATH);</ExecutablePath>
-    <LibraryPath>$(CryptoppDir)\lib;$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(QtDir);$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>

@@ -41,9 +41,11 @@ class Achievement;
 class AchievementReply;
 class Authentication;
 class AuthenticationReply;
+class CryptReply;
 class Login;
 class LoginReply;
 class Welcome;
+class WelcomeReply;
 
 enum Achievement_Type {
   Achievement_Type_complete = 0,
@@ -88,6 +90,27 @@ inline bool AchievementReply_Type_Parse(
     const ::std::string& name, AchievementReply_Type* value) {
   return ::google::protobuf::internal::ParseNamedEnum<AchievementReply_Type>(
     AchievementReply_Type_descriptor(), name, value);
+}
+enum CryptReply_Type {
+  CryptReply_Type_complete = 0,
+  CryptReply_Type_failed = 1,
+  CryptReply_Type_CryptReply_Type_INT_MIN_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32min,
+  CryptReply_Type_CryptReply_Type_INT_MAX_SENTINEL_DO_NOT_USE_ = ::google::protobuf::kint32max
+};
+bool CryptReply_Type_IsValid(int value);
+const CryptReply_Type CryptReply_Type_Type_MIN = CryptReply_Type_complete;
+const CryptReply_Type CryptReply_Type_Type_MAX = CryptReply_Type_failed;
+const int CryptReply_Type_Type_ARRAYSIZE = CryptReply_Type_Type_MAX + 1;
+
+const ::google::protobuf::EnumDescriptor* CryptReply_Type_descriptor();
+inline const ::std::string& CryptReply_Type_Name(CryptReply_Type value) {
+  return ::google::protobuf::internal::NameOfEnum(
+    CryptReply_Type_descriptor(), value);
+}
+inline bool CryptReply_Type_Parse(
+    const ::std::string& name, CryptReply_Type* value) {
+  return ::google::protobuf::internal::ParseNamedEnum<CryptReply_Type>(
+    CryptReply_Type_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -733,6 +756,203 @@ class Welcome : public ::google::protobuf::Message {
   void InitAsDefaultInstance();
   static Welcome* default_instance_;
 };
+// -------------------------------------------------------------------
+
+class WelcomeReply : public ::google::protobuf::Message {
+ public:
+  WelcomeReply();
+  virtual ~WelcomeReply();
+
+  WelcomeReply(const WelcomeReply& from);
+
+  inline WelcomeReply& operator=(const WelcomeReply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const WelcomeReply& default_instance();
+
+  void Swap(WelcomeReply* other);
+
+  // implements Message ----------------------------------------------
+
+  inline WelcomeReply* New() const { return New(NULL); }
+
+  WelcomeReply* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const WelcomeReply& from);
+  void MergeFrom(const WelcomeReply& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(WelcomeReply* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  // optional bytes key = 1;
+  void clear_key();
+  static const int kKeyFieldNumber = 1;
+  const ::std::string& key() const;
+  void set_key(const ::std::string& value);
+  void set_key(const char* value);
+  void set_key(const void* value, size_t size);
+  ::std::string* mutable_key();
+  ::std::string* release_key();
+  void set_allocated_key(::std::string* key);
+
+  // optional bytes iv = 2;
+  void clear_iv();
+  static const int kIvFieldNumber = 2;
+  const ::std::string& iv() const;
+  void set_iv(const ::std::string& value);
+  void set_iv(const char* value);
+  void set_iv(const void* value, size_t size);
+  ::std::string* mutable_iv();
+  ::std::string* release_iv();
+  void set_allocated_iv(::std::string* iv);
+
+  // @@protoc_insertion_point(class_scope:protobuf.WelcomeReply)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  ::google::protobuf::internal::ArenaStringPtr key_;
+  ::google::protobuf::internal::ArenaStringPtr iv_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_Messages_2eproto();
+  friend void protobuf_AssignDesc_Messages_2eproto();
+  friend void protobuf_ShutdownFile_Messages_2eproto();
+
+  void InitAsDefaultInstance();
+  static WelcomeReply* default_instance_;
+};
+// -------------------------------------------------------------------
+
+class CryptReply : public ::google::protobuf::Message {
+ public:
+  CryptReply();
+  virtual ~CryptReply();
+
+  CryptReply(const CryptReply& from);
+
+  inline CryptReply& operator=(const CryptReply& from) {
+    CopyFrom(from);
+    return *this;
+  }
+
+  static const ::google::protobuf::Descriptor* descriptor();
+  static const CryptReply& default_instance();
+
+  void Swap(CryptReply* other);
+
+  // implements Message ----------------------------------------------
+
+  inline CryptReply* New() const { return New(NULL); }
+
+  CryptReply* New(::google::protobuf::Arena* arena) const;
+  void CopyFrom(const ::google::protobuf::Message& from);
+  void MergeFrom(const ::google::protobuf::Message& from);
+  void CopyFrom(const CryptReply& from);
+  void MergeFrom(const CryptReply& from);
+  void Clear();
+  bool IsInitialized() const;
+
+  int ByteSize() const;
+  bool MergePartialFromCodedStream(
+      ::google::protobuf::io::CodedInputStream* input);
+  void SerializeWithCachedSizes(
+      ::google::protobuf::io::CodedOutputStream* output) const;
+  ::google::protobuf::uint8* SerializeWithCachedSizesToArray(::google::protobuf::uint8* output) const;
+  int GetCachedSize() const { return _cached_size_; }
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const;
+  void InternalSwap(CryptReply* other);
+  private:
+  inline ::google::protobuf::Arena* GetArenaNoVirtual() const {
+    return _internal_metadata_.arena();
+  }
+  inline void* MaybeArenaPtr() const {
+    return _internal_metadata_.raw_arena_ptr();
+  }
+  public:
+
+  ::google::protobuf::Metadata GetMetadata() const;
+
+  // nested types ----------------------------------------------------
+
+  typedef CryptReply_Type Type;
+  static const Type complete = CryptReply_Type_complete;
+  static const Type failed = CryptReply_Type_failed;
+  static inline bool Type_IsValid(int value) {
+    return CryptReply_Type_IsValid(value);
+  }
+  static const Type Type_MIN =
+    CryptReply_Type_Type_MIN;
+  static const Type Type_MAX =
+    CryptReply_Type_Type_MAX;
+  static const int Type_ARRAYSIZE =
+    CryptReply_Type_Type_ARRAYSIZE;
+  static inline const ::google::protobuf::EnumDescriptor*
+  Type_descriptor() {
+    return CryptReply_Type_descriptor();
+  }
+  static inline const ::std::string& Type_Name(Type value) {
+    return CryptReply_Type_Name(value);
+  }
+  static inline bool Type_Parse(const ::std::string& name,
+      Type* value) {
+    return CryptReply_Type_Parse(name, value);
+  }
+
+  // accessors -------------------------------------------------------
+
+  // optional .protobuf.CryptReply.Type result = 2;
+  void clear_result();
+  static const int kResultFieldNumber = 2;
+  ::protobuf::CryptReply_Type result() const;
+  void set_result(::protobuf::CryptReply_Type value);
+
+  // @@protoc_insertion_point(class_scope:protobuf.CryptReply)
+ private:
+
+  ::google::protobuf::internal::InternalMetadataWithArena _internal_metadata_;
+  bool _is_default_instance_;
+  int result_;
+  mutable int _cached_size_;
+  friend void  protobuf_AddDesc_Messages_2eproto();
+  friend void protobuf_AssignDesc_Messages_2eproto();
+  friend void protobuf_ShutdownFile_Messages_2eproto();
+
+  void InitAsDefaultInstance();
+  static CryptReply* default_instance_;
+};
 // ===================================================================
 
 
@@ -1035,7 +1255,119 @@ inline void Welcome::set_allocated_key(::std::string* key) {
   // @@protoc_insertion_point(field_set_allocated:protobuf.Welcome.key)
 }
 
+// -------------------------------------------------------------------
+
+// WelcomeReply
+
+// optional bytes key = 1;
+inline void WelcomeReply::clear_key() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& WelcomeReply::key() const {
+  // @@protoc_insertion_point(field_get:protobuf.WelcomeReply.key)
+  return key_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void WelcomeReply::set_key(const ::std::string& value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:protobuf.WelcomeReply.key)
+}
+inline void WelcomeReply::set_key(const char* value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protobuf.WelcomeReply.key)
+}
+inline void WelcomeReply::set_key(const void* value, size_t size) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protobuf.WelcomeReply.key)
+}
+inline ::std::string* WelcomeReply::mutable_key() {
+  
+  // @@protoc_insertion_point(field_mutable:protobuf.WelcomeReply.key)
+  return key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* WelcomeReply::release_key() {
+  
+  return key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void WelcomeReply::set_allocated_key(::std::string* key) {
+  if (key != NULL) {
+    
+  } else {
+    
+  }
+  key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
+  // @@protoc_insertion_point(field_set_allocated:protobuf.WelcomeReply.key)
+}
+
+// optional bytes iv = 2;
+inline void WelcomeReply::clear_iv() {
+  iv_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline const ::std::string& WelcomeReply::iv() const {
+  // @@protoc_insertion_point(field_get:protobuf.WelcomeReply.iv)
+  return iv_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void WelcomeReply::set_iv(const ::std::string& value) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:protobuf.WelcomeReply.iv)
+}
+inline void WelcomeReply::set_iv(const char* value) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protobuf.WelcomeReply.iv)
+}
+inline void WelcomeReply::set_iv(const void* value, size_t size) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protobuf.WelcomeReply.iv)
+}
+inline ::std::string* WelcomeReply::mutable_iv() {
+  
+  // @@protoc_insertion_point(field_mutable:protobuf.WelcomeReply.iv)
+  return iv_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline ::std::string* WelcomeReply::release_iv() {
+  
+  return iv_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+inline void WelcomeReply::set_allocated_iv(::std::string* iv) {
+  if (iv != NULL) {
+    
+  } else {
+    
+  }
+  iv_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), iv);
+  // @@protoc_insertion_point(field_set_allocated:protobuf.WelcomeReply.iv)
+}
+
+// -------------------------------------------------------------------
+
+// CryptReply
+
+// optional .protobuf.CryptReply.Type result = 2;
+inline void CryptReply::clear_result() {
+  result_ = 0;
+}
+inline ::protobuf::CryptReply_Type CryptReply::result() const {
+  // @@protoc_insertion_point(field_get:protobuf.CryptReply.result)
+  return static_cast< ::protobuf::CryptReply_Type >(result_);
+}
+inline void CryptReply::set_result(::protobuf::CryptReply_Type value) {
+  
+  result_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.CryptReply.result)
+}
+
 #endif  // !PROTOBUF_INLINE_NOT_IN_HEADERS
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
@@ -1066,6 +1398,11 @@ template <> struct is_proto_enum< ::protobuf::AchievementReply_Type> : ::google:
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protobuf::AchievementReply_Type>() {
   return ::protobuf::AchievementReply_Type_descriptor();
+}
+template <> struct is_proto_enum< ::protobuf::CryptReply_Type> : ::google::protobuf::internal::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protobuf::CryptReply_Type>() {
+  return ::protobuf::CryptReply_Type_descriptor();
 }
 
 }  // namespace protobuf

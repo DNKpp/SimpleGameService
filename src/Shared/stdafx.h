@@ -39,11 +39,7 @@
 #include <SimpleLib/log/Log.h>
 #include <SimpleLib/log/ConsoleOutput.h>
 #include <SimpleLib/log/HTMLFileOutput.h>
-
-// cryptopp
-#include <rsa.h>
-#include <aes.h>
-#include <osrng.h>
+#include <SimpleLib/Flag.h>
 
 // others
 #include "log.hpp"

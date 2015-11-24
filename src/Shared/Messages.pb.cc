@@ -43,6 +43,13 @@ const ::google::protobuf::EnumDescriptor* AchievementReply_Type_descriptor_ = NU
 const ::google::protobuf::Descriptor* Welcome_descriptor_ = NULL;
 const ::google::protobuf::internal::GeneratedMessageReflection*
   Welcome_reflection_ = NULL;
+const ::google::protobuf::Descriptor* WelcomeReply_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  WelcomeReply_reflection_ = NULL;
+const ::google::protobuf::Descriptor* CryptReply_descriptor_ = NULL;
+const ::google::protobuf::internal::GeneratedMessageReflection*
+  CryptReply_reflection_ = NULL;
+const ::google::protobuf::EnumDescriptor* CryptReply_Type_descriptor_ = NULL;
 
 }  // namespace
 
@@ -164,6 +171,38 @@ void protobuf_AssignDesc_Messages_2eproto() {
       sizeof(Welcome),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Welcome, _internal_metadata_),
       GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(Welcome, _is_default_instance_));
+  WelcomeReply_descriptor_ = file->message_type(7);
+  static const int WelcomeReply_offsets_[2] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WelcomeReply, key_),
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WelcomeReply, iv_),
+  };
+  WelcomeReply_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      WelcomeReply_descriptor_,
+      WelcomeReply::default_instance_,
+      WelcomeReply_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(WelcomeReply),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WelcomeReply, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(WelcomeReply, _is_default_instance_));
+  CryptReply_descriptor_ = file->message_type(8);
+  static const int CryptReply_offsets_[1] = {
+    GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CryptReply, result_),
+  };
+  CryptReply_reflection_ =
+    ::google::protobuf::internal::GeneratedMessageReflection::NewGeneratedMessageReflection(
+      CryptReply_descriptor_,
+      CryptReply::default_instance_,
+      CryptReply_offsets_,
+      -1,
+      -1,
+      -1,
+      sizeof(CryptReply),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CryptReply, _internal_metadata_),
+      GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(CryptReply, _is_default_instance_));
+  CryptReply_Type_descriptor_ = CryptReply_descriptor_->enum_type(0);
 }
 
 namespace {
@@ -190,6 +229,10 @@ void protobuf_RegisterTypes(const ::std::string&) {
       AchievementReply_descriptor_, &AchievementReply::default_instance());
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
       Welcome_descriptor_, &Welcome::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      WelcomeReply_descriptor_, &WelcomeReply::default_instance());
+  ::google::protobuf::MessageFactory::InternalRegisterGeneratedMessage(
+      CryptReply_descriptor_, &CryptReply::default_instance());
 }
 
 }  // namespace
@@ -209,6 +252,10 @@ void protobuf_ShutdownFile_Messages_2eproto() {
   delete AchievementReply_reflection_;
   delete Welcome::default_instance_;
   delete Welcome_reflection_;
+  delete WelcomeReply::default_instance_;
+  delete WelcomeReply_reflection_;
+  delete CryptReply::default_instance_;
+  delete CryptReply_reflection_;
 }
 
 void protobuf_AddDesc_Messages_2eproto() {
@@ -229,7 +276,10 @@ void protobuf_AddDesc_Messages_2eproto() {
     "ult\030\002 \001(\0162\037.protobuf.AchievementReply.Ty"
     "pe\":\n\004Type\022\014\n\010complete\020\000\022\n\n\006failed\020\001\022\n\n\006"
     "exists\020\002\022\014\n\010progress\020\003\"\026\n\007Welcome\022\013\n\003key"
-    "\030\001 \001(\014b\006proto3", 454);
+    "\030\001 \001(\014\"\'\n\014WelcomeReply\022\013\n\003key\030\001 \001(\014\022\n\n\002i"
+    "v\030\002 \001(\014\"Y\n\nCryptReply\022)\n\006result\030\002 \001(\0162\031."
+    "protobuf.CryptReply.Type\" \n\004Type\022\014\n\010comp"
+    "lete\020\000\022\n\n\006failed\020\001b\006proto3", 586);
   ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
     "Messages.proto", &protobuf_RegisterTypes);
   Authentication::default_instance_ = new Authentication();
@@ -239,6 +289,8 @@ void protobuf_AddDesc_Messages_2eproto() {
   Achievement::default_instance_ = new Achievement();
   AchievementReply::default_instance_ = new AchievementReply();
   Welcome::default_instance_ = new Welcome();
+  WelcomeReply::default_instance_ = new WelcomeReply();
+  CryptReply::default_instance_ = new CryptReply();
   Authentication::default_instance_->InitAsDefaultInstance();
   AuthenticationReply::default_instance_->InitAsDefaultInstance();
   Login::default_instance_->InitAsDefaultInstance();
@@ -246,6 +298,8 @@ void protobuf_AddDesc_Messages_2eproto() {
   Achievement::default_instance_->InitAsDefaultInstance();
   AchievementReply::default_instance_->InitAsDefaultInstance();
   Welcome::default_instance_->InitAsDefaultInstance();
+  WelcomeReply::default_instance_->InitAsDefaultInstance();
+  CryptReply::default_instance_->InitAsDefaultInstance();
   ::google::protobuf::internal::OnShutdown(&protobuf_ShutdownFile_Messages_2eproto);
 }
 
@@ -2267,6 +2321,599 @@ void Welcome::clear_key() {
   }
   key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
   // @@protoc_insertion_point(field_set_allocated:protobuf.Welcome.key)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+#ifndef _MSC_VER
+const int WelcomeReply::kKeyFieldNumber;
+const int WelcomeReply::kIvFieldNumber;
+#endif  // !_MSC_VER
+
+WelcomeReply::WelcomeReply()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protobuf.WelcomeReply)
+}
+
+void WelcomeReply::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+WelcomeReply::WelcomeReply(const WelcomeReply& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:protobuf.WelcomeReply)
+}
+
+void WelcomeReply::SharedCtor() {
+    _is_default_instance_ = false;
+  ::google::protobuf::internal::GetEmptyString();
+  _cached_size_ = 0;
+  key_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  iv_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+WelcomeReply::~WelcomeReply() {
+  // @@protoc_insertion_point(destructor:protobuf.WelcomeReply)
+  SharedDtor();
+}
+
+void WelcomeReply::SharedDtor() {
+  key_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  iv_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  if (this != default_instance_) {
+  }
+}
+
+void WelcomeReply::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* WelcomeReply::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return WelcomeReply_descriptor_;
+}
+
+const WelcomeReply& WelcomeReply::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_Messages_2eproto();
+  return *default_instance_;
+}
+
+WelcomeReply* WelcomeReply::default_instance_ = NULL;
+
+WelcomeReply* WelcomeReply::New(::google::protobuf::Arena* arena) const {
+  WelcomeReply* n = new WelcomeReply;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void WelcomeReply::Clear() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  iv_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+
+bool WelcomeReply::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:protobuf.WelcomeReply)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional bytes key = 1;
+      case 1: {
+        if (tag == 10) {
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_key()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectTag(18)) goto parse_iv;
+        break;
+      }
+
+      // optional bytes iv = 2;
+      case 2: {
+        if (tag == 18) {
+         parse_iv:
+          DO_(::google::protobuf::internal::WireFormatLite::ReadBytes(
+                input, this->mutable_iv()));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:protobuf.WelcomeReply)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:protobuf.WelcomeReply)
+  return false;
+#undef DO_
+}
+
+void WelcomeReply::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:protobuf.WelcomeReply)
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      1, this->key(), output);
+  }
+
+  // optional bytes iv = 2;
+  if (this->iv().size() > 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteBytesMaybeAliased(
+      2, this->iv(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:protobuf.WelcomeReply)
+}
+
+::google::protobuf::uint8* WelcomeReply::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protobuf.WelcomeReply)
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        1, this->key(), target);
+  }
+
+  // optional bytes iv = 2;
+  if (this->iv().size() > 0) {
+    target =
+      ::google::protobuf::internal::WireFormatLite::WriteBytesToArray(
+        2, this->iv(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:protobuf.WelcomeReply)
+  return target;
+}
+
+int WelcomeReply::ByteSize() const {
+  int total_size = 0;
+
+  // optional bytes key = 1;
+  if (this->key().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->key());
+  }
+
+  // optional bytes iv = 2;
+  if (this->iv().size() > 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::BytesSize(
+        this->iv());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void WelcomeReply::MergeFrom(const ::google::protobuf::Message& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const WelcomeReply* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const WelcomeReply>(
+          &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void WelcomeReply::MergeFrom(const WelcomeReply& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.key().size() > 0) {
+
+    key_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.key_);
+  }
+  if (from.iv().size() > 0) {
+
+    iv_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.iv_);
+  }
+}
+
+void WelcomeReply::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void WelcomeReply::CopyFrom(const WelcomeReply& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool WelcomeReply::IsInitialized() const {
+
+  return true;
+}
+
+void WelcomeReply::Swap(WelcomeReply* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void WelcomeReply::InternalSwap(WelcomeReply* other) {
+  key_.Swap(&other->key_);
+  iv_.Swap(&other->iv_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata WelcomeReply::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = WelcomeReply_descriptor_;
+  metadata.reflection = WelcomeReply_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// WelcomeReply
+
+// optional bytes key = 1;
+void WelcomeReply::clear_key() {
+  key_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& WelcomeReply::key() const {
+  // @@protoc_insertion_point(field_get:protobuf.WelcomeReply.key)
+  return key_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void WelcomeReply::set_key(const ::std::string& value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:protobuf.WelcomeReply.key)
+}
+ void WelcomeReply::set_key(const char* value) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protobuf.WelcomeReply.key)
+}
+ void WelcomeReply::set_key(const void* value, size_t size) {
+  
+  key_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protobuf.WelcomeReply.key)
+}
+ ::std::string* WelcomeReply::mutable_key() {
+  
+  // @@protoc_insertion_point(field_mutable:protobuf.WelcomeReply.key)
+  return key_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* WelcomeReply::release_key() {
+  
+  return key_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void WelcomeReply::set_allocated_key(::std::string* key) {
+  if (key != NULL) {
+    
+  } else {
+    
+  }
+  key_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), key);
+  // @@protoc_insertion_point(field_set_allocated:protobuf.WelcomeReply.key)
+}
+
+// optional bytes iv = 2;
+void WelcomeReply::clear_iv() {
+  iv_.ClearToEmptyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ const ::std::string& WelcomeReply::iv() const {
+  // @@protoc_insertion_point(field_get:protobuf.WelcomeReply.iv)
+  return iv_.GetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void WelcomeReply::set_iv(const ::std::string& value) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), value);
+  // @@protoc_insertion_point(field_set:protobuf.WelcomeReply.iv)
+}
+ void WelcomeReply::set_iv(const char* value) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), ::std::string(value));
+  // @@protoc_insertion_point(field_set_char:protobuf.WelcomeReply.iv)
+}
+ void WelcomeReply::set_iv(const void* value, size_t size) {
+  
+  iv_.SetNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(),
+      ::std::string(reinterpret_cast<const char*>(value), size));
+  // @@protoc_insertion_point(field_set_pointer:protobuf.WelcomeReply.iv)
+}
+ ::std::string* WelcomeReply::mutable_iv() {
+  
+  // @@protoc_insertion_point(field_mutable:protobuf.WelcomeReply.iv)
+  return iv_.MutableNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ ::std::string* WelcomeReply::release_iv() {
+  
+  return iv_.ReleaseNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+}
+ void WelcomeReply::set_allocated_iv(::std::string* iv) {
+  if (iv != NULL) {
+    
+  } else {
+    
+  }
+  iv_.SetAllocatedNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), iv);
+  // @@protoc_insertion_point(field_set_allocated:protobuf.WelcomeReply.iv)
+}
+
+#endif  // PROTOBUF_INLINE_NOT_IN_HEADERS
+
+// ===================================================================
+
+const ::google::protobuf::EnumDescriptor* CryptReply_Type_descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CryptReply_Type_descriptor_;
+}
+bool CryptReply_Type_IsValid(int value) {
+  switch(value) {
+    case 0:
+    case 1:
+      return true;
+    default:
+      return false;
+  }
+}
+
+#ifndef _MSC_VER
+const CryptReply_Type CryptReply::complete;
+const CryptReply_Type CryptReply::failed;
+const CryptReply_Type CryptReply::Type_MIN;
+const CryptReply_Type CryptReply::Type_MAX;
+const int CryptReply::Type_ARRAYSIZE;
+#endif  // _MSC_VER
+#ifndef _MSC_VER
+const int CryptReply::kResultFieldNumber;
+#endif  // !_MSC_VER
+
+CryptReply::CryptReply()
+  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
+  SharedCtor();
+  // @@protoc_insertion_point(constructor:protobuf.CryptReply)
+}
+
+void CryptReply::InitAsDefaultInstance() {
+  _is_default_instance_ = true;
+}
+
+CryptReply::CryptReply(const CryptReply& from)
+  : ::google::protobuf::Message(),
+    _internal_metadata_(NULL) {
+  SharedCtor();
+  MergeFrom(from);
+  // @@protoc_insertion_point(copy_constructor:protobuf.CryptReply)
+}
+
+void CryptReply::SharedCtor() {
+    _is_default_instance_ = false;
+  _cached_size_ = 0;
+  result_ = 0;
+}
+
+CryptReply::~CryptReply() {
+  // @@protoc_insertion_point(destructor:protobuf.CryptReply)
+  SharedDtor();
+}
+
+void CryptReply::SharedDtor() {
+  if (this != default_instance_) {
+  }
+}
+
+void CryptReply::SetCachedSize(int size) const {
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+}
+const ::google::protobuf::Descriptor* CryptReply::descriptor() {
+  protobuf_AssignDescriptorsOnce();
+  return CryptReply_descriptor_;
+}
+
+const CryptReply& CryptReply::default_instance() {
+  if (default_instance_ == NULL) protobuf_AddDesc_Messages_2eproto();
+  return *default_instance_;
+}
+
+CryptReply* CryptReply::default_instance_ = NULL;
+
+CryptReply* CryptReply::New(::google::protobuf::Arena* arena) const {
+  CryptReply* n = new CryptReply;
+  if (arena != NULL) {
+    arena->Own(n);
+  }
+  return n;
+}
+
+void CryptReply::Clear() {
+  result_ = 0;
+}
+
+bool CryptReply::MergePartialFromCodedStream(
+    ::google::protobuf::io::CodedInputStream* input) {
+#define DO_(EXPRESSION) if (!(EXPRESSION)) goto failure
+  ::google::protobuf::uint32 tag;
+  // @@protoc_insertion_point(parse_start:protobuf.CryptReply)
+  for (;;) {
+    ::std::pair< ::google::protobuf::uint32, bool> p = input->ReadTagWithCutoff(127);
+    tag = p.first;
+    if (!p.second) goto handle_unusual;
+    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+      // optional .protobuf.CryptReply.Type result = 2;
+      case 2: {
+        if (tag == 16) {
+          int value;
+          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
+                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
+                 input, &value)));
+          set_result(static_cast< ::protobuf::CryptReply_Type >(value));
+        } else {
+          goto handle_unusual;
+        }
+        if (input->ExpectAtEnd()) goto success;
+        break;
+      }
+
+      default: {
+      handle_unusual:
+        if (tag == 0 ||
+            ::google::protobuf::internal::WireFormatLite::GetTagWireType(tag) ==
+            ::google::protobuf::internal::WireFormatLite::WIRETYPE_END_GROUP) {
+          goto success;
+        }
+        DO_(::google::protobuf::internal::WireFormatLite::SkipField(input, tag));
+        break;
+      }
+    }
+  }
+success:
+  // @@protoc_insertion_point(parse_success:protobuf.CryptReply)
+  return true;
+failure:
+  // @@protoc_insertion_point(parse_failure:protobuf.CryptReply)
+  return false;
+#undef DO_
+}
+
+void CryptReply::SerializeWithCachedSizes(
+    ::google::protobuf::io::CodedOutputStream* output) const {
+  // @@protoc_insertion_point(serialize_start:protobuf.CryptReply)
+  // optional .protobuf.CryptReply.Type result = 2;
+  if (this->result() != 0) {
+    ::google::protobuf::internal::WireFormatLite::WriteEnum(
+      2, this->result(), output);
+  }
+
+  // @@protoc_insertion_point(serialize_end:protobuf.CryptReply)
+}
+
+::google::protobuf::uint8* CryptReply::SerializeWithCachedSizesToArray(
+    ::google::protobuf::uint8* target) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protobuf.CryptReply)
+  // optional .protobuf.CryptReply.Type result = 2;
+  if (this->result() != 0) {
+    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
+      2, this->result(), target);
+  }
+
+  // @@protoc_insertion_point(serialize_to_array_end:protobuf.CryptReply)
+  return target;
+}
+
+int CryptReply::ByteSize() const {
+  int total_size = 0;
+
+  // optional .protobuf.CryptReply.Type result = 2;
+  if (this->result() != 0) {
+    total_size += 1 +
+      ::google::protobuf::internal::WireFormatLite::EnumSize(this->result());
+  }
+
+  GOOGLE_SAFE_CONCURRENT_WRITES_BEGIN();
+  _cached_size_ = total_size;
+  GOOGLE_SAFE_CONCURRENT_WRITES_END();
+  return total_size;
+}
+
+void CryptReply::MergeFrom(const ::google::protobuf::Message& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  const CryptReply* source = 
+      ::google::protobuf::internal::DynamicCastToGenerated<const CryptReply>(
+          &from);
+  if (source == NULL) {
+    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+  } else {
+    MergeFrom(*source);
+  }
+}
+
+void CryptReply::MergeFrom(const CryptReply& from) {
+  if (GOOGLE_PREDICT_FALSE(&from == this)) MergeFromFail(__LINE__);
+  if (from.result() != 0) {
+    set_result(from.result());
+  }
+}
+
+void CryptReply::CopyFrom(const ::google::protobuf::Message& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void CryptReply::CopyFrom(const CryptReply& from) {
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool CryptReply::IsInitialized() const {
+
+  return true;
+}
+
+void CryptReply::Swap(CryptReply* other) {
+  if (other == this) return;
+  InternalSwap(other);
+}
+void CryptReply::InternalSwap(CryptReply* other) {
+  std::swap(result_, other->result_);
+  _internal_metadata_.Swap(&other->_internal_metadata_);
+  std::swap(_cached_size_, other->_cached_size_);
+}
+
+::google::protobuf::Metadata CryptReply::GetMetadata() const {
+  protobuf_AssignDescriptorsOnce();
+  ::google::protobuf::Metadata metadata;
+  metadata.descriptor = CryptReply_descriptor_;
+  metadata.reflection = CryptReply_reflection_;
+  return metadata;
+}
+
+#if PROTOBUF_INLINE_NOT_IN_HEADERS
+// CryptReply
+
+// optional .protobuf.CryptReply.Type result = 2;
+void CryptReply::clear_result() {
+  result_ = 0;
+}
+ ::protobuf::CryptReply_Type CryptReply::result() const {
+  // @@protoc_insertion_point(field_get:protobuf.CryptReply.result)
+  return static_cast< ::protobuf::CryptReply_Type >(result_);
+}
+ void CryptReply::set_result(::protobuf::CryptReply_Type value) {
+  
+  result_ = value;
+  // @@protoc_insertion_point(field_set:protobuf.CryptReply.result)
 }
 
 #endif  // PROTOBUF_INLINE_NOT_IN_HEADERS

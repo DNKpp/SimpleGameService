@@ -85,7 +85,6 @@ namespace task
 
 	Result Base::start()
 	{
-		Result result;
 		do
 		{
 			try

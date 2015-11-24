@@ -54,3 +54,19 @@ message Welcome
 {
     bytes key = 1;
 }
+
+message WelcomeReply
+{
+    bytes key = 1;
+    bytes iv = 2;
+}
+
+message CryptReply
+{
+    enum Type
+    {
+        complete    = 0;
+        failed      = 1;
+    }
+    Type result = 2;
+}
