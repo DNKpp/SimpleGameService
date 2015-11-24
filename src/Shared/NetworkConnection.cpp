@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "NetworkConnection.hpp"
 #include "moc_NetworkConnection.hpp"
-#include "NetworkExceptions.h"
+#include "NetworkExceptions.hpp"
 
 namespace network
 {

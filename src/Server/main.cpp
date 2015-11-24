@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Server.hpp"
-#include "NetworkExceptions.h"
 //
 int main(int argc, char* argv[])
 {

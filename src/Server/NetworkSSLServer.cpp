@@ -2,7 +2,7 @@
 #include "NetworkSSLServer.hpp"
 #include "moc_NetworkSSLServer.hpp"
 #include "NetworkConfig.hpp"
-#include "NetworkExceptions.h"
+#include "NetworkExceptions.hpp"
 #include "NetworkConnection.hpp"
 #include "Session.hpp"
 

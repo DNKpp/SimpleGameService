@@ -16,7 +16,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="NetworkExceptions.h" />
     <ClInclude Include="stdafx.h">
       <Filter>others</Filter>
     </ClInclude>
@@ -27,6 +26,7 @@
     <ClInclude Include="SharedDefines.hpp">
       <Filter>others</Filter>
     </ClInclude>
+    <ClInclude Include="NetworkExceptions.hpp" />
   </ItemGroup>
   <ItemGroup>
     <moc_header Include="NetworkMessage.hpp" />

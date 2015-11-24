@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "NetworkExceptions.h"
+#include "NetworkExceptions.hpp"
 
 namespace network
 {

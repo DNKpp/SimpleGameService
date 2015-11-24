@@ -1,7 +1,5 @@
 #pragma once
 
-#include "NetworkExceptions.h"
-
 namespace network
 {
 	class IMessage : public QObject

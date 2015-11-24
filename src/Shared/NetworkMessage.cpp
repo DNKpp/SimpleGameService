@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "NetworkMessage.hpp"
 #include "moc_NetworkMessage.hpp"
-#include <cassert>
-#include <QtCore/QByteArray>
-#include <QtCore/QDataStream>
+#include "NetworkExceptions.hpp"
 
 namespace network
 {
